@@ -12,7 +12,7 @@ public class ExplicitDistribution extends Distribution {
     {
         this.model = model;
         this.permutations = new ArrayList<>();
-        ArrayList<ArrayList<String>> rawPermutations = GeneralUtils.GeneratePermutations(model.getModal());
+        ArrayList<ArrayList<String>> rawPermutations = GeneralUtils.generatePermutations(model.getModal());
         rawPermutations.forEach(rawPermutation ->
         {
             int kendallTau = GeneralUtils.KendallTau(this.model.getModal(), rawPermutation);

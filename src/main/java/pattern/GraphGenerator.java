@@ -5,87 +5,102 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class GraphGenerator {
-	public static Graph GetGraph(int caseTest)
-    {
-		//HashSet<String> items, String label, List<Node> children, int level
-        Graph graph = null;
-        switch (caseTest)
-        {
-            case 1:
-                Node z = new Node(new HashSet<>(Arrays.asList(new String[] {"s3", "s4" })), "z", new ArrayList<>());
+	public static Graph GetGraph(int caseTest) {
+		// HashSet<String> items, String label, List<Node> children, int level
+		Graph graph = null;
+		switch (caseTest) {
+		case 1:
+			Node z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 
-                Node x = new Node(new HashSet<>(Arrays.asList(new String[] {"s1", "s2" })), "x", new ArrayList<>(Arrays.asList(new Node[] {z})));
+			Node x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-                Node y = new Node(new HashSet<>( Arrays.asList(new String[]{"s1", "s3" })), "y", new ArrayList<>(Arrays.asList(new Node[] {z})));
+			Node y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-                graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] {x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
 
-                break;
+			break;
 
-//            case 2:
-//                z = new Node { Children = new List<Node>(), Items = new HashSet<string> { "s3", "s4" }, Label = "z" };
-//
-//                Node w = new Node { Children = new List<Node>(), Items = new HashSet<string> { "s4", "s5" }, Label = "w" };
-//
-//                x = new Node { Children = new List<Node> { z }, Label = "x", Items = new HashSet<string> { "s1", "s2" } };
-//
-//                y = new Node { Children = new List<Node> { w, z }, Label = "y", Items = new HashSet<string> { "s1", "s3" } };
-//
-//                graph = new Graph(new List<Node> { x, y });
-//
-//                break;
-//            case 3:
-//                // yellow
-//                y = new Node { Children = new List<Node>(), Items = new HashSet<string> { "s2", "s6" }, Label = "y" };
-//
-//                Node r = new Node { Children = new List<Node> { y }, Items = new HashSet<string> { "s2", "s5", "s7" }, Label = "r" };
-//
-//                Node p = new Node { Children = new List<Node> { r }, Label = "p", Items = new HashSet<string> { "s3", "s8" } };
-//
-//                Node g = new Node { Children = new List<Node> { r }, Label = "g", Items = new HashSet<string> { "s1", "s4" } };
-//
-//                graph = new Graph(new List<Node> { g, p });
-//
-//                break;
-//
-//            case 4:
-//
-//                z = new Node { Children = new List<Node>(), Label = "z", Items = new HashSet<string> { "s3" } };
-//
-//                x = new Node { Children = new List<Node> { z }, Items = new HashSet<string> { "s1" }, Label = "x" };
-//
-//                y = new Node { Children = new List<Node> { z }, Items = new HashSet<string> { "s2" }, Label = "y" };
-//
-//                graph = new Graph(new List<Node> { x, y });
-//
-//                break;
-//
-//            case 5:
-//
-//                z = new Node { Children = new List<Node>(), Label = "z", Items = new HashSet<string> { "s4" } };
-//
-//                w = new Node { Children = new List<Node>(), Label = "w", Items = new HashSet<string> { "s5", "s6" } };
-//
-//                x = new Node { Children = new List<Node> { z }, Items = new HashSet<string> { "s1", "s2" }, Label = "x" };
-//
-//                y = new Node { Children = new List<Node> { z, w }, Items = new HashSet<string> { "s3" }, Label = "y" };
-//
-//                graph = new Graph(new List<Node> { x, y });
-//
-//                break;
-//
-//            case 6:
-//
-//                z = new Node { Children = new List<Node>(), Label = "z", Items = new HashSet<string> { "s4", "s5" } };
-//
-//                x = new Node { Children = new List<Node> { z }, Label = "x", Items = new HashSet<string> { "s1", "s2" } };
-//
-//                y = new Node { Children = new List<Node> { z }, Label = "y", Items = new HashSet<string> { "s3" } };
-//
-//                graph = new Graph(new List<Node> { x, y });
-//
-//                break;
-        }
-        return graph;
-    }
+		case 2:
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
+
+			Node w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+		case 3:
+			// Yellow
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s6" })), "y", new ArrayList<>());
+
+			// Red
+			Node r = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s5", "s7" })), "r",
+					new ArrayList<>(Arrays.asList(new Node[] { y })));
+
+			// Purple
+			Node p = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s8" })), "p",
+					new ArrayList<>(Arrays.asList(new Node[] { r })));
+
+			// Green
+			Node g = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s4" })), "g",
+					new ArrayList<>(Arrays.asList(new Node[] { r })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { g, p })));
+
+			break;
+
+		case 4:
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+
+		case 5:
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s4" })), "z", new ArrayList<>());
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s5", "s6" })), "w", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z, w })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+
+		case 6:
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+		}
+		return graph;
+	}
 }

@@ -5,26 +5,27 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class PatternUtils  {
-    private static void GetPossibleValuesPerLabelAsDictionaryAux(HashMap<String, ArrayList<String>> result, ArrayList<Node> nodes)
+	
+    private static void getPossibleValuesPerLabelAsDictionaryAux(HashMap<String, ArrayList<String>> result, ArrayList<Node> nodes)
     {
         for (Node node : nodes)
         {
             if (!result.containsKey(node.getLabel()))
             {
                 result.put(node.getLabel(), new ArrayList<>(node.getItems()));
-                GetPossibleValuesPerLabelAsDictionaryAux(result, node.getChildren());
+                getPossibleValuesPerLabelAsDictionaryAux(result, node.getChildren());
             }
         }
     }
 
-    public static HashMap<String, ArrayList<String>> GetPossibleValuesPerLabelAsDictionary(Graph graph)
+    public static HashMap<String, ArrayList<String>> getPossibleValuesPerLabelAsDictionary(Graph graph)
     {
         HashMap<String, ArrayList<String>> result = new HashMap<>();
-        GetPossibleValuesPerLabelAsDictionaryAux(result, graph.getRoots());
+        getPossibleValuesPerLabelAsDictionaryAux(result, graph.getRoots());
         return result;
     }
 
-    private static void GetAllPossibleAssigmentsAux(
+    private static void getAllPossibleAssigmentsAux(
         ArrayList<HashMap<String, String>> result,
         HashMap<String, String> current,
         HashMap<String, ArrayList<String>> possibleValuesPerLabelAsDictionary)
@@ -43,19 +44,19 @@ public class PatternUtils  {
             newCurrent.put(key, value);
             HashMap<String, ArrayList<String>> newPossibleValuesDictionary = new HashMap<>(possibleValuesPerLabelAsDictionary);
             newPossibleValuesDictionary.remove(key);
-            GetAllPossibleAssigmentsAux(result, newCurrent, newPossibleValuesDictionary);
+            getAllPossibleAssigmentsAux(result, newCurrent, newPossibleValuesDictionary);
         }
     }
 
-    public static ArrayList<HashMap<String, String>> GetAllPossibleAssigments(Graph graph)
+    public static ArrayList<HashMap<String, String>> getAllPossibleAssigments(Graph graph)
     {
         // TODO: Use the graph structure to remove all assignments that involve two same items that are assigned to labels from two different levels in the graph
     	ArrayList<HashMap<String, String>> result = new ArrayList<>();
-        GetAllPossibleAssigmentsAux(result, new HashMap<>(), GetPossibleValuesPerLabelAsDictionary(graph));
+        getAllPossibleAssigmentsAux(result, new HashMap<>(), getPossibleValuesPerLabelAsDictionary(graph));
         return result;
     }
 
-    private static void GetLabelsPerLevelAux(Node node, HashSet<String> seen, ArrayList<ArrayList<String>> result)
+    private static void getLabelsPerLevelAux(Node node, HashSet<String> seen, ArrayList<ArrayList<String>> result)
     {
         if (seen.contains(node.getLabel()))
         {
@@ -69,17 +70,17 @@ public class PatternUtils  {
         result.get(node.getLevel()).add(node.getLabel());
         for (Node child : node.getChildren())
         {
-            GetLabelsPerLevelAux(child, seen, result);
+            getLabelsPerLevelAux(child, seen, result);
         }
     }
 
-    public static ArrayList<ArrayList<String>> GetLabelsPerLevel(Graph graph)
+    public static ArrayList<ArrayList<String>> getLabelsPerLevel(Graph graph)
     {
     	ArrayList<ArrayList<String>> result = new ArrayList<>();
         HashSet<String> seen = new HashSet<>();
         for (Node root : graph.getRoots())
         {
-            GetLabelsPerLevelAux(root, seen, result);
+            getLabelsPerLevelAux(root, seen, result);
         }
         return result;
     }
