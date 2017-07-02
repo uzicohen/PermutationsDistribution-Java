@@ -66,7 +66,7 @@ public class Program {
 
 		// TODO: Fix this case
 		// P = 0.989000393257776
-//		 RunExperiment(2, 5, false);
+		 RunExperiment(2, 5, false);
 
 		// P = 0.732986262312703
 		RunExperiment(3, 8, false);

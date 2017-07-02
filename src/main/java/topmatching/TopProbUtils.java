@@ -24,7 +24,7 @@ public class TopProbUtils {
 		topProbArgs = topProbArgsInput;
 	}
 
-	public static double getInsertionProb(Delta delta, String sigma, int j) {
+	public static double getInsertionProb(Delta delta, String sigma, int j, StringBuilder sb) {
 		// Get the i from "s{i}"
 		int i = Integer.parseInt(sigma.split("s")[1]);
 
@@ -38,6 +38,7 @@ public class TopProbUtils {
 			}
 		}
 		int jTag = j - numOfElementsSmallerThanJ;
+		sb.append(String.format("Pi(%d,%d)", i, jTag));
 		return topMatchingArgs.getInsertionProbs().get(i - 1).get(jTag - 1);
 	}
 
@@ -128,9 +129,24 @@ public class TopProbUtils {
 			for (String parent : parentsOfL) {
 				maxIndexOfParent = Math.max(maxIndexOfParent, delta.getLabelToIndex().get(parent));
 			}
-			if (delta.getLabelToIndex().get(l.getLabel()) <= maxIndexOfParent) {
-				result.res = false;
+
+			for (String otherSigmaInLabel : l.getItems()) {
+				if (otherSigmaInLabel.equals(topProbArgs.getGamma().get(l.getLabel()))
+						|| !topProbArgs.getImgGamma().contains(otherSigmaInLabel)) {
+					continue;
+				}
+				String labelOfSigma = topProbArgs.getSigmaToGammaValueMap().get(otherSigmaInLabel).iterator().next();
+				int indexOfOtherSigma = delta.getLabelToIndex().get(labelOfSigma);
+				if (indexOfOtherSigma > maxIndexOfParent
+						&& indexOfOtherSigma < delta.getLabelToIndex().get(l.getLabel())) {
+					result.res = false;
+				}
 			}
+
+			// if (delta.getLabelToIndex().get(l.getLabel()) <=
+			// maxIndexOfParent) {
+			// result.res = false;
+			// }
 		}
 
 		for (Node child : l.getChildren()) {

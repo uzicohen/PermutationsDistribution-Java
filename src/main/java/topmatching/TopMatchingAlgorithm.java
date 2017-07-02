@@ -42,22 +42,23 @@ public class TopMatchingAlgorithm implements IAlgorithm{
 
 
         // TODO: We can easily parallelize this section
-        double probabilty = 0.0;
+        double result = 0.0;
         for (HashMap<String,String> gamma : allPossibleAssignments)
         {
-            //Dictionary<string, string> tmpGamma = new Dictionary<string, string> { ["g"] = "s4", ["p"] = "s8", ["r"] = "s2", ["y"] = "s6" };
-            //Dictionary<string, string> tmpGamma = new Dictionary<string, string> { ["x"] = "s1", ["y"] = "s3", ["z"] = "s4" };
-            //Dictionary<string, string> tmpGamma = new Dictionary<string, string> { ["x"] = "s2", ["y"] = "s3", ["z"] = "s4" };
-
-//            HashMap<string, string> tmpGamma = new Dictionary<string, string> { ["x"] = "s1", ["y"] = "s3", ["z"] = "s3", ["w"] = "s3" };
+//            HashMap<String, String> tmpGamma = new HashMap<>();
+//            tmpGamma.put("x", "s1");
+//            tmpGamma.put("y", "s1");
+//            tmpGamma.put("z", "s4");
+//            tmpGamma.put("w", "s5");
 
 
             TopProb topProb = new TopProb(gamma, topMatchingArgs);
             double probability = topProb.Calculate();
-            probabilty += probability;
-            //Console.WriteLine($"Gamma: {string.Join(",", gamma)}, Probability: {probability}");
+            result += probability;
+//            System.out.println(gamma.toString() + probability);
+//            Console.WriteLine($"Gamma: {string.Join(",", gamma)}, Probability: {probability}");
         }
-        return probabilty;
+        return result;
     }
 
     private void preProcessGraphAux(Node node, HashMap<String, HashSet<String>> labelToParentsMap, HashMap<String, HashSet<String>> lambda)

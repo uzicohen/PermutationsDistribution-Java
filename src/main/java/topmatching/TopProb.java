@@ -54,8 +54,11 @@ public class TopProb {
 					}
 					// else - the old delta stays
 
+					StringBuilder sb = new StringBuilder();
+					
 					// Calculate the insertion probability
-					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
+					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j, sb);
+					String ins = sb.toString();
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
 					// Search in newR the constructed delta

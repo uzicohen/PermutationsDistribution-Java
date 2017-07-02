@@ -24,9 +24,10 @@ public class GraphGenerator {
 
 		case 2:
 
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 
 			Node w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));

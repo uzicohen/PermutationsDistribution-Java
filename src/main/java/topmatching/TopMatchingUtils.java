@@ -58,9 +58,23 @@ public class TopMatchingUtils {
 	}
 
 	// TODO: Handle case 2
+//	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
+//		DeltasContainer result = new DeltasContainer();
+//		for (ArrayList<String> possibleOrder : allPossibleLabelsOrders) {
+//			Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
+//			if (result.getDelta(newDelta) == null) {
+//				result.addDelta(newDelta);
+//			}
+//		}
+//
+//		return result;
+//	}
+
 	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
 		DeltasContainer result = new DeltasContainer();
-		for (ArrayList<String> possibleOrder : allPossibleLabelsOrders) {
+		ArrayList<String> allLabels = new ArrayList<>(topProbArgs.gamma.keySet());
+		ArrayList<ArrayList<String>> possibleOrders = GeneralUtils.generatePermutations(allLabels);
+		for (ArrayList<String> possibleOrder : possibleOrders) {
 			Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
 			if (result.getDelta(newDelta) == null) {
 				result.addDelta(newDelta);
@@ -69,4 +83,5 @@ public class TopMatchingUtils {
 
 		return result;
 	}
+
 }

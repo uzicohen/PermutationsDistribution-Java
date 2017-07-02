@@ -18,14 +18,14 @@ public class Delta {
 		// ["z"] = "s4", ["w"] = "s4" and possibleOrder = xyzw will become
 		// s1,s3,s4 and not s1,s3,s4,s4)
 		int j = 0;
-		HashSet<String> seen = new HashSet<>();
-
+		HashMap<String, Integer> sigmaToIndexMap = new HashMap<>();		
 		for (int i = 0; i < order.size(); i++) {
-			if (!seen.contains(gamma.get(order.get(i)))) {
-				j++;
-				seen.add(gamma.get(order.get(i)));
-			}
-			this.labelToIndex.put(order.get(i), j);
+			String label = order.get(i);			
+			String sigma = gamma.get(label);
+			if(!sigmaToIndexMap.containsKey(sigma)){
+				sigmaToIndexMap.put(sigma, ++j);
+			}			
+			this.labelToIndex.put(label, sigmaToIndexMap.get(sigma));
 		}
 		this.probability = 1.0;
 	}
