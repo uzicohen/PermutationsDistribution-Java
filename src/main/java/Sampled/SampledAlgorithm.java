@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import general.Distribution;
+import general.IAlgorithm;
 import general.Permutation;
 import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
 
-public class SampledAlgorithm {
+public class SampledAlgorithm implements IAlgorithm {
 	
 	private static class Result {
 		public Result() {
@@ -42,7 +43,7 @@ public class SampledAlgorithm {
         }
     }
 
-    private boolean CheckOneAssignment(Graph graph, Permutation permutation, HashMap<String, String> assignment)
+    private boolean checkOneAssignment(Graph graph, Permutation permutation, HashMap<String, String> assignment)
     {
         HashMap<String, Integer> itemToPosition = new HashMap<>();
         for (int i = 0; i < permutation.getItemsOrder().size(); i++)
@@ -59,7 +60,7 @@ public class SampledAlgorithm {
     	ArrayList<HashMap<String, String>>  allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
         for (HashMap<String, String> assignment : allPossibleAssignments)
         {
-            if (this.CheckOneAssignment(graph, permutation, assignment))
+            if (this.checkOneAssignment(graph, permutation, assignment))
             {
                 return true;
             }
@@ -67,7 +68,7 @@ public class SampledAlgorithm {
         return false;
     }
 
-    public double CalculateProbability(Graph graph, Distribution distribution)
+    public double calculateProbability(Graph graph, Distribution distribution)
     {
         double result = 0.0;
         for (Permutation permutation : distribution.getPermutations())

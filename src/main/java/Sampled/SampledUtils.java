@@ -15,7 +15,7 @@ public class SampledUtils {
 		ArrayList<ArrayList<Double>> insertionProbs = GeneralUtils.getInsertionProbabilities(model);
 		ArrayList<Permutation> result = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
-			// create inserion vector
+			// create insertion vector
 			ArrayList<Integer> insertionVector = createInsertionVector(model, insertionProbs);
 
 			ArrayList<String> itemList = new ArrayList<>();

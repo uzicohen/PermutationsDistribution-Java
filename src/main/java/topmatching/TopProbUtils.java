@@ -142,11 +142,6 @@ public class TopProbUtils {
 					result.res = false;
 				}
 			}
-
-			// if (delta.getLabelToIndex().get(l.getLabel()) <=
-			// maxIndexOfParent) {
-			// result.res = false;
-			// }
 		}
 
 		for (Node child : l.getChildren()) {

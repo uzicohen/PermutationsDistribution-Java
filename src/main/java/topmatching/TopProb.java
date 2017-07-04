@@ -26,14 +26,10 @@ public class TopProb {
 		// Initialize R0
 		DeltasContainer r = TopMatchingUtils.getInitialDeltas(this.topProbArgs);
 
-		List<Delta> verifiedDeltas = r.getDeltas().stream().filter(d -> TopProbUtils.isDeltaConsistent(d)).collect(Collectors.toList()); 
-		
+		List<Delta> verifiedDeltas = r.getDeltas().stream().filter(d -> TopProbUtils.isDeltaConsistent(d))
+				.collect(Collectors.toList());
+
 		r.setDeltas(new ArrayList<>(verifiedDeltas));
-
-		// r.Deltas = new List<Delta>();
-
-		// r.AddDelta(new Delta { LabelToIndex = new Dictionary<string, int> {
-		// ["x"] = 1, ["y"] = 2, ["z"] = 3 }, Probability = 1.0 });
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
 			DeltasContainer newR = new DeltasContainer();
@@ -55,10 +51,13 @@ public class TopProb {
 					// else - the old delta stays
 
 					StringBuilder sb = new StringBuilder();
-					
+
 					// Calculate the insertion probability
 					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j, sb);
+					
+					// For debug purposes
 					String ins = sb.toString();
+					
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
 					// Search in newR the constructed delta

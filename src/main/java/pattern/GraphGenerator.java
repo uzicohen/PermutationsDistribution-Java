@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 public class GraphGenerator {
 	public static Graph GetGraph(int caseTest) {
-		// HashSet<String> items, String label, List<Node> children, int level
 		Graph graph = null;
 		switch (caseTest) {
 		case 1:
@@ -23,7 +22,6 @@ public class GraphGenerator {
 			break;
 
 		case 2:
-
 
 			Node w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w", new ArrayList<>());
 
@@ -99,6 +97,50 @@ public class GraphGenerator {
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+
+		case 7:
+
+			// Level 2
+			Node a = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5", "s10" })), "a", new ArrayList<>());
+
+			Node b = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s7", "s8", "s9" })), "b",
+					new ArrayList<>());
+
+			// Level 1
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s7", "s8" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4", "s9" })), "z",
+					new ArrayList<>(Arrays.asList(new Node[] { a, b })));
+
+			// Level 0
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5", "s6", "s9" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, a, z })));
+
+			Node t = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s9", "s10" })), "t",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, t })));
+
+			break;
+			
+		case 8:
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "z", new ArrayList<>());
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
+			
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { y, z, w })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
 
 			break;
 		}

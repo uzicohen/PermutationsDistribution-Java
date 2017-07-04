@@ -20,7 +20,7 @@ public class BruteforceAlgorithm implements IAlgorithm {
 		public boolean res;
 	}
 
-	private void CheckOneAssignmentAux(ArrayList<Node> nodes, HashMap<String, Integer> itemToPosition,
+	private void checkOneAssignmentAux(ArrayList<Node> nodes, HashMap<String, Integer> itemToPosition,
 			HashMap<String, String> assignment, Result result) {
 		if (nodes.isEmpty()) {
 			return;
@@ -35,25 +35,25 @@ public class BruteforceAlgorithm implements IAlgorithm {
 					return;
 				}
 			}
-			CheckOneAssignmentAux(node.getChildren(), itemToPosition, assignment, result);
+			checkOneAssignmentAux(node.getChildren(), itemToPosition, assignment, result);
 		}
 	}
 
-	private boolean CheckOneAssignment(Graph graph, Permutation permutation, HashMap<String, String> assignment) {
+	private boolean checkOneAssignment(Graph graph, Permutation permutation, HashMap<String, String> assignment) {
 		HashMap<String, Integer> itemToPosition = new HashMap<>();
 		for (int i = 0; i < permutation.getItemsOrder().size(); i++) {
 			itemToPosition.put(permutation.getItemsOrder().get(i), i + 1);
 		}
 		Result result = new Result();
-		CheckOneAssignmentAux(graph.getRoots(), itemToPosition, assignment, result);
+		checkOneAssignmentAux(graph.getRoots(), itemToPosition, assignment, result);
 		return result.res;
 	}
 
-	private boolean IsPermutationSatisfyGraph(Graph graph, Permutation permutation) {
+	private boolean isPermutationSatisfyGraph(Graph graph, Permutation permutation) {
 		// TODO: This happens many times
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
 		for (HashMap<String, String> assignment : allPossibleAssignments) {
-			if (this.CheckOneAssignment(graph, permutation, assignment)) {
+			if (this.checkOneAssignment(graph, permutation, assignment)) {
 				return true;
 			}
 		}
@@ -63,7 +63,8 @@ public class BruteforceAlgorithm implements IAlgorithm {
 	public double calculateProbability(Graph graph, Distribution distribution) {
 		double result = 0.0;
 		for (Permutation permutation : distribution.getPermutations()) {
-			result += IsPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0;
+			
+			result += isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0;
 		}
 		return result;
 	}

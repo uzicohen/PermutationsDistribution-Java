@@ -29,15 +29,17 @@ public class Graph {
 
 		for (Node node : nodes) {
 			if (!seen.contains(node.getLabel())) {
-				sb.append(String.format("Level: %d, Label: %s, Items: %s\n", node.getLevel(), node.getLabel(), node.getItems()));
+				ArrayList<String> childrenLables = new ArrayList<>();
+				node.getChildren().stream().forEach(child -> childrenLables.add(child.getLabel()));
+				String ownDescription = String.format("Level: %d, Label: %s, Items: %s, Children: %s\n",
+						node.getLevel(), node.getLabel(), node.getItems(), childrenLables);
+				sb.append(ownDescription);
+				seen.add(node.getLabel());
 			}
 		}
 
 		for (Node node : nodes) {
-			if (!seen.contains(node.getLabel())) {
-				seen.add(node.getLabel());
-				ToStringAux(sb, node.getChildren(), seen);
-			}
+			ToStringAux(sb, node.getChildren(), seen);
 		}
 	}
 
@@ -54,6 +56,6 @@ public class Graph {
 
 	public void setRoots(ArrayList<Node> roots) {
 		this.roots = roots;
-	}	
+	}
 
 }

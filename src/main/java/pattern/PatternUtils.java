@@ -22,37 +22,10 @@ public class PatternUtils {
 		return result;
 	}
 
-//	private static boolean compareAsaignments(HashMap<String, String> first, HashMap<String, String> second) {
-//		if (first == second) {
-//			return true;
-//		}
-//		if (first.size() != second.size()) {
-//			return false;
-//		}
-//		for (String key : first.keySet()) {
-//			if (!second.containsKey(key) || !first.get(key).equals(second.get(key))) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-//
-//	private static boolean listContainsAssignment(ArrayList<HashMap<String, String>> list,
-//			HashMap<String, String> assignment) {
-//		for (HashMap<String, String> assign : list) {
-//			if (compareAsaignments(assign, assignment)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-
 	private static void getAllPossibleAssigmentsAux(ArrayList<HashMap<String, String>> result,
 			HashMap<String, String> current, HashMap<String, ArrayList<String>> possibleValuesPerLabelAsDictionary) {
 		if (possibleValuesPerLabelAsDictionary.isEmpty()) {
-//			if (!listContainsAssignment(result, current)) {
-				result.add(current);
-//			}
+			result.add(current);
 			return;
 		}
 
@@ -69,9 +42,6 @@ public class PatternUtils {
 	}
 
 	public static ArrayList<HashMap<String, String>> getAllPossibleAssigments(Graph graph) {
-		// TODO: Use the graph structure to remove all assignments that involve
-		// two same items that are assigned to labels from two different levels
-		// in the graph
 		ArrayList<HashMap<String, String>> result = new ArrayList<>();
 		getAllPossibleAssigmentsAux(result, new HashMap<>(), getPossibleValuesPerLabelAsDictionary(graph));
 		return result;

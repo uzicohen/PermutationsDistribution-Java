@@ -2,7 +2,6 @@ package general;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class GeneralUtils {
 
@@ -23,7 +22,7 @@ public class GeneralUtils {
 		return result;
 	}
 
-	public static ArrayList<String> GetItems(int n) {
+	public static ArrayList<String> getItems(int n) {
 		ArrayList<String> items = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			items.add("s" + (i + 1));
@@ -31,8 +30,7 @@ public class GeneralUtils {
 		return items;
 	}
 
-	public static int KendallTau(ArrayList<String> sigma, ArrayList<String> tau) {
-		HashMap<String, Integer> sigmaMap = new HashMap<>();
+	public static int kendallTau(ArrayList<String> sigma, ArrayList<String> tau) {
 		HashMap<String, Integer> tauMap = new HashMap<>();
 		for (int i = 0; i < tau.size(); i++) {
 			tauMap.put(tau.get(i), i);

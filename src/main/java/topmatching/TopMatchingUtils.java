@@ -29,9 +29,6 @@ public class TopMatchingUtils {
 	 * levels is dictated by the graph
 	 * 
 	 */
-	// TODO: Change the implementation to support this case: The graph: x -> z,
-	// y -> w The possible initial orders {xyzw, xywz, yxzw, yxwz, ***xzyw***,
-	// ***ywxz***}
 	private static ArrayList<ArrayList<ArrayList<String>>> getInitialLabelsOrders(Graph graph) {
 		ArrayList<ArrayList<ArrayList<String>>> result = new ArrayList<>();
 		ArrayList<ArrayList<String>> labelsPerLevel = PatternUtils.getLabelsPerLevel(graph);
@@ -56,19 +53,6 @@ public class TopMatchingUtils {
 			createPossibleOrders(newCurrent, result, subList);
 		}
 	}
-
-	// TODO: Handle case 2
-//	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
-//		DeltasContainer result = new DeltasContainer();
-//		for (ArrayList<String> possibleOrder : allPossibleLabelsOrders) {
-//			Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
-//			if (result.getDelta(newDelta) == null) {
-//				result.addDelta(newDelta);
-//			}
-//		}
-//
-//		return result;
-//	}
 
 	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
 		DeltasContainer result = new DeltasContainer();

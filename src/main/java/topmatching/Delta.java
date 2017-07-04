@@ -2,7 +2,6 @@ package topmatching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Delta {
 
@@ -11,20 +10,17 @@ public class Delta {
 	private double probability;
 
 	public Delta(ArrayList<String> order, HashMap<String, String> gamma) {
-		
+
 		this.labelToIndex = new HashMap<>();
 
-		// j and seen are used to avoid duplicates (["x"] = "s1", ["y"] = "s3",
-		// ["z"] = "s4", ["w"] = "s4" and possibleOrder = xyzw will become
-		// s1,s3,s4 and not s1,s3,s4,s4)
 		int j = 0;
-		HashMap<String, Integer> sigmaToIndexMap = new HashMap<>();		
+		HashMap<String, Integer> sigmaToIndexMap = new HashMap<>();
 		for (int i = 0; i < order.size(); i++) {
-			String label = order.get(i);			
+			String label = order.get(i);
 			String sigma = gamma.get(label);
-			if(!sigmaToIndexMap.containsKey(sigma)){
+			if (!sigmaToIndexMap.containsKey(sigma)) {
 				sigmaToIndexMap.put(sigma, ++j);
-			}			
+			}
 			this.labelToIndex.put(label, sigmaToIndexMap.get(sigma));
 		}
 		this.probability = 1.0;

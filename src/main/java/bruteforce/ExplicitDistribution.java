@@ -15,7 +15,7 @@ public class ExplicitDistribution extends Distribution {
         ArrayList<ArrayList<String>> rawPermutations = GeneralUtils.generatePermutations(model.getModal());
         rawPermutations.forEach(rawPermutation ->
         {
-            int kendallTau = GeneralUtils.KendallTau(this.model.getModal(), rawPermutation);
+            int kendallTau = GeneralUtils.kendallTau(this.model.getModal(), rawPermutation);
             double probability = Math.pow(this.model.getPhi(), kendallTau);
             this.permutations.add(new Permutation(rawPermutation, probability / this.model.getZ()));
         });

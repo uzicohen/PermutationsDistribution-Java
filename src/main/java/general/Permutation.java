@@ -21,7 +21,7 @@ public class Permutation {
     	ArrayList<String> sigma = new ArrayList<>(this.itemsOrder);
         Collections.sort(sigma);
 
-        return String.format("%s, Prob: %f, Kendall-Tau: %d\n", this.itemsOrder, this.probability, GeneralUtils.KendallTau(sigma, this.itemsOrder));
+        return String.format("%s, Prob: %f, Kendall-Tau: %d\n", this.itemsOrder, this.probability, GeneralUtils.kendallTau(sigma, this.itemsOrder));
     }
 
 	public ArrayList<String> getItemsOrder() {
