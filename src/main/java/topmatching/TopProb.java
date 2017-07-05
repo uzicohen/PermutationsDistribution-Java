@@ -54,10 +54,10 @@ public class TopProb {
 
 					// Calculate the insertion probability
 					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j, sb);
-					
+
 					// For debug purposes
 					String ins = sb.toString();
-					
+
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
 					// Search in newR the constructed delta
@@ -93,7 +93,8 @@ public class TopProb {
 
 			HashSet<String> itemsLargerThanI = TopProbUtils.getItemsLargerThanI(i);
 			int s = i + itemsLargerThanI.size();
-			HashSet<Integer> illegalIndices = TopProbUtils.getIllegalIndices(delta, sigma);
+			HashSet<Integer> illegalIndices = topMatchingArgs.getLambda().containsKey(sigma)
+					? TopProbUtils.getIllegalIndices(delta, sigma) : new HashSet<>();
 			for (int j = 1; j <= s; j++) {
 				if (!illegalIndices.contains(j)) {
 					result.add(j);

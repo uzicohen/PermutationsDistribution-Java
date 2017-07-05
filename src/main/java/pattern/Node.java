@@ -11,7 +11,7 @@ public class Node {
 
 	private ArrayList<Node> children;
 
-	public int level;
+	private int level;
 
 	public Node(HashSet<String> items, String label, ArrayList<Node> children) {
 		super();

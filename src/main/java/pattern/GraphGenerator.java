@@ -127,7 +127,7 @@ public class GraphGenerator {
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, t })));
 
 			break;
-			
+
 		case 8:
 
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "w", new ArrayList<>());
@@ -136,11 +136,47 @@ public class GraphGenerator {
 
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
-			
+
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { y, z, w })));
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+
+			break;
+		case 9:
+
+			t = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s6" })), "t", new ArrayList<>());
+
+			Node m = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s5" })), "m", new ArrayList<>());
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w",
+					new ArrayList<>(Arrays.asList(new Node[] { t, m })));
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s6" })), "z", new ArrayList<>());
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z, w })));
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+		case 10:
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s5" })), "w", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s4" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1" })), "z",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })));
 
 			break;
 		}

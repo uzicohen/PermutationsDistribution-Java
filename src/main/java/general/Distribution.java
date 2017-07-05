@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Distribution {
 	
-	public Mallows model;
+	protected Mallows model;
 
-    public ArrayList<Permutation> permutations;
+	protected ArrayList<Permutation> permutations;
 
     @Override
     public String toString()

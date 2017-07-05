@@ -97,7 +97,8 @@ public class TopProbUtils {
 			// possible
 
 			for (String sigma : topMatchingArgs.getRim().getModel().getModal()) {
-				if (sigma.equals(topProbArgs.getGamma().get(l.getLabel()))) {
+				if (!topMatchingArgs.getLambda().containsKey(sigma)
+						|| sigma.equals(topProbArgs.getGamma().get(l.getLabel()))) {
 					continue;
 				}
 

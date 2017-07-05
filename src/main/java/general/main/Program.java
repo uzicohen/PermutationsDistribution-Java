@@ -1,7 +1,5 @@
 package general.main;
 
-import Sampled.SampledAlgorithm;
-import Sampled.SampledDistribution;
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
 import general.Distribution;
@@ -9,6 +7,8 @@ import general.GeneralUtils;
 import general.Mallows;
 import pattern.Graph;
 import pattern.GraphGenerator;
+import sampled.SampledAlgorithm;
+import sampled.SampledDistribution;
 import topmatching.SimpleDistribution;
 import topmatching.TopMatchingAlgorithm;
 
@@ -66,26 +66,28 @@ public class Program {
 		 RunExperiment(1, 4, false);
 
 		// P = 0.989000393257776
-		 RunExperiment(2, 5, false);
+//		 RunExperiment(2, 5, false);
 
 		// P = 0.732986262312703
-		 RunExperiment(3, 8, false);
+//		 RunExperiment(3, 8, false);
 
 		// P = 0.719424460431655
-		 RunExperiment(4, 3, false);
+//		 RunExperiment(4, 3, false);
 
 		// TODO: Fix this case
 		// P = 0.761006046617952
-		 RunExperiment(5, 6, false);
+//		 RunExperiment(5, 6, false);
 
 		// P = 0.934812879701345
-		 RunExperiment(6, 5, false);
+//		 RunExperiment(6, 5, false);
 
 		// P = 0.503103
 		// RunExperiment(7, 10, false);
 
 		// P = 1.0 (full graph with every label has all sigmas)
-		RunExperiment(8, 4, false);
+//		RunExperiment(8, 4, false);
+		 
+//		RunExperiment(9, 6, false);
 	}
 
 }

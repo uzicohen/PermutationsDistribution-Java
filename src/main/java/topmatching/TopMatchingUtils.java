@@ -1,9 +1,11 @@
 package topmatching;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import general.GeneralUtils;
 import pattern.Graph;
+import pattern.Node;
 import pattern.PatternUtils;
 
 public class TopMatchingUtils {
@@ -55,13 +57,24 @@ public class TopMatchingUtils {
 	}
 
 	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
+		boolean optimize = Boolean.parseBoolean(GeneralUtils.properties.getProperty("enhanced_initial_deltas"));
+		
 		DeltasContainer result = new DeltasContainer();
-		ArrayList<String> allLabels = new ArrayList<>(topProbArgs.gamma.keySet());
-		ArrayList<ArrayList<String>> possibleOrders = GeneralUtils.generatePermutations(allLabels);
-		for (ArrayList<String> possibleOrder : possibleOrders) {
-			Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
-			if (result.getDelta(newDelta) == null) {
-				result.addDelta(newDelta);
+
+		if (optimize) {
+			// Build dependencies graph
+			HashMap<String, Node> sigmaToNodeMap = new HashMap<>();
+			
+			
+			
+		} else {
+			ArrayList<String> allLabels = new ArrayList<>(topProbArgs.getGamma().keySet());
+			ArrayList<ArrayList<String>> possibleOrders = GeneralUtils.generatePermutations(allLabels);
+			for (ArrayList<String> possibleOrder : possibleOrders) {
+				Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
+				if (result.getDelta(newDelta) == null) {
+					result.addDelta(newDelta);
+				}
 			}
 		}
 

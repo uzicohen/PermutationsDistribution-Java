@@ -1,4 +1,4 @@
-package Sampled;
+package sampled;
 
 import general.Distribution;
 import general.Mallows;

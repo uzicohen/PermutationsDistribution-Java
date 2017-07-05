@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Permutation {
-	public ArrayList<String> itemsOrder;
+	
+	private ArrayList<String> itemsOrder;
 
-    public double probability;
-    
+	private double probability;    
     
     public Permutation(ArrayList<String> itemsOrder, double probability) {
 		super();

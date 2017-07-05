@@ -5,11 +5,11 @@ import java.util.HashSet;
 
 public class TopProbArgs {
 
-	public HashMap<String, String> gamma;
+	private HashMap<String, String> gamma;
 
-	public HashSet<String> imgGamma;
+	private HashSet<String> imgGamma;
 
-	public HashMap<String, HashSet<String>> sigmaToGammaValueMap;
+	private HashMap<String, HashSet<String>> sigmaToGammaValueMap;
 
 	public TopProbArgs(HashMap<String, String> gamma) {
 		this.gamma = gamma;

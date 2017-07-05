@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Graph {
 
-	public ArrayList<Node> roots;
+	private ArrayList<Node> roots;
 
 	public Graph(ArrayList<Node> roots) {
 		this.roots = roots;
