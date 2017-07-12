@@ -133,7 +133,7 @@ public class CompleteTests extends TestCase {
 	public void testBruteforceVsTopMatching9() {
 		assertTrue(runTest(9, 6));
 	}
-	
+
 	/**
 	 * 
 	 * P = 0.9498882307361549
@@ -141,6 +141,16 @@ public class CompleteTests extends TestCase {
 	 * 
 	 */
 	public void testBruteforceVsTopMatching10() {
-		assertTrue(runTest(10, 6));
+		assertTrue(runTest(10, 5));
+	}
+
+	/**
+	 * 
+	 * P = 0.9741246606894051
+	 * 
+	 * 
+	 */
+	public void testBruteforceVsTopMatching11() {
+//		assertTrue(runTest(11, 9));
 	}
 }

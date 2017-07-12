@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class GraphGenerator {
-	public static Graph GetGraph(int caseTest) {
+	public static Graph GetGraph(int scenrio) {
 		Graph graph = null;
-		switch (caseTest) {
+		switch (scenrio) {
 		case 1:
 			Node z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 
@@ -174,6 +174,23 @@ public class GraphGenerator {
 					new ArrayList<>(Arrays.asList(new Node[] { w })));
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1" })), "z",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })));
+
+			break;
+
+		case 11:
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s5" })), "w", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s4" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s3", "s4", "s7", "s8" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s5", "s9" })), "z",
 					new ArrayList<>(Arrays.asList(new Node[] { w })));
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })));

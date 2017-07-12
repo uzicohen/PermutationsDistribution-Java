@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import general.GeneralUtils;
+import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
@@ -56,29 +57,31 @@ public class TopMatchingUtils {
 		}
 	}
 
-	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
-		boolean optimize = Boolean.parseBoolean(GeneralUtils.properties.getProperty("enhanced_initial_deltas"));
-		
+	private static DeltasContainer getInitialDeltasNonOptimized(TopProbArgs topProbArgs) {
 		DeltasContainer result = new DeltasContainer();
-
-		if (optimize) {
-			// Build dependencies graph
-			HashMap<String, Node> sigmaToNodeMap = new HashMap<>();
-			
-			
-			
-		} else {
-			ArrayList<String> allLabels = new ArrayList<>(topProbArgs.getGamma().keySet());
-			ArrayList<ArrayList<String>> possibleOrders = GeneralUtils.generatePermutations(allLabels);
-			for (ArrayList<String> possibleOrder : possibleOrders) {
-				Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
-				if (result.getDelta(newDelta) == null) {
-					result.addDelta(newDelta);
-				}
+		ArrayList<String> allLabels = new ArrayList<>(topProbArgs.getGamma().keySet());
+		ArrayList<ArrayList<String>> possibleOrders = GeneralUtils.generatePermutations(allLabels);
+		for (ArrayList<String> possibleOrder : possibleOrders) {
+			Delta newDelta = new Delta(possibleOrder, topProbArgs.getGamma());
+			if (result.getDelta(newDelta) == null) {
+				result.addDelta(newDelta);
 			}
 		}
+		return result;
+	}
+
+	private static DeltasContainer getInitialDeltasOptimized(TopProbArgs topProbArgs) {
+		DeltasContainer result = new DeltasContainer();
+
+		// Build dependencies graph
+		HashMap<String, Node> sigmaToNodeMap = new HashMap<>();
 
 		return result;
+	}
+
+	public static DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
+		boolean optimize = GeneralArgs.enhancedInitialDeltas;
+		return optimize ? getInitialDeltasOptimized(topProbArgs) : getInitialDeltasNonOptimized(topProbArgs);
 	}
 
 }

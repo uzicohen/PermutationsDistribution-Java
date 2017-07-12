@@ -1,24 +1,9 @@
 package general;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 public class GeneralUtils {
-
-	public static Properties properties;
-
-	static {
-		properties = new Properties();
-		try {
-			properties.load(new FileInputStream(new File("src/main/java/resources/conf.properties")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static ArrayList<ArrayList<Double>> getInsertionProbabilities(Mallows model) {
 		ArrayList<ArrayList<Double>> result = new ArrayList<>();
