@@ -34,8 +34,6 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 		this.topMatchingArgs = new TopMatchingArgs(graph, distribution, labelToParentsMap, lambda,
 				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
 
-		TopMatchingUtils.init(this.topMatchingArgs);
-
 		// TODO: We can easily parallelize this section
 		double result = 0.0;
 		for (HashMap<String, String> gamma : allPossibleAssignments) {

@@ -3,6 +3,8 @@ package stats;
 import java.util.ArrayList;
 import java.util.Date;
 
+import general.main.GeneralArgs;
+
 /**
  * 
  * A class to hold statistics regarding experiment
@@ -34,6 +36,15 @@ public class Stats {
 		this.numOfItems = numOfItems;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
+		if (GeneralArgs.enhancedDeltasContainer) {
+			this.optimizations.add("Enhanced deltas container");
+		}
+		if (GeneralArgs.enhancedInitialDeltas) {
+			this.optimizations.add("Enhanced initial deltas");
+		}
+		if (GeneralArgs.omitRedundantItems) {
+			this.optimizations.add("Omit redundant elements");
+		}
 	}
 
 	@Override
@@ -46,8 +57,7 @@ public class Stats {
 		result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
 		result.append(String.format("Start Time: %s\n", startTimeDate));
 		result.append(String.format("End Time: %s\n", endTimeDate));
-		result.append(
-				String.format("Total Time: %s MS\n", (endTimeDate.getTime() - startTimeDate.getTime())));
+		result.append(String.format("Total Time: %s MS\n", (endTimeDate.getTime() - startTimeDate.getTime())));
 		result.append(String.format("Probability: %f\n", probability));
 		return result.toString();
 	}

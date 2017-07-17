@@ -74,7 +74,7 @@ public class GeneralArgs {
 
 			numSamples = Integer.parseInt(properties.getProperty("num_samples"));
 
-			enhancedDeltasContainer = Boolean.parseBoolean(properties.getProperty("enhanced_initial_deltas"));
+			enhancedDeltasContainer = Boolean.parseBoolean(properties.getProperty("enhanced_deltas_container"));
 
 			enhancedInitialDeltas = Boolean.parseBoolean(properties.getProperty("enhanced_initial_deltas"));
 

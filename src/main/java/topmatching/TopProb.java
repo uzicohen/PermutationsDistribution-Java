@@ -3,8 +3,12 @@ package topmatching;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Iterator;
+import general.main.GeneralArgs;
+import topmatching.delta.Delta;
+import topmatching.delta.DeltasContainer;
+import topmatching.delta.EnhancedDeltasContainer;
+import topmatching.delta.SimpleDeltasContainer;
 
 public class TopProb {
 
@@ -24,17 +28,16 @@ public class TopProb {
 
 	public double Calculate() {
 		// Initialize R0
-		DeltasContainer r = TopMatchingUtils.getInitialDeltas(this.topProbArgs);
-
-		List<Delta> verifiedDeltas = r.getDeltas().stream().filter(d -> TopProbUtils.isDeltaConsistent(d))
-				.collect(Collectors.toList());
-
-		r.setDeltas(new ArrayList<>(verifiedDeltas));
+		DeltasContainer r = topMatchingArgs.getDeltasContainerGenerator().getInitialDeltas(topProbArgs);
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
-			DeltasContainer newR = new DeltasContainer();
+			DeltasContainer newR = GeneralArgs.enhancedDeltasContainer ? new EnhancedDeltasContainer(topMatchingArgs)
+					: new SimpleDeltasContainer(topMatchingArgs);
 			String sigma = this.topMatchingArgs.getRim().getModel().getModal().get(i);
-			for (Delta delta : r.getDeltas()) {
+
+			Iterator<Delta> iter = r.iterator();
+			while (iter.hasNext()) {
+				Delta delta = iter.next();
 				ArrayList<Integer> range = range(delta, sigma);
 				for (int j : range) {
 					Delta deltaTag = new Delta(delta);
@@ -50,13 +53,9 @@ public class TopProb {
 					}
 					// else - the old delta stays
 
-					StringBuilder sb = new StringBuilder();
-
 					// Calculate the insertion probability
-					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j, sb);
+					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 
-					// For debug purposes
-					String ins = sb.toString();
 
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
@@ -75,10 +74,11 @@ public class TopProb {
 		}
 
 		double probability = 0.0;
-		for (Delta delta : r.getDeltas()) {
+		Iterator<Delta> iter = r.iterator();
+		while (iter.hasNext()) {
+			Delta delta = iter.next();
 			probability += delta.getProbability();
 		}
-
 		return probability;
 	}
 

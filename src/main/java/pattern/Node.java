@@ -19,7 +19,14 @@ public class Node {
 		this.label = label;
 		this.children = children;
 		this.level = 0;
+	}	
+	
+	@Override
+	public String toString() {
+		return "items=" + items + ", label=" + label + ", level=" + level;
 	}
+
+
 
 	public HashSet<String> getItems() {
 		return items;

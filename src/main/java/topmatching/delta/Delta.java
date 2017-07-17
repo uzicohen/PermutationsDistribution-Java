@@ -1,4 +1,4 @@
-package topmatching;
+package topmatching.delta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ public class Delta {
 
 	public Delta(ArrayList<String> order, HashMap<String, String> gamma) {
 
+		// We build the labelToIndex to keep track of previously added sigmas
 		this.labelToIndex = new HashMap<>();
 
 		int j = 0;
@@ -32,6 +33,8 @@ public class Delta {
 	}
 
 	public Delta() {
+		this.labelToIndex = new HashMap<>();
+		this.probability = 1.0;
 	}
 
 	@Override

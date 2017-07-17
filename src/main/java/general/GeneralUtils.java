@@ -65,5 +65,4 @@ public class GeneralUtils {
 		generatePermutationsAux(new ArrayList<>(), referenceList, result);
 		return result;
 	}
-
 }

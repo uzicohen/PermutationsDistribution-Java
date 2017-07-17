@@ -1,4 +1,4 @@
-package complete;
+package optimizations;
 
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
@@ -17,7 +17,7 @@ import topmatching.TopMatchingAlgorithm;
 /**
  * Run a complete test to compare bruteforce vs topmatching
  */
-public class CompleteTests extends TestCase {
+public class InitialDeltasOptimizationTests extends TestCase {
 
 	private static double Epsilon = 10e-6;
 
@@ -27,9 +27,9 @@ public class CompleteTests extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public CompleteTests(String testName) {
+	public InitialDeltasOptimizationTests(String testName) {
 		super(testName);
-		GeneralArgs.enhancedInitialDeltas = false;
+		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = false;
 		GeneralArgs.omitRedundantItems = false;
 	}
@@ -38,7 +38,7 @@ public class CompleteTests extends TestCase {
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(CompleteTests.class);
+		return new TestSuite(InitialDeltasOptimizationTests.class);
 	}
 
 	private boolean runTest(int graphId, int numItems) {
@@ -155,6 +155,6 @@ public class CompleteTests extends TestCase {
 	 * 
 	 */
 	public void testBruteforceVsTopMatching11() {
-//		assertTrue(runTest(11, 9));
+//		 assertTrue(runTest(11, 9));
 	}
 }
