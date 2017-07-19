@@ -23,6 +23,12 @@ public class GeneralArgs {
 	private static Properties properties;
 
 	public static boolean verbose;
+	
+	public static boolean printDistribution;
+
+	public static int numSamplesForPrint;
+	
+	public static int numAssignmentsForPrint;
 
 	public static ArrayList<ScenarioToNumOfItemsPair> scenarioToNumOfItemsPairs;
 
@@ -51,6 +57,12 @@ public class GeneralArgs {
 			properties.load(new FileInputStream(new File("src/main/java/resources/conf.properties")));
 
 			verbose = Boolean.parseBoolean(properties.getProperty("verbose"));
+			
+			printDistribution = Boolean.parseBoolean(properties.getProperty("print_distribution"));
+
+			numSamplesForPrint = Integer.parseInt(properties.getProperty("num_samples_for_print"));
+			
+			numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
 
 			scenarioToNumOfItemsPairs = new ArrayList<>();
 

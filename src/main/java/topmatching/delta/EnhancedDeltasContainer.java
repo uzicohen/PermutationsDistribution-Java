@@ -1,6 +1,7 @@
 package topmatching.delta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import topmatching.TopMatchingArgs;
@@ -18,9 +19,12 @@ public class EnhancedDeltasContainer extends DeltasContainer {
 		 * @param n
 		 *            the size of the container
 		 */
-		public EnhancedDeltasContainerIterator(ArrayList<Delta> deltas) {
+		public EnhancedDeltasContainerIterator(HashMap<String, Delta> deltasMap) {
 			this.index = 0;
-			this.deltas = deltas;
+			this.deltas = new ArrayList<>();
+			for (Delta delta : deltasMap.values()) {
+				this.deltas.add(delta);
+			}
 		}
 
 		@Override
@@ -37,28 +41,19 @@ public class EnhancedDeltasContainer extends DeltasContainer {
 
 	}
 
-	private ArrayList<Delta> deltas;
+	private HashMap<String, Delta> deltas;
 
 	public EnhancedDeltasContainer(TopMatchingArgs topMatchingArgs) {
 		super(topMatchingArgs);
-		this.deltas = new ArrayList<>();
+		this.deltas = new HashMap<>();
 	}
 
 	public Delta getDelta(Delta inputDelta) {
-		for (Delta delta : this.deltas) {
-			if (inputDelta.equals(delta)) {
-				return delta;
-			}
-		}
-		return null;
+		return this.deltas.get(inputDelta.getStrForHash());
 	}
 
 	public void addDelta(Delta delta) {
-		this.deltas.add(delta);
-	}
-
-	public ArrayList<Delta> getDeltas() {
-		return deltas;
+		this.deltas.put(delta.getStrForHash(), delta);
 	}
 
 	@Override

@@ -7,11 +7,8 @@ import java.util.HashSet;
 import general.Distribution;
 import general.main.GeneralArgs;
 import pattern.Graph;
-import topmatching.delta.EnhancedDeltasContainer;
 import topmatching.delta.EnhancedDeltasContainerGenerator;
-import topmatching.delta.DeltasContainer;
 import topmatching.delta.IDeltasContainerGenerator;
-import topmatching.delta.SimpleDeltasContainer;
 import topmatching.delta.SimpleDeltasContainerGenerator;
 
 public class TopMatchingArgs {

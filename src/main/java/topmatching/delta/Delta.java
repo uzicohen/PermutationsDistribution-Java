@@ -9,6 +9,8 @@ public class Delta {
 
 	private double probability;
 
+	private String strForHash;
+
 	public Delta(ArrayList<String> order, HashMap<String, String> gamma) {
 
 		// We build the labelToIndex to keep track of previously added sigmas
@@ -25,16 +27,19 @@ public class Delta {
 			this.labelToIndex.put(label, sigmaToIndexMap.get(sigma));
 		}
 		this.probability = 1.0;
+		createStrForHash();
 	}
 
 	public Delta(Delta other) {
 		this.labelToIndex = new HashMap<>(other.labelToIndex);
 		this.probability = other.probability;
+		createStrForHash();
 	}
 
 	public Delta() {
 		this.labelToIndex = new HashMap<>();
 		this.probability = 1.0;
+		createStrForHash();
 	}
 
 	@Override
@@ -45,23 +50,25 @@ public class Delta {
 	@Override
 	public boolean equals(Object obj) {
 		Delta delta1 = (Delta) obj;
-		if (delta1 == this) {
-			return true;
-		}
-		if (delta1.labelToIndex.size() != this.labelToIndex.size()) {
-			return false;
-		}
-		for (String key : delta1.labelToIndex.keySet()) {
-			if (!this.labelToIndex.containsKey(key) || (delta1.labelToIndex.get(key) != this.labelToIndex.get(key))) {
-				return false;
-			}
-		}
-		return true;
+		return this.strForHash.equals(delta1.strForHash);
 	}
 
 	@Override
 	public int hashCode() {
-		return this.toString().hashCode();
+		return this.strForHash.hashCode();
+	}
+
+	public void createStrForHash() {
+		if (this.labelToIndex.isEmpty()) {
+			this.strForHash = "";
+			return;
+		}
+		StringBuilder sb = new StringBuilder();
+		for (String key : this.labelToIndex.keySet()) {
+			sb.append(key);
+			sb.append(this.labelToIndex.get(key));
+		}
+		this.strForHash = sb.toString();
 	}
 
 	public HashMap<String, Integer> getLabelToIndex() {
@@ -80,4 +87,11 @@ public class Delta {
 		this.probability = probability;
 	}
 
+	public void setStrForHash(String strForHash) {
+		this.strForHash = strForHash;
+	}
+
+	public String getStrForHash() {
+		return strForHash;
+	}
 }

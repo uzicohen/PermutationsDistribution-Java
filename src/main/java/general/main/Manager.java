@@ -40,8 +40,6 @@ public class Manager {
 
 		logger.info("Resolving running arguments");
 
-		boolean verbose = GeneralArgs.verbose;
-
 		double phi = GeneralArgs.phi;
 
 		ArrayList<ScenarioToNumOfItemsPair> scenarioToNumOfItemsPairs = GeneralArgs.scenarioToNumOfItemsPairs;
@@ -64,7 +62,7 @@ public class Manager {
 
 				Distribution explicitDistribution = new ExplicitDistribution(model);
 
-				if (verbose) {
+				if (GeneralArgs.printDistribution) {
 					System.out.println(explicitDistribution);
 				}
 

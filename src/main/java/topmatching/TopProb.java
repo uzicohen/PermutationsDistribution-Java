@@ -53,6 +53,9 @@ public class TopProb {
 					}
 					// else - the old delta stays
 
+					// Update the new delta's hash
+					deltaTag.createStrForHash();
+					
 					// Calculate the insertion probability
 					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 

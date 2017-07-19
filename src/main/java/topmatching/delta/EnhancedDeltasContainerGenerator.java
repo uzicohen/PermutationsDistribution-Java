@@ -69,7 +69,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 			for (String sigma : currentRoots) {
 				DeltasContainer newResult = getNewDeltasContainer();
 
-				// Go through all previously created lists and push the current
+				// Go through all previously created deltas and push the current
 				// label in them while keeping the constraints that is reflected
 				// by the childTpParent map
 
@@ -102,6 +102,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 						}
 						// Set the label to the current position
 						newDelta.getLabelToIndex().put(sigma, j + 1);
+						newDelta.createStrForHash();
 						if (newResult.getDelta(newDelta) == null) {
 							newResult.addDelta(newDelta);
 						}
@@ -136,6 +137,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 				}
 			}
 			if (isDeltaConsistent(topProbArgs, newDelta)) {
+				newDelta.createStrForHash();
 				result.addDelta(newDelta);
 			}
 		}

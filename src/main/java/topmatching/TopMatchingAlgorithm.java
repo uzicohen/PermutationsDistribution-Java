@@ -3,15 +3,19 @@ package topmatching;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 import general.Distribution;
 import general.GeneralUtils;
 import general.IAlgorithm;
+import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
 
 public class TopMatchingAlgorithm implements IAlgorithm {
+
+	private static final Logger logger = Logger.getLogger(TopMatchingAlgorithm.class.getName());
 
 	private TopMatchingArgs topMatchingArgs;
 
@@ -34,12 +38,28 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 		this.topMatchingArgs = new TopMatchingArgs(graph, distribution, labelToParentsMap, lambda,
 				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
 
+		int numOfAssignments = allPossibleAssignments.size();
+		int counter = 0;
+
+		if (GeneralArgs.verbose) {
+			logger.info(String.format("Calculating probability over %d assignments", numOfAssignments));
+		}
+
 		// TODO: We can easily parallelize this section
 		double result = 0.0;
 		for (HashMap<String, String> gamma : allPossibleAssignments) {
 			TopProb topProb = new TopProb(gamma, topMatchingArgs);
 			double probability = topProb.Calculate();
 			result += probability;
+
+			counter++;
+			if (GeneralArgs.verbose) {
+				if (counter % GeneralArgs.numAssignmentsForPrint == 0) {
+					double perc = 100.0 * ((double) counter) / ((double) numOfAssignments);
+					logger.info(String.format("Done with %d out of %d assignments (%f perc)", counter, numOfAssignments,
+							perc));
+				}
+			}
 		}
 		return result;
 	}

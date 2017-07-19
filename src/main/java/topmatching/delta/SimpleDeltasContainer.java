@@ -57,10 +57,6 @@ public class SimpleDeltasContainer extends DeltasContainer {
 		this.deltas.add(delta);
 	}
 
-	public ArrayList<Delta> getDeltas() {
-		return deltas;
-	}
-
 	@Override
 	public Iterator<Delta> iterator() {
 		return new SimpleDeltasContainerIterator(this.deltas);

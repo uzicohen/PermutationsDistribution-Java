@@ -32,6 +32,7 @@ public class InitialDeltasOptimizationTests extends TestCase {
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = false;
 		GeneralArgs.omitRedundantItems = false;
+		GeneralArgs.verbose = false;
 	}
 
 	/**
@@ -113,11 +114,12 @@ public class InitialDeltasOptimizationTests extends TestCase {
 
 	/**
 	 * 
-	 * P = 0.503103
+	 * P = 0.9498882307361549
+	 * 
 	 * 
 	 */
 	public void testBruteforceVsTopMatching7() {
-		// assertTrue(runTest(7, 10));
+		assertTrue(runTest(7, 5));
 	}
 
 	/**
@@ -140,12 +142,11 @@ public class InitialDeltasOptimizationTests extends TestCase {
 
 	/**
 	 * 
-	 * P = 0.9498882307361549
-	 * 
+	 * P = 0.503103
 	 * 
 	 */
 	public void testBruteforceVsTopMatching10() {
-		assertTrue(runTest(10, 5));
+		// assertTrue(runTest(10, 10));
 	}
 
 	/**
@@ -155,6 +156,16 @@ public class InitialDeltasOptimizationTests extends TestCase {
 	 * 
 	 */
 	public void testBruteforceVsTopMatching11() {
-//		 assertTrue(runTest(11, 9));
+//		assertTrue(runTest(11, 9));
+	}
+
+	/**
+	 * 
+	 * P = 0.567747
+	 * 
+	 * 
+	 */
+	public void testBruteforceVsTopMatching12() {
+		// assertTrue(runTest(12, 11));
 	}
 }

@@ -2,10 +2,12 @@ package bruteforce;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import general.Distribution;
 import general.IAlgorithm;
 import general.Permutation;
+import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
@@ -19,6 +21,8 @@ public class BruteforceAlgorithm implements IAlgorithm {
 
 		public boolean res;
 	}
+
+	private static final Logger logger = Logger.getLogger(BruteforceAlgorithm.class.getName());
 
 	private void checkOneAssignmentAux(ArrayList<Node> nodes, HashMap<String, Integer> itemToPosition,
 			HashMap<String, String> assignment, Result result) {
@@ -61,10 +65,27 @@ public class BruteforceAlgorithm implements IAlgorithm {
 	}
 
 	public double calculateProbability(Graph graph, Distribution distribution) {
+
+		int numOfSample = distribution.getPermutations().size();
+		int counter = 0;
+
+		if (GeneralArgs.verbose) {
+			logger.info(String.format("Calculating probability over %d samples", numOfSample));
+		}
+
 		double result = 0.0;
 		for (Permutation permutation : distribution.getPermutations()) {
-			
+
 			result += isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0;
+
+			counter++;
+			if (GeneralArgs.verbose) {
+				if (counter % GeneralArgs.numSamplesForPrint == 0) {
+					double perc = 100.0 * ((double) counter) / ((double) numOfSample);
+					logger.info(
+							String.format("Done with %d out of %d permutations (%f perc)", counter, numOfSample, perc));
+				}
+			}
 		}
 		return result;
 	}
