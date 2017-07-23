@@ -30,6 +30,8 @@ public class GeneralArgs {
 	
 	public static int numAssignmentsForPrint;
 
+	public static boolean printFlow;
+
 	public static ArrayList<ScenarioToNumOfItemsPair> scenarioToNumOfItemsPairs;
 
 	public static boolean runAll;
@@ -64,6 +66,8 @@ public class GeneralArgs {
 			
 			numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
 
+			printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
+			
 			scenarioToNumOfItemsPairs = new ArrayList<>();
 
 			String experimentScenariosStr = properties.getProperty("scenario_tuples");

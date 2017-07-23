@@ -12,6 +12,23 @@ public abstract class DeltasContainer {
 		this.topMatchingArgs = topMatchingArgs;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Delta> iter = iterator();
+
+		if (!iter.hasNext()) {
+			return "[]";
+		}
+
+		while (iter.hasNext()) {
+			sb.append(iter.next());
+			sb.append("\n");
+		}
+		sb.replace(sb.length() - 1, sb.length(), "");
+		return sb.toString();
+	}
+
 	public abstract void addDelta(Delta delta);
 
 	/**
@@ -21,7 +38,7 @@ public abstract class DeltasContainer {
 	 * @return the object if the delta exists and null o.w.
 	 */
 	public abstract Delta getDelta(Delta delta);
-	
+
 	public abstract Iterator<Delta> iterator();
 
 }
