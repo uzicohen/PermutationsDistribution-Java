@@ -23,9 +23,9 @@ public abstract class DeltasContainer {
 
 		while (iter.hasNext()) {
 			sb.append(iter.next());
-			sb.append("\n");
+			sb.append("\n          ");
 		}
-		sb.replace(sb.length() - 1, sb.length(), "");
+		sb.replace(sb.length() - 11, sb.length(), "");
 		return sb.toString();
 	}
 

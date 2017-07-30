@@ -33,20 +33,24 @@ public class PrintFlow {
 		}
 	}
 
-	public static void printDeltasContainer(DeltasContainer deltasContainer) {
+	public static void printDeltasContainer(DeltasContainer deltasContainer, String name) {
 		if (GeneralArgs.printFlow) {
 			StringBuilder sb = getIndentation(2);
-			sb.append("Deltas: ");
+			sb.append(name);
+			sb.append(": ");
 			sb.append(deltasContainer);
 			System.out.println(sb);
 		}
 	}
 
-	public static void printItem(String item) {
+	public static void printItem(String item, boolean inImg) {
 		if (GeneralArgs.printFlow) {
 			StringBuilder sb = getIndentation(4);
 			sb.append("Current item: ");
 			sb.append(item);
+			if(inImg) {
+				sb.append(" (in image)");
+			}
 			System.out.println(sb);
 		}
 	}
@@ -69,20 +73,26 @@ public class PrintFlow {
 		}
 	}
 
-	public static void printJAndNewDelta(int j, Delta delta, boolean belongsToImg) {
+	public static void printJAndNewDelta(int j, Delta delta) {
 		if (GeneralArgs.printFlow) {
 			StringBuilder sb = getIndentation(10);
 			sb.append("J: ");
 			sb.append(j);
 			sb.append(", New Delta: ");
 			sb.append(delta);
-			if (belongsToImg) {
-				sb.append(" (In Img)");
-			}
 			System.out.println(sb);
 		}
 	}
 
+	public static void printProbability(double probability) {
+		if (GeneralArgs.printFlow) {
+			StringBuilder sb = getIndentation(8);
+			sb.append("Probability: ");
+			sb.append(probability);
+			System.out.println(sb);
+		}		
+	}
+	
 	public static void printSeparator() {
 		if (GeneralArgs.printFlow) {
 			System.out.println("__________________________________________");

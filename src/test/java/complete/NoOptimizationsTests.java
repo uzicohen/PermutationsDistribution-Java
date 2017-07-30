@@ -1,4 +1,4 @@
-package optimizations;
+package complete;
 
 import common.TestUtils;
 import general.main.GeneralArgs;
@@ -7,10 +7,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Run a complete test to compare bruteforce vs topmatching with enhanced
- * initial deltas generator
+ * Run a complete test to compare bruteforce vs topmatching w/o optimizations
  */
-public class InitialDeltasOptimizationTests extends TestCase {
+public class NoOptimizationsTests extends TestCase {
 
 	/**
 	 * Create the test case
@@ -18,9 +17,9 @@ public class InitialDeltasOptimizationTests extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public InitialDeltasOptimizationTests(String testName) {
+	public NoOptimizationsTests(String testName) {
 		super(testName);
-		GeneralArgs.enhancedInitialDeltas = true;
+		GeneralArgs.enhancedInitialDeltas = false;
 		GeneralArgs.enhancedDeltasContainer = false;
 		GeneralArgs.omitRedundantItems = false;
 		GeneralArgs.verbose = false;
@@ -31,7 +30,7 @@ public class InitialDeltasOptimizationTests extends TestCase {
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(InitialDeltasOptimizationTests.class);
+		return new TestSuite(NoOptimizationsTests.class);
 	}
 
 	public void testBruteforceVsTopMatching1() {
