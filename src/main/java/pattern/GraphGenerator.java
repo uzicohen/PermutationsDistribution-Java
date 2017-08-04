@@ -9,7 +9,7 @@ public class GraphGenerator {
 		Graph graph = null;
 		switch (scenrio) {
 
-		// P = 0.990541370714296
+		// (1,4), P = 0.990541370714296
 		case 1:
 			Node z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 
@@ -23,7 +23,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.989000393257776
+		// (2,5), P = 0.989000393257776
 		case 2:
 
 			Node w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w", new ArrayList<>());
@@ -40,7 +40,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.732986262312703
+		// (3,8), P = 0.732986262312703
 		case 3:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s6" })), "y", new ArrayList<>());
@@ -61,7 +61,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.719424460431655
+		// (4,3), P = 0.719424460431655
 		case 4:
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "z", new ArrayList<>());
@@ -76,7 +76,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.761006046617952
+		// (5,6), P = 0.761006046617952
 		case 5:
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s4" })), "z", new ArrayList<>());
@@ -93,7 +93,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.934812879701345
+		// (6,5), P = 0.934812879701345
 		case 6:
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "z", new ArrayList<>());
@@ -108,7 +108,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.9498882307361549
+		// (7,5), P = 0.9498882307361549
 		case 7:
 
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s5" })), "w", new ArrayList<>());
@@ -126,7 +126,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 1.0
+		// (8,4), P = 1.0
 		case 8:
 
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "w", new ArrayList<>());
@@ -143,7 +143,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.6937277499487445
+		// (9,6), P = 0.6937277499487445
 		case 9:
 
 			Node t = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s6" })), "t", new ArrayList<>());
@@ -247,7 +247,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.862931
+		// (13,6), P = 0.862931
 		case 13:
 
 			t = new Node(new HashSet<>(Arrays.asList(new String[] { "s5", "s6" })), "t", new ArrayList<>());

@@ -61,5 +61,10 @@ public class SimpleDeltasContainer extends DeltasContainer {
 	public Iterator<Delta> iterator() {
 		return new SimpleDeltasContainerIterator(this.deltas);
 	}
+	
+	@Override
+	public int getNumOfDeltas() {
+		return this.deltas.size();
+	}
 
 }

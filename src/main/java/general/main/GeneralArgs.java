@@ -51,6 +51,8 @@ public class GeneralArgs {
 	public static boolean enhancedDeltasContainer;
 
 	public static boolean omitRedundantItems;
+	
+	public static boolean deltasReuse;
 
 	static {
 		properties = new Properties();
@@ -95,6 +97,8 @@ public class GeneralArgs {
 			enhancedInitialDeltas = Boolean.parseBoolean(properties.getProperty("enhanced_initial_deltas"));
 
 			omitRedundantItems = Boolean.parseBoolean(properties.getProperty("omit_redundant_items"));
+			
+			deltasReuse = Boolean.parseBoolean(properties.getProperty("deltas_reuse"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

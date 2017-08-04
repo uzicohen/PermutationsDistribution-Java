@@ -40,5 +40,7 @@ public abstract class DeltasContainer {
 	public abstract Delta getDelta(Delta delta);
 
 	public abstract Iterator<Delta> iterator();
+	
+	public abstract int getNumOfDeltas();
 
 }

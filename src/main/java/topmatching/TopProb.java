@@ -34,7 +34,7 @@ public class TopProb {
 		// Initialize R0
 		DeltasContainer r = topMatchingArgs.getDeltasContainerGenerator().getInitialDeltas(topProbArgs);
 
-		PrintFlow.printDeltasContainer(r, "Initial deltas");
+		PrintFlow.printDeltasContainer("Initial deltas", r, topProbArgs.getGamma());
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
 
@@ -48,7 +48,7 @@ public class TopProb {
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
 
-				PrintFlow.printDelta(delta);
+				PrintFlow.printDelta(true, "Interim delta", delta, topProbArgs.getGamma());
 
 				ArrayList<Integer> range = range(delta, sigma);
 
@@ -68,7 +68,6 @@ public class TopProb {
 					}
 					// else - the old delta stays
 
-
 					// Update the new delta's hash
 					deltaTag.createStrForHash();
 
@@ -77,24 +76,23 @@ public class TopProb {
 
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
-
 					// Search in newR the constructed delta
 					Delta exisitingDelta = newR.getDelta(deltaTag);
 
 					if (exisitingDelta != null) {
 						exisitingDelta.setProbability(exisitingDelta.getProbability() + deltaTag.getProbability());
-						PrintFlow.printJAndNewDelta(j, exisitingDelta);
+						PrintFlow.printJAndNewDelta(j, exisitingDelta, topProbArgs.getGamma());
 					} else {
 						// insert the new delta into the new R
 						newR.addDelta(deltaTag);
-						PrintFlow.printJAndNewDelta(j, deltaTag);
+						PrintFlow.printJAndNewDelta(j, deltaTag, topProbArgs.getGamma());
 					}
 				}
 			}
 			r = newR;
 		}
 
-		PrintFlow.printDeltasContainer(r, "Final deltas");
+		PrintFlow.printDeltasContainer("Final deltas", r, topProbArgs.getGamma());
 
 		double probability = 0.0;
 		Iterator<Delta> iter = r.iterator();

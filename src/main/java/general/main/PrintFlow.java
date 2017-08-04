@@ -1,7 +1,10 @@
 package general.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
@@ -33,13 +36,21 @@ public class PrintFlow {
 		}
 	}
 
-	public static void printDeltasContainer(DeltasContainer deltasContainer, String name) {
+	public static void printDeltasContainer(String name, DeltasContainer deltasContainer,
+			HashMap<String, String> gamma) {
 		if (GeneralArgs.printFlow) {
+			Iterator<Delta> iter = deltasContainer.iterator();
 			StringBuilder sb = getIndentation(2);
 			sb.append(name);
 			sb.append(": ");
-			sb.append(deltasContainer);
+			if (!iter.hasNext()) {
+				sb.append("[]");
+			}
 			System.out.println(sb);
+			while (iter.hasNext()) {
+				Delta delta = iter.next();
+				printDelta(true, name.equals("Initial deltas") ? "Init delta" : "Final delta", delta, gamma);
+			}
 		}
 	}
 
@@ -48,18 +59,44 @@ public class PrintFlow {
 			StringBuilder sb = getIndentation(4);
 			sb.append("Current item: ");
 			sb.append(item);
-			if(inImg) {
+			if (inImg) {
 				sb.append(" (in image)");
 			}
 			System.out.println(sb);
 		}
 	}
 
-	public static void printDelta(Delta delta) {
+	// Gamma: {x=s1, y=s1, z=s6, t=s5, w=s3}
+	// Delta: {t=4, w=3, x=1, y=1, z=2}
+	// (s1,s6,s3,s5)
+	private static String getDeltaForPrint(Delta delta, HashMap<String, String> gamma) {
+		StringBuilder sb = new StringBuilder(" (");
+		ArrayList<Integer> indices = new ArrayList<>(delta.getLabelToIndex().values());
+		Collections.sort(indices);
+		HashSet<String> seen = new HashSet<>();
+		for (int i = 0; i < indices.size(); i++) {
+			for (String key : delta.getLabelToIndex().keySet()) {
+				if (delta.getLabelToIndex().get(key) == indices.get(i) && !seen.contains(gamma.get(key))) {
+					seen.add(gamma.get(key));
+					sb.append(gamma.get(key));
+					sb.append(",");
+				}
+			}
+		}
+		sb.replace(sb.length() - 1, sb.length(), "");
+		sb.append(") ");
+		return sb.toString();
+	}
+
+	public static void printDelta(boolean withIndent, String name, Delta delta, HashMap<String, String> gamma) {
 		if (GeneralArgs.printFlow) {
-			StringBuilder sb = getIndentation(6);
-			sb.append("Delta: ");
-			sb.append(delta);
+			StringBuilder sb = getIndentation(withIndent ? 6 : 0);
+			sb.append(name + ": ");
+			sb.append(getDeltaForPrint(delta, gamma));
+			sb.append(",");
+			sb.append(delta.getLabelToIndex());
+			sb.append(",");
+			sb.append(delta.getProbability());
 			System.out.println(sb);
 		}
 	}
@@ -73,26 +110,26 @@ public class PrintFlow {
 		}
 	}
 
-	public static void printJAndNewDelta(int j, Delta delta) {
+	public static void printJAndNewDelta(int j, Delta delta, HashMap<String, String> gamma) {
 		if (GeneralArgs.printFlow) {
 			StringBuilder sb = getIndentation(10);
 			sb.append("J: ");
 			sb.append(j);
-			sb.append(", New Delta: ");
-			sb.append(delta);
-			System.out.println(sb);
+			sb.append(", ");
+			System.out.print(sb);
+			printDelta(false, "New Delta", delta, gamma);
 		}
 	}
 
 	public static void printProbability(double probability) {
 		if (GeneralArgs.printFlow) {
-			StringBuilder sb = getIndentation(8);
+			StringBuilder sb = getIndentation(2);
 			sb.append("Probability: ");
 			sb.append(probability);
 			System.out.println(sb);
-		}		
+		}
 	}
-	
+
 	public static void printSeparator() {
 		if (GeneralArgs.printFlow) {
 			System.out.println("__________________________________________");
