@@ -84,4 +84,8 @@ public class DeltasContainerOptimizationTests extends TestCase {
 	public void testBruteforceVsTopMatching13() {
 		assertTrue(TestUtils.runTest(13, 6));
 	}
+	
+	public void testBruteforceVsTopMatching14() {
+		assertTrue(TestUtils.runTest(14, 7));
+	}
 }

@@ -267,6 +267,29 @@ public class GraphGenerator {
 
 			break;
 
+		// (14,7), P = 0.862931
+		case 14:
+			// Yellow
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5", "s7" })), "y", new ArrayList<>());
+
+			// Black
+			b = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s4" })), "b", new ArrayList<>());
+
+			// Purple
+			p = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "p",
+					new ArrayList<>(Arrays.asList(new Node[] { y })));
+
+			// Green
+			g = new Node(new HashSet<>(Arrays.asList(new String[] { "s6", "s7" })), "g",
+					new ArrayList<>(Arrays.asList(new Node[] { p, b })));
+
+			r = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "r",
+					new ArrayList<>(Arrays.asList(new Node[] { b })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+
+			break;
+
 		}
 		return graph;
 	}
