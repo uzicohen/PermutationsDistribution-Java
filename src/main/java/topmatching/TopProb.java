@@ -59,12 +59,7 @@ public class TopProb {
 
 					if (!this.topProbArgs.getImgGamma().contains(sigma)) {
 						// Create delta+j
-						for (String key : delta.getLabelToIndex().keySet()) {
-							if (deltaTag.getLabelToIndex().get(key) >= j) {
-								int currentIndex = deltaTag.getLabelToIndex().get(key);
-								deltaTag.getLabelToIndex().put(key, currentIndex + 1);
-							}
-						}
+						deltaTag.insertNewItem(sigma, j);
 					}
 					// else - the old delta stays
 
@@ -112,7 +107,7 @@ public class TopProb {
 		ArrayList<Integer> result = new ArrayList<>();
 		if (this.topProbArgs.getImgGamma().contains(sigma)) {
 			String label = this.topProbArgs.getSigmaToGammaValueMap().get(sigma).iterator().next();
-			result.add(delta.getLabelToIndex().get(label));
+			result.add(delta.getLabelPosition(label));
 		} else {
 			// Get the i from "s{i}"
 			int i = Integer.parseInt(sigma.split("s")[1]);

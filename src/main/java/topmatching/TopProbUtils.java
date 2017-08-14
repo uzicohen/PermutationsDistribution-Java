@@ -24,7 +24,7 @@ public class TopProbUtils {
 
 		for (String item : imgLargerThanI) {
 			String label = topProbArgs.getSigmaToGammaValueMap().get(item).iterator().next();
-			if (delta.getLabelToIndex().get(label) < j) {
+			if (delta.getLabelPosition(label) < j) {
 				numOfElementsSmallerThanJ++;
 			}
 		}
@@ -48,12 +48,13 @@ public class TopProbUtils {
 		HashSet<String> currentSigmaLambda = topMatchingArgs.getLambda().get(sigma);
 
 		for (String label : currentSigmaLambda) {
-			int labelDelta = delta.getLabelToIndex().get(label);
+			int labelDelta = delta.getLabelPosition(label);
 			int maxParentDelta = 0;
 			HashSet<String> parents = topMatchingArgs.getLabelToParentsMap().containsKey(label)
-					? topMatchingArgs.getLabelToParentsMap().get(label) : new HashSet<>();
+					? topMatchingArgs.getLabelToParentsMap().get(label)
+					: new HashSet<>();
 			for (String parentLable : parents) {
-				maxParentDelta = Math.max(maxParentDelta, delta.getLabelToIndex().get(parentLable));
+				maxParentDelta = Math.max(maxParentDelta, delta.getLabelPosition(parentLable));
 			}
 			maxParentDelta++;
 

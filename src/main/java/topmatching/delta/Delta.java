@@ -58,6 +58,15 @@ public class Delta {
 		return this.strForHash.hashCode();
 	}
 
+	public void insertNewItem(String sigma, int j) {
+		for (String key : this.labelToIndex.keySet()) {
+			if (this.labelToIndex.get(key) >= j) {
+				int currentIndex = this.labelToIndex.get(key);
+				this.labelToIndex.put(key, currentIndex + 1);
+			}
+		}
+	}
+
 	public void createStrForHash() {
 		if (this.labelToIndex.isEmpty()) {
 			this.strForHash = "";
@@ -71,12 +80,12 @@ public class Delta {
 		this.strForHash = sb.toString();
 	}
 
-	public HashMap<String, Integer> getLabelToIndex() {
-		return labelToIndex;
+	public int getLabelPosition(String label) {
+		return this.labelToIndex.get(label) != null ? this.labelToIndex.get(label) : -1;
 	}
 
-	public void setLabelToIndex(HashMap<String, Integer> labelToIndex) {
-		this.labelToIndex = labelToIndex;
+	public HashMap<String, Integer> getLabelToIndex() {
+		return labelToIndex;
 	}
 
 	public double getProbability() {

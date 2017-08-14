@@ -76,7 +76,7 @@ public class PrintFlow {
 		HashSet<String> seen = new HashSet<>();
 		for (int i = 0; i < indices.size(); i++) {
 			for (String key : delta.getLabelToIndex().keySet()) {
-				if (delta.getLabelToIndex().get(key) == indices.get(i) && !seen.contains(gamma.get(key))) {
+				if (delta.getLabelPosition(key) == indices.get(i) && !seen.contains(gamma.get(key))) {
 					seen.add(gamma.get(key));
 					sb.append(gamma.get(key));
 					sb.append(",");
