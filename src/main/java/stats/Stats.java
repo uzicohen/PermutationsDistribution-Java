@@ -3,6 +3,7 @@ package stats;
 import java.util.ArrayList;
 import java.util.Date;
 
+import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 
 /**
@@ -54,7 +55,9 @@ public class Stats {
 		result.append(String.format("Number of items: %s\n", numOfItems));
 		result.append(String.format("Graph: %s\n", graph));
 		result.append(String.format("Algorithm: %s\n", algorithm));
-		result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+			result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
+		}
 		result.append(String.format("Start Time: %s\n", startTimeDate));
 		result.append(String.format("End Time: %s\n", endTimeDate));
 		result.append(String.format("Total Time: %s MS\n", (endTimeDate.getTime() - startTimeDate.getTime())));

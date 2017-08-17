@@ -1,5 +1,6 @@
 package common;
 
+import binarytopmatching.BinaryMatchingAlgorithm;
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
 import general.Distribution;
@@ -27,6 +28,22 @@ public class TestUtils {
 
 		double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
 
+		return Math.abs(exactProb - topMatchingProb) < Epsilon;
+	}
+	
+	public static boolean runBinaryMatchingTest(int graphId, int numItems) {
+		Graph graph = GraphGenerator.GetGraph(graphId);
+		
+		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
+		
+		Distribution explicitDistribution = new ExplicitDistribution(model);
+		
+		double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
+		
+		Distribution simpleDistribution = new SimpleDistribution(model);
+		
+		double topMatchingProb = new BinaryMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
+		
 		return Math.abs(exactProb - topMatchingProb) < Epsilon;
 	}
 

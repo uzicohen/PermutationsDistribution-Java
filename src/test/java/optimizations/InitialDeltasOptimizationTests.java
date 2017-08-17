@@ -1,6 +1,7 @@
 package optimizations;
 
 import common.TestUtils;
+import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -25,6 +26,7 @@ public class InitialDeltasOptimizationTests extends TestCase {
 		GeneralArgs.omitRedundantItems = false;
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
+		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
 	}
 
 	/**
@@ -88,5 +90,9 @@ public class InitialDeltasOptimizationTests extends TestCase {
 
 	public void testBruteforceVsTopMatching14() {
 		assertTrue(TestUtils.runTest(14, 7));
+	}
+	
+	public void testBruteforceVsTopMatching15() {
+		assertTrue(TestUtils.runTest(15, 5));
 	}
 }

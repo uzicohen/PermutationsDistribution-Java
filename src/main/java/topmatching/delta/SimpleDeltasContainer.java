@@ -7,7 +7,7 @@ import topmatching.TopMatchingArgs;
 
 public class SimpleDeltasContainer extends DeltasContainer {
 
-	public static class SimpleDeltasContainerIterator implements Iterator<Delta> {
+	public class SimpleDeltasContainerIterator implements Iterator<Delta> {
 
 		private int index;
 

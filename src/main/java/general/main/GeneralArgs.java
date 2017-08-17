@@ -41,10 +41,14 @@ public class GeneralArgs {
 	public static boolean runSampled;
 
 	public static boolean runTopMatching;
+	
+	public static boolean runBinaryMatching;
 
 	public static double phi;
 
 	public static int numSamples;
+	
+	public static AlgorithmType currentAlgorithm;
 
 	public static boolean enhancedInitialDeltas;
 
@@ -87,6 +91,8 @@ public class GeneralArgs {
 			runSampled = Boolean.parseBoolean(properties.getProperty("run_sampled")) || runAll;
 
 			runTopMatching = Boolean.parseBoolean(properties.getProperty("run_topmatching")) || runAll;
+			
+			runBinaryMatching = Boolean.parseBoolean(properties.getProperty("run_binarymatching")) || runAll;
 
 			phi = Double.parseDouble(properties.getProperty("phi"));
 

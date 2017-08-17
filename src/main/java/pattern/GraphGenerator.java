@@ -290,6 +290,46 @@ public class GraphGenerator {
 
 			break;
 
+		case 15:
+			// Yellow
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5" })), "y", new ArrayList<>());
+
+			// Purple
+			p = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s4" })), "p", new ArrayList<>());
+
+			// Red
+			r = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "r",
+					new ArrayList<>(Arrays.asList(new Node[] { y })));
+
+			// Green
+			g = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "g",
+					new ArrayList<>(Arrays.asList(new Node[] { y, p })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+
+			break;
+
+		case 16:
+			// Yellow
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s5" })), "y", new ArrayList<>());
+
+			// Purple
+			p = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s3", "s4", "s15" })), "p",
+					new ArrayList<>());
+
+			// Red
+			r = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s8", "s9", "s11" })), "r",
+					new ArrayList<>(Arrays.asList(new Node[] { y })));
+
+			// Green
+			g = new Node(
+					new HashSet<>(Arrays.asList(new String[] { "s3", "s6", "s7", "s8", "s10", "s12", "s13", "s14" })),
+					"g", new ArrayList<>(Arrays.asList(new Node[] { y, p })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+
+			break;
+
 		}
 		return graph;
 	}

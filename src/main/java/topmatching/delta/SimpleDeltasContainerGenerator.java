@@ -53,8 +53,8 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 
 	/**
 	 * 
-	 * Get all the possible permutations within level where the order between
-	 * levels is dictated by the graph
+	 * Get all the possible permutations within level where the order between levels
+	 * is dictated by the graph
 	 * 
 	 */
 	private ArrayList<ArrayList<ArrayList<String>>> getInitialLabelsOrders() {
@@ -90,11 +90,11 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 	 * Consistent with g: for every (l,l') in E, delta(l) < delta(l')
 	 * 
 	 * Consistent with top-matching: for every l in V and sigma s.t sigma in
-	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and
-	 * tau(sigma) < max_{l' in parents(l)} delta(l')
+	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and tau(sigma) <
+	 * max_{l' in parents(l)} delta(l')
 	 * 
-	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked
-	 * sigma s.t l in lambda(sigma)
+	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked sigma
+	 * s.t l in lambda(sigma)
 	 */
 	private boolean isDeltaConsistent(TopProbArgs topProbArgs, Delta delta) {
 		Result result = new Result();
@@ -113,7 +113,7 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 
 		// Check g's constraints
 		for (Node lTag : l.getChildren()) {
-			if (delta.getLabelToIndex().get(l.getLabel()) >= delta.getLabelToIndex().get(lTag.getLabel())) {
+			if (delta.getLabelPosition(l.getLabel()) >= delta.getLabelPosition(lTag.getLabel())) {
 				result.res = false;
 				return;
 			}
@@ -121,7 +121,8 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 
 		// Check top-matching's constraints
 		HashSet<String> parentsOfL = this.topMatchingArgs.getLabelToParentsMap().containsKey(l.getLabel())
-				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel()) : new HashSet<>();
+				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel())
+				: new HashSet<>();
 
 		if (parentsOfL.isEmpty()) {
 			// If the label has no parents, it's mapping has to be the best
@@ -142,10 +143,10 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 					for (String label : labelsOfSigma) {
 						if (topProbArgs.getGamma().get(label).equals(sigma)) {
 							// This means sigma is in the mapping
-							minIndexForItem = Math.min(minIndexForItem, delta.getLabelToIndex().get(label));
+							minIndexForItem = Math.min(minIndexForItem, delta.getLabelPosition(label));
 						}
 					}
-					if (minIndexForItem < delta.getLabelToIndex().get(l.getLabel())) {
+					if (minIndexForItem < delta.getLabelPosition(l.getLabel())) {
 						result.res = false;
 						break;
 					}
@@ -157,7 +158,7 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 			int maxIndexOfParent = 0;
 
 			for (String parent : parentsOfL) {
-				maxIndexOfParent = Math.max(maxIndexOfParent, delta.getLabelToIndex().get(parent));
+				maxIndexOfParent = Math.max(maxIndexOfParent, delta.getLabelPosition(parent));
 			}
 
 			for (String otherSigmaInLabel : l.getItems()) {
@@ -166,9 +167,9 @@ public class SimpleDeltasContainerGenerator implements IDeltasContainerGenerator
 					continue;
 				}
 				String labelOfSigma = topProbArgs.getSigmaToGammaValueMap().get(otherSigmaInLabel).iterator().next();
-				int indexOfOtherSigma = delta.getLabelToIndex().get(labelOfSigma);
+				int indexOfOtherSigma = delta.getLabelPosition(labelOfSigma);
 				if (indexOfOtherSigma > maxIndexOfParent
-						&& indexOfOtherSigma < delta.getLabelToIndex().get(l.getLabel())) {
+						&& indexOfOtherSigma < delta.getLabelPosition(l.getLabel())) {
 					result.res = false;
 				}
 			}

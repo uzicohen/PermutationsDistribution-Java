@@ -27,7 +27,7 @@ public class TopProb {
 		TopProbUtils.init(this.topMatchingArgs, this.topProbArgs);
 	}
 
-	public double Calculate() {
+	public double calculate() {
 
 		PrintFlow.printGamma(this.topProbArgs.getGamma());
 
@@ -59,7 +59,8 @@ public class TopProb {
 
 					if (!this.topProbArgs.getImgGamma().contains(sigma)) {
 						// Create delta+j
-						deltaTag.insertNewItem(sigma, j);
+						deltaTag.insertNewItem(j);
+						double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 					}
 					// else - the old delta stays
 

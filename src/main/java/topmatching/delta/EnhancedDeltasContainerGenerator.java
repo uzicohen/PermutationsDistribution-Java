@@ -82,26 +82,27 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					// them. o.w., it'll come in all possible indices
 					if (origChildToParent.containsKey(sigma)) {
 						for (String parentLabel : origChildToParent.get(sigma)) {
-							Integer parentIdx = delta.getLabelToIndex().get(parentLabel);
+							// Integer parentIdx = delta.getLabelToIndex().get(parentLabel);
+							Integer parentIdx = delta.getLabelPosition(parentLabel);
 							maxIdx = Math.max(parentIdx != null ? parentIdx : 0, maxIdx);
 						}
 					}
 
 					// Insert the label to all possible indices after maxIdx and
 					// store in newResult (for each j in range)
-					for (int j = maxIdx; j <= delta.getLabelToIndex().size(); j++) {
+					for (int j = maxIdx; j <= delta.getNumOfLabels(); j++) {
 						Delta newDelta = new Delta(delta);
 						// Create delta+j
-						for (String key : delta.getLabelToIndex().keySet()) {
-							int keyCurrentIdx = delta.getLabelToIndex().get(key);
+						for (String key : delta.getKeySet()) {
+							int keyCurrentIdx = delta.getLabelPosition(key);
 							if (keyCurrentIdx > j) {
-								newDelta.getLabelToIndex().put(key, keyCurrentIdx + 1);
+								newDelta.putKeyValue(key, keyCurrentIdx + 1);
 							} else {
-								newDelta.getLabelToIndex().put(key, keyCurrentIdx);
+								newDelta.putKeyValue(key, keyCurrentIdx);
 							}
 						}
 						// Set the label to the current position
-						newDelta.getLabelToIndex().put(sigma, j + 1);
+						newDelta.putKeyValue(sigma, j + 1);
 						newDelta.createStrForHash();
 						if (newResult.getDelta(newDelta) == null) {
 							newResult.addDelta(newDelta);
@@ -130,10 +131,10 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
 			Delta newDelta = new Delta();
-			for (String sigma : delta.getLabelToIndex().keySet()) {
+			for (String sigma : delta.getKeySet()) {
 				HashSet<String> labelsOfSigma = topProbArgs.getSigmaToGammaValueMap().get(sigma);
 				for (String label : labelsOfSigma) {
-					newDelta.getLabelToIndex().put(label, delta.getLabelToIndex().get(sigma));
+					newDelta.putKeyValue(label, delta.getLabelPosition(sigma));
 				}
 			}
 			if (isDeltaConsistent(topProbArgs, newDelta)) {
@@ -181,11 +182,11 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 	 * Consistent with g: for every (l,l') in E, delta(l) < delta(l')
 	 * 
 	 * Consistent with top-matching: for every l in V and sigma s.t sigma in
-	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and
-	 * tau(sigma) < max_{l' in parents(l)} delta(l')
+	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and tau(sigma) <
+	 * max_{l' in parents(l)} delta(l')
 	 * 
-	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked
-	 * sigma s.t l in lambda(sigma)
+	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked sigma
+	 * s.t l in lambda(sigma)
 	 */
 	private boolean isDeltaConsistent(TopProbArgs topProbArgs, Delta delta) {
 		Result result = new Result();
@@ -204,7 +205,8 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 
 		// Check top-matching's constraints
 		HashSet<String> parentsOfL = this.topMatchingArgs.getLabelToParentsMap().containsKey(l.getLabel())
-				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel()) : new HashSet<>();
+				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel())
+				: new HashSet<>();
 
 		if (parentsOfL.isEmpty()) {
 			// If the label has no parents, it's mapping has to be the best
@@ -225,10 +227,10 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					for (String label : labelsOfSigma) {
 						if (topProbArgs.getGamma().get(label).equals(sigma)) {
 							// This means sigma is in the mapping
-							minIndexForItem = Math.min(minIndexForItem, delta.getLabelToIndex().get(label));
+							minIndexForItem = Math.min(minIndexForItem, delta.getLabelPosition(label));
 						}
 					}
-					if (minIndexForItem < delta.getLabelToIndex().get(l.getLabel())) {
+					if (minIndexForItem < delta.getLabelPosition(l.getLabel())) {
 						result.res = false;
 						break;
 					}
@@ -240,7 +242,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 			int maxIndexOfParent = 0;
 
 			for (String parent : parentsOfL) {
-				maxIndexOfParent = Math.max(maxIndexOfParent, delta.getLabelToIndex().get(parent));
+				maxIndexOfParent = Math.max(maxIndexOfParent, delta.getLabelPosition(parent));
 			}
 
 			for (String otherSigmaInLabel : l.getItems()) {
@@ -249,9 +251,8 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					continue;
 				}
 				String labelOfSigma = topProbArgs.getSigmaToGammaValueMap().get(otherSigmaInLabel).iterator().next();
-				int indexOfOtherSigma = delta.getLabelToIndex().get(labelOfSigma);
-				if (indexOfOtherSigma > maxIndexOfParent
-						&& indexOfOtherSigma < delta.getLabelToIndex().get(l.getLabel())) {
+				int indexOfOtherSigma = delta.getLabelPosition(labelOfSigma);
+				if (indexOfOtherSigma > maxIndexOfParent && indexOfOtherSigma < delta.getLabelPosition(l.getLabel())) {
 					result.res = false;
 				}
 			}

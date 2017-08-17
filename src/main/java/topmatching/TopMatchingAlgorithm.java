@@ -49,7 +49,7 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 		double result = 0.0;
 		for (HashMap<String, String> gamma : allPossibleAssignments) {
 			TopProb topProb = new TopProb(gamma, topMatchingArgs);
-			double probability = topProb.Calculate();
+			double probability = topProb.calculate();
 			result += probability;
 
 			counter++;

@@ -71,11 +71,11 @@ public class PrintFlow {
 	// (s1,s6,s3,s5)
 	private static String getDeltaForPrint(Delta delta, HashMap<String, String> gamma) {
 		StringBuilder sb = new StringBuilder(" (");
-		ArrayList<Integer> indices = new ArrayList<>(delta.getLabelToIndex().values());
+		ArrayList<Integer> indices = new ArrayList<>(delta.getValues());
 		Collections.sort(indices);
 		HashSet<String> seen = new HashSet<>();
 		for (int i = 0; i < indices.size(); i++) {
-			for (String key : delta.getLabelToIndex().keySet()) {
+			for (String key : delta.getKeySet()) {
 				if (delta.getLabelPosition(key) == indices.get(i) && !seen.contains(gamma.get(key))) {
 					seen.add(gamma.get(key));
 					sb.append(gamma.get(key));
@@ -94,7 +94,7 @@ public class PrintFlow {
 			sb.append(name + ": ");
 			sb.append(getDeltaForPrint(delta, gamma));
 			sb.append(",");
-			sb.append(delta.getLabelToIndex());
+			sb.append(delta.getLabelsToIndex());
 			sb.append(",");
 			sb.append(delta.getProbability());
 			System.out.println(sb);
