@@ -64,7 +64,11 @@ public class Delta {
 
 	@Override
 	public String toString() {
-		return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.probability);
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.probability);
+		}
+		return String.format("Mapping: %s, States: %s, Prob: %f", this.labelToIndex, this.labelsState,
+				this.probability);
 	}
 
 	@Override
@@ -172,7 +176,7 @@ public class Delta {
 			this.lambda.put(sigma, labels);
 		}
 	}
-	
+
 	public int getNumOfDistinctNonAssignedLabels() {
 		HashSet<Integer> seen = new HashSet<>();
 		for (String label : this.labelsState.keySet()) {

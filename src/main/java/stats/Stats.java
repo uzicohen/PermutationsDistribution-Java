@@ -15,9 +15,11 @@ import general.main.GeneralArgs;
  */
 public class Stats {
 
-	private int experimentScenario;
+	private String experimentScenario;
 
 	private int numOfItems;
+
+	private int numOfLabels;
 
 	private String graph;
 
@@ -31,10 +33,11 @@ public class Stats {
 
 	private double probability;
 
-	public Stats(int experimentScenario, int numOfItems, String graph) {
+	public Stats(String experimentScenario, int numOfItems, int numOfLabels, String graph) {
 		super();
 		this.experimentScenario = experimentScenario;
 		this.numOfItems = numOfItems;
+		this.numOfLabels = numOfLabels;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
 		if (GeneralArgs.enhancedDeltasContainer) {
@@ -51,8 +54,9 @@ public class Stats {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(String.format("Experiment scenraio: %d\n", experimentScenario));
+		result.append(String.format("Experiment scenraio: %s\n", experimentScenario));
 		result.append(String.format("Number of items: %s\n", numOfItems));
+		result.append(String.format("Number of labels: %s\n", numOfLabels));
 		result.append(String.format("Graph: %s\n", graph));
 		result.append(String.format("Algorithm: %s\n", algorithm));
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
@@ -65,11 +69,11 @@ public class Stats {
 		return result.toString();
 	}
 
-	public int getExperimentScenario() {
+	public String getExperimentScenario() {
 		return experimentScenario;
 	}
 
-	public void setExperimentScenario(int experimentScenario) {
+	public void setExperimentScenario(String experimentScenario) {
 		this.experimentScenario = experimentScenario;
 	}
 
@@ -87,6 +91,14 @@ public class Stats {
 
 	public void setNumOfItems(int numOfItems) {
 		this.numOfItems = numOfItems;
+	}
+
+	public int getNumOfLabels() {
+		return numOfLabels;
+	}
+
+	public void setNumOfLabels(int numOfLabels) {
+		this.numOfLabels = numOfLabels;
 	}
 
 	public String getAlgorithm() {

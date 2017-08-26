@@ -9,12 +9,12 @@ import java.util.Properties;
 public class GeneralArgs {
 
 	public static class ScenarioToNumOfItemsPair {
-		public int scenario;
+		public String scenario;
 		public int numOfItems;
 
 		public ScenarioToNumOfItemsPair(int scenario, int numOfItems) {
 			super();
-			this.scenario = scenario;
+			this.scenario = String.valueOf(scenario);
 			this.numOfItems = numOfItems;
 		}
 

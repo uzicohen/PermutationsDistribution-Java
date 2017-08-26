@@ -3,9 +3,13 @@ package pattern;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import pattern.Graph;
+import pattern.Node;
 
 public class GraphGenerator {
+
 	public static Graph GetGraph(int scenrio) {
+
 		Graph graph = null;
 		switch (scenrio) {
 
@@ -332,5 +336,6 @@ public class GraphGenerator {
 
 		}
 		return graph;
+
 	}
 }
