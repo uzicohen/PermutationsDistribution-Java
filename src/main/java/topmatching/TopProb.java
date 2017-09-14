@@ -60,7 +60,7 @@ public class TopProb {
 					if (!this.topProbArgs.getImgGamma().contains(sigma)) {
 						// Create delta+j
 						deltaTag.insertNewItem(j);
-						double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
+//						double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 					}
 					// else - the old delta stays
 

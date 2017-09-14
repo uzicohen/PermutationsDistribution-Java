@@ -1,4 +1,4 @@
-package binarymatching;
+package liftedtopmatching;
 
 import java.util.Random;
 
@@ -12,15 +12,15 @@ import junit.framework.TestSuite;
 import pattern.Graph;
 
 /**
- * Run a complete test to compare topmatching vs binarymatching
+ * Run a complete test to compare topmatching vs liftedtopmatching
  */
-public class BinaryMatchingRandomTests extends TestCase {
+public class LiftedTopMatchingRandomTests extends TestCase {
 
-	private static int numOfTests = 10;
+	private static int numOfTests = 100;
 
 	private static int maxNumOfItems = 12;
 
-	private static int maxNumOfLabels = 7;
+	private static int maxNumOfLabels = 8;
 
 	private static Random rand = new Random(1113);
 
@@ -30,26 +30,26 @@ public class BinaryMatchingRandomTests extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public BinaryMatchingRandomTests(String testName) {
+	public LiftedTopMatchingRandomTests(String testName) {
 		super(testName);
-		GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
+		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 	}
 
 	/**
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(BinaryMatchingRandomTests.class);
+		return new TestSuite(LiftedTopMatchingRandomTests.class);
 	}
 
-	public void testBruteforceVsBinaryMatching() {
+	public void testBruteforceVsLiftedTopMatching() {
 		// GeneralArgs.numAssignmentsForPrint = 300;
 		// GeneralArgs.verbose = true;
 		for (int i = 0; i < numOfTests; i++) {
 			int numOfItems = rand.nextInt(maxNumOfItems) + 1;
 			int numOfLabels = rand.nextInt(maxNumOfLabels) + 1;
 			Graph graph = RandomGraphGenerator.GetRandomGraph(numOfItems, numOfLabels, rand);
-			assertTrue(TestUtils.runBinaryMatchingRandomTest(graph, numOfItems, numOfLabels, i + 1));
+			assertTrue(TestUtils.runLiftedTopMatchingRandomTest(graph, numOfItems, numOfLabels, i + 1));
 		}
 
 		for (int i = 0; i < TestUtils.summaries.size(); i++) {

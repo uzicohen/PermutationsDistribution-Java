@@ -1,4 +1,4 @@
-package binarytopmatching.delta;
+package liftedtopmatching.delta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import topmatching.delta.DeltasContainer;
 import topmatching.delta.EnhancedDeltasContainer;
 import topmatching.delta.EnhancedDeltasContainerGenerator;
 
-public class LabelsDeltasContainerGenerator {
+public class LiftedTopMatchingDeltasContainerGenerator {
 
 	public DeltasContainer getInitialDeltas(TopMatchingArgs topMatchingArgs) {
 		EnhancedDeltasContainer result = new EnhancedDeltasContainer(topMatchingArgs);
@@ -27,22 +27,17 @@ public class LabelsDeltasContainerGenerator {
 		deltasGenerator.init(topMatchingArgs);
 
 		for (HashMap<String, String> gamma : allPossibleAssignments) {
-			
+
 			PrintFlow.printGamma(gamma);
-			
+
 			DeltasContainer r = deltasGenerator.getInitialDeltas(new TopProbArgs(gamma));
-			
+
 			PrintFlow.printDeltasContainer("Initial deltas", r, gamma);
-			
+
 			Iterator<Delta> iter = r.iterator();
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
-				delta.fillLambda(gamma);
-				Delta exisitingDelta = result.getDelta(delta);
-				if (exisitingDelta != null) {
-					exisitingDelta.fillLambda(gamma);
-				}
-				result.addDelta(exisitingDelta != null ? exisitingDelta : delta);
+				result.addDelta(delta);
 			}
 		}
 		return result;

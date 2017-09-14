@@ -334,6 +334,34 @@ public class GraphGenerator {
 
 			break;
 
+		case 17:
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "y", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { y })));
+
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s2", "s3", "s4" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "z",
+					new ArrayList<>(Arrays.asList(new Node[] { w })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, z })));
+
+			break;
+
+		case 18:
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { y, z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+
+			break;
+
 		}
 		return graph;
 

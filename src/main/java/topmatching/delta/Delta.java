@@ -44,7 +44,8 @@ public class Delta {
 
 	public Delta(Delta other) {
 		this.labelToIndex = new HashMap<>(other.labelToIndex);
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
+				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState = new HashMap<>(other.labelsState);
 			this.lambda = new HashMap<>(other.lambda);
 		}
@@ -54,7 +55,8 @@ public class Delta {
 
 	public Delta() {
 		this.labelToIndex = new HashMap<>();
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
+				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState = new HashMap<>();
 			this.lambda = new HashMap<>();
 		}
@@ -105,7 +107,8 @@ public class Delta {
 			sb.append(key);
 			sb.append(this.labelToIndex.get(key));
 		}
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
+				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			sb.append("|||");
 			// Add to the strForHash the state vector
 			for (String key : this.labelsState.keySet()) {
@@ -138,7 +141,8 @@ public class Delta {
 
 	public void putKeyValue(String key, int value) {
 		this.labelToIndex.put(key, value);
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
+				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState.put(key, 0);
 		}
 	}
@@ -199,7 +203,7 @@ public class Delta {
 		return result;
 	}
 
-	public HashMap<Integer, HashSet<String>> getNonAssignedJsToLabels(String sigma) {
+	private HashMap<Integer, HashSet<String>> getNonAssignedJsToLabelsBinaryMatching(String sigma) {
 		if (!this.lambda.containsKey(sigma)) {
 			return new HashMap<>();
 		}
@@ -234,6 +238,13 @@ public class Delta {
 		return result;
 	}
 
+	public HashMap<Integer, HashSet<String>> getNonAssignedJsToLabels(HashMap<String, HashSet<String>> globalLambda,
+			String sigma) {
+		return GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
+				? getNonAssignedJsToLabelsBinaryMatching(sigma)
+				: getNonAssignedJsToLabelsLiftedTopMatching(globalLambda, sigma);
+	}
+
 	public int addAssignmentToLabel(String label) {
 		this.labelsState.put(label, 1);
 		return this.labelToIndex.get(label);
@@ -241,4 +252,43 @@ public class Delta {
 
 	// BinaryMatching section
 
+	// LiftedTopMatching section
+
+	private HashMap<Integer, HashSet<String>> getNonAssignedJsToLabelsLiftedTopMatching(
+			HashMap<String, HashSet<String>> globalLambda, String sigma) {
+		if (!globalLambda.containsKey(sigma)) {
+			return new HashMap<>();
+		}
+
+		HashMap<Integer, HashSet<String>> result = new HashMap<>();
+		for (String label : this.labelsState.keySet()) {
+			if (this.labelsState.get(label) == 0) {
+				int j = this.labelToIndex.get(label);
+				HashSet<String> labels = result.get(j);
+				if (labels == null) {
+					labels = new HashSet<>();
+					result.put(j, labels);
+				}
+				labels.add(label);
+			}
+		}
+
+		// Go over the sets of labels and omit the ones that are not contained in
+		// sigma's lambda's set
+		ArrayList<Integer> jsToRemove = new ArrayList<>();
+		for (int j : result.keySet()) {
+			HashSet<String> currentSet = result.get(j);
+			if (!globalLambda.get(sigma).containsAll(currentSet)) {
+				jsToRemove.add(j);
+			}
+		}
+
+		for (int j : jsToRemove) {
+			result.remove(j);
+		}
+
+		return result;
+	}
+
+	// LiftedTopMatching section
 }

@@ -1,4 +1,4 @@
-package binarytopmatching;
+package liftedtopmatching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,19 +6,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-import binarytopmatching.delta.LabelsDeltasContainerGenerator;
 import general.Distribution;
 import general.GeneralUtils;
 import general.IAlgorithm;
+import liftedtopmatching.delta.LiftedTopMatchingDeltasContainerGenerator;
 import pattern.Graph;
 import topmatching.TopMatchingArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
 import topmatching.delta.EnhancedDeltasContainer;
 
-public class BinaryMatchingAlgorithm implements IAlgorithm {
+public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 
-	private static final Logger logger = Logger.getLogger(BinaryMatchingAlgorithm.class.getName());
+	private static final Logger logger = Logger.getLogger(LiftedTopMatchingAlgorithm.class.getName());
 
 	private TopMatchingArgs topMatchingArgs;
 
@@ -32,14 +32,14 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 		HashMap<String, HashSet<String>> lambda = new HashMap<>();
 
 		// Create the data structures in the level of top matching
-		BinaryMatchingUtils.preProcessGraph(graph, labelToParentsMap, lambda);
+		LiftedTopMatchingUtils.preProcessGraph(graph, labelToParentsMap, lambda);
 
 		this.topMatchingArgs = new TopMatchingArgs(graph, distribution, labelToParentsMap, lambda,
 				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
 
-		BinaryMatchingUtils.init(this.topMatchingArgs);
+		LiftedTopMatchingUtils.init(this.topMatchingArgs);
 
-		DeltasContainer r = new LabelsDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
+		DeltasContainer r = new LiftedTopMatchingDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
 
@@ -50,12 +50,17 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
 
-				HashMap<Integer, HashSet<String>> jToSetOfLabels = delta.getNonAssignedJsToLabels(null, sigma);
+				// Take the non-assigned j's
+				HashMap<Integer, HashSet<String>> jToSetOfLabels = delta
+						.getNonAssignedJsToLabels(this.topMatchingArgs.getLambda(), sigma);
 
-				// For each j, we assign the sigma to the entire set of labels and calculate the
-				// new probability
+				// For each j, test if the labels that are mapped to it are legal
+				HashSet<Integer> illegalIndices = getIllegalLables(sigma, delta, jToSetOfLabels);
 
 				for (int j : jToSetOfLabels.keySet()) {
+					if (illegalIndices.contains(j)) {
+						continue;
+					}
 					Delta deltaTag = new Delta(delta);
 					for (String label : jToSetOfLabels.get(j)) {
 						deltaTag.addAssignmentToLabel(label);
@@ -63,7 +68,7 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 					deltaTag.createStrForHash();
 
 					// Update the probability
-					double insertionProb = BinaryMatchingUtils.getInsertionProb(deltaTag, sigma, j);
+					double insertionProb = LiftedTopMatchingUtils.getInsertionProb(deltaTag, sigma, j);
 
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
@@ -83,8 +88,8 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 
 				if (i + delta.getNumOfDistinctNonAssignedLabels() < topMatchingArgs.getRim().getModel().getModal()
 						.size()) {
-					ArrayList<Integer> range = range(delta, sigma);
-					for (int j : range) {
+					ArrayList<Integer> rangeNotWithinLabels = rangeNotWithinLabels(delta, sigma);
+					for (int j : rangeNotWithinLabels) {
 						Delta deltaTag = new Delta(delta);
 						deltaTag.insertNewItem(j);
 
@@ -92,7 +97,7 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 						deltaTag.createStrForHash();
 
 						// Update the probability
-						double insertionProb = BinaryMatchingUtils.getInsertionProb(deltaTag, sigma, j);
+						double insertionProb = LiftedTopMatchingUtils.getInsertionProb(deltaTag, sigma, j);
 
 						deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
@@ -110,7 +115,7 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 			}
 			r = newR;
 		}
-		
+
 		double probability = 0.0;
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
@@ -121,13 +126,67 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 		return probability;
 	}
 
-	private ArrayList<Integer> range(Delta delta, String sigma) {
+	private HashSet<Integer> getIllegalLables(String sigma, Delta delta,
+			HashMap<Integer, HashSet<String>> jToSetOfLabels) {
+
+		// For each label, make sure that the following applies:
+		// for each l' s.t l' in lambda(sigma) and delta(l) < delta(l'),
+		// parents(l') != empty_set AND delta(l) < Max delta(u), where u in parents(l')
+		//
+		//
+		// (if parents(l') = empty_set, then l' should be the one that takes sigma)
+
+		HashSet<Integer> result = new HashSet<>();
+		for (int j : jToSetOfLabels.keySet()) {
+			// Get the labels that are associated to j
+			HashSet<String> labels = jToSetOfLabels.get(j);
+			for (String l : labels) {
+				// Get the labels, lTags, we need to check against
+				HashSet<String> lTags = getSetOfLTag(delta, sigma, l);
+				for (String lTag : lTags) {
+					if (topMatchingArgs.getLabelToParentsMap().get(lTag) == null
+							|| topMatchingArgs.getLabelToParentsMap().get(lTag).isEmpty()) {
+						result.add(j);
+						break;
+					}
+					int maxParentPosition = -1;
+					for (String parentLabel : topMatchingArgs.getLabelToParentsMap().get(lTag)) {
+						maxParentPosition = Math.max(maxParentPosition, delta.getLabelPosition(parentLabel));
+					}
+					if (delta.getLabelPosition(l) > maxParentPosition) {
+						result.add(j);
+					}
+				}
+				// If j was added, we can break
+				if (result.contains(j)) {
+					break;
+				}
+			}
+
+		}
+
+		return result;
+	}
+
+	// return l' s.t l' in lambda(sigma) and delta(l) < delta(l'),
+	private HashSet<String> getSetOfLTag(Delta delta, String sigma, String l) {
+		HashSet<String> result = new HashSet<>();
+		HashSet<String> candidates = this.topMatchingArgs.getLambda().get(sigma);
+		for (String lTag : candidates) {
+			if (delta.getLabelPosition(l) < delta.getLabelPosition(lTag)) {
+				result.add(lTag);
+			}
+		}
+		return result;
+	}
+
+	private ArrayList<Integer> rangeNotWithinLabels(Delta delta, String sigma) {
 		ArrayList<Integer> result = new ArrayList<>();
 		// Get the i from "s{i}"
 		int i = Integer.parseInt(sigma.split("s")[1]);
-		int s = BinaryMatchingUtils.getPossibleRangeOfDelta(i, delta);
+		int s = LiftedTopMatchingUtils.getPossibleRangeOfDelta(i, delta);
 
-		HashSet<Integer> illegalIndices = BinaryMatchingUtils.getIllegalIndices(delta, sigma);
+		HashSet<Integer> illegalIndices = LiftedTopMatchingUtils.getIllegalIndices(delta, sigma);
 
 		for (int j = 1; j <= s; j++) {
 			if (!illegalIndices.contains(j)) {

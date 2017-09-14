@@ -31,6 +31,8 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 	@Override
 	public DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
 		DeltasContainer dc = getNewDeltasContainer();
+		
+		// First delta is empty
 		dc.addDelta(new Delta());
 
 		// A map from sigma to all the sigmas it depends on
@@ -42,19 +44,18 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 		HashSet<Node> roots = new HashSet<>(this.topMatchingArgs.getG().getRoots());
 
 		fillDependenciesMaps(topProbArgs, roots, childToParent, parentToChild);
-
-		// Go over the maps. For each sigma that has no parents in
-		// childToParent, we can put it in a new ArrayList and remove it from
-		// the map
+		
+		// Copy the childToParent map
 		HashMap<String, HashSet<String>> origChildToParent = new HashMap<>();
 		for (String key : childToParent.keySet()) {
 			HashSet<String> currentParents = new HashSet<>(childToParent.get(key));
 			origChildToParent.put(key, currentParents);
 		}
 
+		// Go over the graph in a topological order and fill the deltas
 		while (childToParent.size() != 0) {
 			ArrayList<String> currentRoots = new ArrayList<>();
-			// Get those sigmas that do not depend on any other
+			// Get roots
 			for (String sigma : childToParent.keySet()) {
 				if (childToParent.get(sigma).isEmpty()) {
 					currentRoots.add(sigma);
@@ -137,6 +138,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					newDelta.putKeyValue(label, delta.getLabelPosition(sigma));
 				}
 			}
+			// Check if this delta is consistent with the top-matching constraints
 			if (isDeltaConsistent(topProbArgs, newDelta)) {
 				newDelta.createStrForHash();
 				result.addDelta(newDelta);

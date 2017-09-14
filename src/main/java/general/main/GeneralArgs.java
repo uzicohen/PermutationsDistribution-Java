@@ -43,6 +43,8 @@ public class GeneralArgs {
 	public static boolean runTopMatching;
 	
 	public static boolean runBinaryMatching;
+	
+	public static boolean runLiftedTopMatching;
 
 	public static double phi;
 
@@ -93,6 +95,8 @@ public class GeneralArgs {
 			runTopMatching = Boolean.parseBoolean(properties.getProperty("run_topmatching")) || runAll;
 			
 			runBinaryMatching = Boolean.parseBoolean(properties.getProperty("run_binarymatching")) || runAll;
+			
+			runLiftedTopMatching = Boolean.parseBoolean(properties.getProperty("run_liftedtopmatching")) || runAll;
 
 			phi = Double.parseDouble(properties.getProperty("phi"));
 
