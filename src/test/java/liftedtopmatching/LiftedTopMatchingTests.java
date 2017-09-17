@@ -72,15 +72,15 @@ public class LiftedTopMatchingTests extends TestCase {
 	}
 
 	public void testBruteforceVsTopMatching10() {
-		// assertTrue(TestUtils.runLiftedTopMatchingTest(10, 10));
+		 assertTrue(TestUtils.runLiftedTopMatchingTest(10, 10));
 	}
 
 	public void testBruteforceVsTopMatching11() {
-//		 assertTrue(TestUtils.runLiftedTopMatchingTest(11, 9));
+		 assertTrue(TestUtils.runLiftedTopMatchingTest(11, 9));
 	}
 
 	public void testBruteforceVsTopMatching12() {
-		// assertTrue(TestUtils.runLiftedTopMatchingTest(12, 11));
+		 assertTrue(TestUtils.runLiftedTopMatchingTest(12, 11));
 	}
 
 	public void testBruteforceVsTopMatching13() {
@@ -88,11 +88,15 @@ public class LiftedTopMatchingTests extends TestCase {
 	}
 	
 	public void testBruteforceVsTopMatching14() {
-//		assertTrue(TestUtils.runLiftedTopMatchingTest(14, 7));
+		assertTrue(TestUtils.runLiftedTopMatchingTest(14, 7));
 	}
 	
 	public void testBruteforceVsTopMatching15() {
 		assertTrue(TestUtils.runLiftedTopMatchingTest(15, 5));
+	}
+	
+	public void testBruteforceVsTopMatching16() {
+//		assertTrue(TestUtils.runLiftedTopMatchingTest(16, 15));
 	}
 	
 	public void testBruteforceVsTopMatching17() {

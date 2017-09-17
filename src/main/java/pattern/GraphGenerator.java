@@ -294,6 +294,7 @@ public class GraphGenerator {
 
 			break;
 
+		// (15,5)
 		case 15:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5" })), "y", new ArrayList<>());
@@ -313,6 +314,7 @@ public class GraphGenerator {
 
 			break;
 
+		// (16,15)
 		case 16:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s5" })), "y", new ArrayList<>());
@@ -334,6 +336,7 @@ public class GraphGenerator {
 
 			break;
 
+		// (17,4)
 		case 17:
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "y", new ArrayList<>());
 
@@ -349,6 +352,7 @@ public class GraphGenerator {
 
 			break;
 
+		// (18,4)
 		case 18:
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 

@@ -1,7 +1,9 @@
 package topmatching.delta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +68,8 @@ public class Delta {
 
 	@Override
 	public String toString() {
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING
+				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.probability);
 		}
 		return String.format("Mapping: %s, States: %s, Prob: %f", this.labelToIndex, this.labelsState,
@@ -103,7 +106,9 @@ public class Delta {
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
-		for (String key : this.labelToIndex.keySet()) {
+		ArrayList<String> sortedKeys = new ArrayList<>(this.labelToIndex.keySet());
+		Collections.sort(sortedKeys);
+		for (String key : sortedKeys) {
 			sb.append(key);
 			sb.append(this.labelToIndex.get(key));
 		}
@@ -111,7 +116,7 @@ public class Delta {
 				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			sb.append("|||");
 			// Add to the strForHash the state vector
-			for (String key : this.labelsState.keySet()) {
+			for (String key : sortedKeys) {
 				sb.append(key);
 				sb.append(this.labelsState.get(key));
 			}
@@ -164,7 +169,7 @@ public class Delta {
 	}
 
 	public String getStrForHash() {
-		return strForHash;
+		return this.strForHash;
 	}
 
 	// BinaryMatching section
