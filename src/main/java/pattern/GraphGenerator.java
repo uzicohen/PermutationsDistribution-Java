@@ -169,7 +169,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.503103
+		// (10,10), P = 0.503103
 		case 10:
 
 			// Level 2
@@ -198,7 +198,7 @@ public class GraphGenerator {
 
 			break;
 
-		// P = 0.9741246606894051
+		// (11,9), P = 0.9741246606894051
 		case 11:
 
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s5" })), "w", new ArrayList<>());
@@ -218,7 +218,7 @@ public class GraphGenerator {
 
 		// 2 in level 0, 3 in level 1 and 3 in level 2. 12 items
 
-		// P = 0.567747
+		// (12,11), P = 0.567747
 		case 12:
 
 			// Level 2
@@ -271,7 +271,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (14,7), P = 0.862931
+		// (14,7), P = 0.028696
 		case 14:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5", "s7" })), "y", new ArrayList<>());
@@ -294,7 +294,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (15,5)
+		// (15,5), P = 0.731592
 		case 15:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s5" })), "y", new ArrayList<>());
@@ -314,7 +314,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (16,15)
+		// (16,15), P = 0.900444
 		case 16:
 			// Yellow
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s5" })), "y", new ArrayList<>());
@@ -336,7 +336,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (17,4)
+		// (17,4), P = 0.994654
 		case 17:
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "y", new ArrayList<>());
 
@@ -352,7 +352,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (18,4)
+		// (18,4), P = 0.765118
 		case 18:
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4" })), "z", new ArrayList<>());
 

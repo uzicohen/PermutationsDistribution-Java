@@ -23,11 +23,11 @@ public class GeneralArgs {
 	private static Properties properties;
 
 	public static boolean verbose;
-	
+
 	public static boolean printDistribution;
 
 	public static int numSamplesForPrint;
-	
+
 	public static int numAssignmentsForPrint;
 
 	public static boolean printFlow;
@@ -41,24 +41,20 @@ public class GeneralArgs {
 	public static boolean runSampled;
 
 	public static boolean runTopMatching;
-	
+
 	public static boolean runBinaryMatching;
-	
+
 	public static boolean runLiftedTopMatching;
 
 	public static double phi;
 
 	public static int numSamples;
-	
+
 	public static AlgorithmType currentAlgorithm;
 
 	public static boolean enhancedInitialDeltas;
 
 	public static boolean enhancedDeltasContainer;
-
-	public static boolean omitRedundantItems;
-	
-	public static boolean deltasReuse;
 
 	static {
 		properties = new Properties();
@@ -67,15 +63,15 @@ public class GeneralArgs {
 			properties.load(new FileInputStream(new File("src/main/java/resources/conf.properties")));
 
 			verbose = Boolean.parseBoolean(properties.getProperty("verbose"));
-			
+
 			printDistribution = Boolean.parseBoolean(properties.getProperty("print_distribution"));
 
 			numSamplesForPrint = Integer.parseInt(properties.getProperty("num_samples_for_print"));
-			
+
 			numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
 
 			printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
-			
+
 			scenarioToNumOfItemsPairs = new ArrayList<>();
 
 			String experimentScenariosStr = properties.getProperty("scenario_tuples");
@@ -93,9 +89,9 @@ public class GeneralArgs {
 			runSampled = Boolean.parseBoolean(properties.getProperty("run_sampled")) || runAll;
 
 			runTopMatching = Boolean.parseBoolean(properties.getProperty("run_topmatching")) || runAll;
-			
+
 			runBinaryMatching = Boolean.parseBoolean(properties.getProperty("run_binarymatching")) || runAll;
-			
+
 			runLiftedTopMatching = Boolean.parseBoolean(properties.getProperty("run_liftedtopmatching")) || runAll;
 
 			phi = Double.parseDouble(properties.getProperty("phi"));
@@ -105,10 +101,6 @@ public class GeneralArgs {
 			enhancedDeltasContainer = Boolean.parseBoolean(properties.getProperty("enhanced_deltas_container"));
 
 			enhancedInitialDeltas = Boolean.parseBoolean(properties.getProperty("enhanced_initial_deltas"));
-
-			omitRedundantItems = Boolean.parseBoolean(properties.getProperty("omit_redundant_items"));
-			
-			deltasReuse = Boolean.parseBoolean(properties.getProperty("deltas_reuse"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

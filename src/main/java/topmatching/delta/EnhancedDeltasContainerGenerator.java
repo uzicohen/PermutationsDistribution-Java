@@ -104,7 +104,6 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 						}
 						// Set the label to the current position
 						newDelta.putKeyValue(sigma, j + 1);
-						newDelta.createStrForHash();
 						if (newResult.getDelta(newDelta) == null) {
 							newResult.addDelta(newDelta);
 						}
@@ -140,7 +139,6 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 			}
 			// Check if this delta is consistent with the top-matching constraints
 			if (isDeltaConsistent(topProbArgs, newDelta)) {
-				newDelta.createStrForHash();
 				result.addDelta(newDelta);
 			}
 		}

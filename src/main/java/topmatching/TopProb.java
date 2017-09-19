@@ -60,13 +60,9 @@ public class TopProb {
 					if (!this.topProbArgs.getImgGamma().contains(sigma)) {
 						// Create delta+j
 						deltaTag.insertNewItem(j);
-//						double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 					}
 					// else - the old delta stays
-
-					// Update the new delta's hash
-					deltaTag.createStrForHash();
-
+					
 					// Calculate the insertion probability
 					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
 

@@ -1,5 +1,6 @@
 package liftedtopmatching;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -86,6 +87,75 @@ public class LiftedTopMatchingUtils {
 			}
 		}
 		return topMatchingArgs.getInsertionProbs().get(i - 1).get(jTag - 1);
+	}
+
+	public static HashSet<Integer> getIllegalLables(String sigma, Delta delta,
+			HashMap<Integer, HashSet<String>> jToSetOfLabels) {
+
+		// For each label, make sure that the following applies:
+		// for each l' s.t l' in lambda(sigma) and delta(l) < delta(l'),
+		// parents(l') != empty_set AND delta(l) < Max delta(u), where u in parents(l')
+		//
+		//
+		// (if parents(l') = empty_set, then l' should be the one that takes sigma)
+
+		HashSet<Integer> result = new HashSet<>();
+		for (int j : jToSetOfLabels.keySet()) {
+			// Get the labels that are associated to j
+			HashSet<String> labels = jToSetOfLabels.get(j);
+			for (String l : labels) {
+				// Get the labels, lTags, we need to check against
+				HashSet<String> lTags = getSetOfLTag(delta, sigma, l);
+				for (String lTag : lTags) {
+					if (topMatchingArgs.getLabelToParentsMap().get(lTag) == null
+							|| topMatchingArgs.getLabelToParentsMap().get(lTag).isEmpty()) {
+						result.add(j);
+						break;
+					}
+					int maxParentPosition = -1;
+					for (String parentLabel : topMatchingArgs.getLabelToParentsMap().get(lTag)) {
+						maxParentPosition = Math.max(maxParentPosition, delta.getLabelPosition(parentLabel));
+					}
+					if (delta.getLabelPosition(l) > maxParentPosition) {
+						result.add(j);
+					}
+				}
+				// If j was added, we can break
+				if (result.contains(j)) {
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	// return l' s.t l' in lambda(sigma) and delta(l) < delta(l'),
+	private static HashSet<String> getSetOfLTag(Delta delta, String sigma, String l) {
+		HashSet<String> result = new HashSet<>();
+		HashSet<String> candidates = topMatchingArgs.getLambda().get(sigma);
+		for (String lTag : candidates) {
+			if (delta.getLabelPosition(l) < delta.getLabelPosition(lTag)) {
+				result.add(lTag);
+			}
+		}
+		return result;
+	}
+
+	public static ArrayList<Integer> rangeNotWithinLabels(Delta delta, String sigma) {
+		ArrayList<Integer> result = new ArrayList<>();
+		// Get the i from "s{i}"
+		int i = Integer.parseInt(sigma.split("s")[1]);
+		int s = getPossibleRangeOfDelta(i, delta);
+
+		HashSet<Integer> illegalIndices = getIllegalIndices(delta, sigma);
+
+		for (int j = 1; j <= s; j++) {
+			if (!illegalIndices.contains(j)) {
+				result.add(j);
+			}
+		}
+
+		return result;
 	}
 
 }

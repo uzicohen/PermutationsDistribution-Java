@@ -23,7 +23,6 @@ public class InitialDeltasOptimizationTests extends TestCase {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = false;
-		GeneralArgs.omitRedundantItems = false;
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
@@ -36,63 +35,63 @@ public class InitialDeltasOptimizationTests extends TestCase {
 		return new TestSuite(InitialDeltasOptimizationTests.class);
 	}
 
-	public void testBruteforceVsTopMatching1() {
+	public void testScenrio1() {
 		assertTrue(TestUtils.runTest(1, 4));
 	}
 
-	public void testBruteforceVsTopMatching2() {
+	public void testScenrio2() {
 		assertTrue(TestUtils.runTest(2, 5));
 	}
 
-	public void testBruteforceVsTopMatching3() {
+	public void testScenrio3() {
 		assertTrue(TestUtils.runTest(3, 8));
 	}
 
-	public void testBruteforceVsTopMatching4() {
+	public void testScenrio4() {
 		assertTrue(TestUtils.runTest(4, 3));
 	}
 
-	public void testBruteforceVsTopMatching5() {
+	public void testScenrio5() {
 		assertTrue(TestUtils.runTest(5, 6));
 	}
 
-	public void testBruteforceVsTopMatching6() {
+	public void testScenrio6() {
 		assertTrue(TestUtils.runTest(6, 5));
 	}
 
-	public void testBruteforceVsTopMatching7() {
+	public void testScenrio7() {
 		assertTrue(TestUtils.runTest(7, 5));
 	}
 
-	public void testBruteforceVsTopMatching8() {
+	public void testScenrio8() {
 		assertTrue(TestUtils.runTest(8, 4));
 	}
 
-	public void testBruteforceVsTopMatching9() {
+	public void testScenrio9() {
 		assertTrue(TestUtils.runTest(9, 6));
 	}
 
-	public void testBruteforceVsTopMatching10() {
+	public void testScenrio10() {
 		// assertTrue(TestUtils.runTest(10, 10));
 	}
 
-	public void testBruteforceVsTopMatching11() {
+	public void testScenrio11() {
 		// assertTrue(TestUtils.runTest(11, 9));
 	}
 
-	public void testBruteforceVsTopMatching12() {
+	public void testScenrio12() {
 		// assertTrue(TestUtils.runTest(12, 11));
 	}
 
-	public void testBruteforceVsTopMatching13() {
+	public void testScenrio13() {
 		assertTrue(TestUtils.runTest(13, 6));
 	}
 
-	public void testBruteforceVsTopMatching14() {
+	public void testScenrio14() {
 		assertTrue(TestUtils.runTest(14, 7));
 	}
 	
-	public void testBruteforceVsTopMatching15() {
+	public void testScenrio15() {
 		assertTrue(TestUtils.runTest(15, 5));
 	}
 }

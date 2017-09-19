@@ -1,7 +1,6 @@
 package topmatching.delta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +24,8 @@ public class Delta {
 
 	private String strForHash;
 
+	private boolean hashIsValid;
+
 	public Delta(ArrayList<String> order, HashMap<String, String> gamma) {
 
 		// We build the labelToIndex to keep track of previously added sigmas
@@ -41,7 +42,7 @@ public class Delta {
 			this.labelToIndex.put(label, sigmaToIndexMap.get(sigma));
 		}
 		this.probability = 1.0;
-		createStrForHash();
+		this.hashIsValid = false;
 	}
 
 	public Delta(Delta other) {
@@ -52,7 +53,7 @@ public class Delta {
 			this.lambda = new HashMap<>(other.lambda);
 		}
 		this.probability = other.probability;
-		createStrForHash();
+		this.hashIsValid = false;
 	}
 
 	public Delta() {
@@ -63,7 +64,7 @@ public class Delta {
 			this.lambda = new HashMap<>();
 		}
 		this.probability = 1.0;
-		createStrForHash();
+		this.hashIsValid = false;
 	}
 
 	@Override
@@ -79,12 +80,12 @@ public class Delta {
 	@Override
 	public boolean equals(Object obj) {
 		Delta delta1 = (Delta) obj;
-		return this.strForHash.equals(delta1.strForHash);
+		return getStrForHash().equals(delta1.getStrForHash());
 	}
 
 	@Override
 	public int hashCode() {
-		return this.strForHash.hashCode();
+		return getStrForHash().hashCode();
 	}
 
 	public void insertNewItem(int j) {
@@ -94,10 +95,12 @@ public class Delta {
 				this.labelToIndex.put(key, currentIndex + 1);
 			}
 		}
+		this.hashIsValid = false;
 	}
 
-	public void createStrForHash() {
+	private void createStrForHash() {
 		createStrForHashAux();
+		this.hashIsValid = true;
 	}
 
 	private void createStrForHashAux() {
@@ -149,6 +152,7 @@ public class Delta {
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.BINARY_MATCHING
 				|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState.put(key, 0);
+			this.hashIsValid = false;
 		}
 	}
 
@@ -169,6 +173,9 @@ public class Delta {
 	}
 
 	public String getStrForHash() {
+		if (!this.hashIsValid) {
+			createStrForHash();
+		}
 		return this.strForHash;
 	}
 
@@ -252,6 +259,7 @@ public class Delta {
 
 	public int addAssignmentToLabel(String label) {
 		this.labelsState.put(label, 1);
+		this.hashIsValid = false;
 		return this.labelToIndex.get(label);
 	}
 

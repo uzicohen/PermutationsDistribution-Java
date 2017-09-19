@@ -46,9 +46,6 @@ public class Stats {
 		if (GeneralArgs.enhancedInitialDeltas) {
 			this.optimizations.add("Enhanced initial deltas");
 		}
-		if (GeneralArgs.omitRedundantItems) {
-			this.optimizations.add("Omit redundant elements");
-		}
 	}
 
 	@Override

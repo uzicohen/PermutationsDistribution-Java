@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import binarytopmatching.BinaryMatchingAlgorithm;
-import bruteforce.BruteforceAlgorithm;
-import bruteforce.ExplicitDistribution;
 import general.Distribution;
 import general.GeneralUtils;
 import general.Mallows;
@@ -30,55 +28,41 @@ public class TestUtils {
 	private static final String TOP_MATCHNING = "Top Matching";
 
 	private static final String BINARY_MATCHNING = "Binary Matching";
-	
+
 	private static final String LIFTED_TOP_MATCHNING = "Lifted Top Matching";
 
+	private static double[] exactProbs;
+
+	static {
+		exactProbs = new double[] { 0.990541370714296, 0.989000393257776, 0.732986262312703, 0.719424460431655,
+				0.761006046617952, 0.934812879701345, 0.9498882307361549, 1.0, 0.6937277499487445, 0.503103,
+				0.9741246606894051, 0.567747, 0.862931, 0.028696, 0.731592, 0.900444, 0.994654, 0.765118 };
+	}
+
 	public static boolean runTest(int graphId, int numItems) {
+
 		Graph graph = GraphGenerator.GetGraph(graphId);
 
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
 
-		Distribution explicitDistribution = new ExplicitDistribution(model);
+		double exactProb = exactProbs[graphId - 1];
 
-		double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
+		Distribution distribution = new SimpleDistribution(model);
 
-		Distribution simpleDistribution = new SimpleDistribution(model);
-
-		double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-		return Math.abs(exactProb - topMatchingProb) < Epsilon;
-	}
-
-	public static boolean runBinaryMatchingTest(int graphId, int numItems) {
-		Graph graph = GraphGenerator.GetGraph(graphId);
-
-		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
-
-		Distribution explicitDistribution = new ExplicitDistribution(model);
-
-		double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
-
-		Distribution simpleDistribution = new SimpleDistribution(model);
-
-		double topBinaryProb = new BinaryMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-		return Math.abs(exactProb - topBinaryProb) < Epsilon;
-	}
-
-	public static boolean runLiftedTopMatchingTest(int graphId, int numItems) {
-		Graph graph = GraphGenerator.GetGraph(graphId);
-
-		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
-
-		Distribution explicitDistribution = new ExplicitDistribution(model);
-
-		double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
-
-		Distribution simpleDistribution = new SimpleDistribution(model);
-
-		double liftedTopMatchingProb = new LiftedTopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-		return Math.abs(exactProb - liftedTopMatchingProb) < Epsilon;
+		double prob = 0.0;
+		switch (GeneralArgs.currentAlgorithm) {
+		case TOP_MATCHNING:
+			prob = new TopMatchingAlgorithm().calculateProbability(graph, distribution);
+			break;
+		case BINARY_MATCHING:
+			prob = new BinaryMatchingAlgorithm().calculateProbability(graph, distribution);
+			break;
+		case LIFTED_TOP_MATCHING:
+			prob = new LiftedTopMatchingAlgorithm().calculateProbability(graph, distribution);
+			break;
+		default:
+		}
+		return Math.abs(exactProb - prob) < Epsilon;
 	}
 
 	public static boolean runBinaryMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario) {
@@ -145,70 +129,70 @@ public class TestUtils {
 		return Math.abs(topMatchingProb - topBinaryProb) < Epsilon;
 
 	}
-	
+
 	public static boolean runLiftedTopMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario) {
 		StringBuilder summary = new StringBuilder(
 				String.format("(Labels,Items): (%d,%d), Top Matching: ", numOfLabels, numItems));
-		
+
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
-		
+
 		Stats stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
-		
+
 		// TopMatching
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
-		
+
 		stats.setAlgorithm(TOP_MATCHNING);
-		
+
 		Distribution simpleDistribution = new SimpleDistribution(model);
-		
+
 		stats.setStartTimeDate(new Date());
-		
+
 		logger.info(String.format("Running top-matchnig algorithm for a random scenario %d with %d labels and %d items",
 				scenario, numOfLabels, numItems));
-		
+
 		double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-		
+
 		stats.setEndTimeDate(new Date());
-		
+
 		summary.append(String.format("%f (%s MS), ", topMatchingProb,
 				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
-		
+
 		stats.setProbability(topMatchingProb);
-		
+
 		System.out.println(stats);
-		
+
 		// LiftedTopMatching
 		stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
-		
+
 		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
-		
+
 		stats.setAlgorithm(LIFTED_TOP_MATCHNING);
-		
+
 		stats.setStartTimeDate(new Date());
-		
-		logger.info(
-				String.format("Running lifted-top-matchnig algorithm for a random scenario %d with %d labels and %d items",
-						scenario, numOfLabels, numItems));
-		
+
+		logger.info(String.format(
+				"Running lifted-top-matchnig algorithm for a random scenario %d with %d labels and %d items", scenario,
+				numOfLabels, numItems));
+
 		double liftedTopMatchingProb = new LiftedTopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-		
+
 		stats.setEndTimeDate(new Date());
-		
+
 		summary.append(String.format("Lifted Top Matching: %f (%s MS)", liftedTopMatchingProb,
 				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
-		
+
 		if (liftedTopMatchingProb != 0.000000) {
 			summaries.add(summary.toString());
 		} else {
 			summaries.add("NI");
 		}
-		
+
 		stats.setProbability(liftedTopMatchingProb);
-		
+
 		System.out.println(stats);
-		
+
 		return Math.abs(topMatchingProb - liftedTopMatchingProb) < Epsilon;
-		
+
 	}
 
 }

@@ -60,7 +60,6 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 					for (String label : jToSetOfLabels.get(j)) {
 						deltaTag.addAssignmentToLabel(label);
 					}
-					deltaTag.createStrForHash();
 
 					// Update the probability
 					double insertionProb = BinaryMatchingUtils.getInsertionProb(deltaTag, sigma, j);
@@ -87,9 +86,6 @@ public class BinaryMatchingAlgorithm implements IAlgorithm {
 					for (int j : range) {
 						Delta deltaTag = new Delta(delta);
 						deltaTag.insertNewItem(j);
-
-						// TODO: Add inside Delta
-						deltaTag.createStrForHash();
 
 						// Update the probability
 						double insertionProb = BinaryMatchingUtils.getInsertionProb(deltaTag, sigma, j);

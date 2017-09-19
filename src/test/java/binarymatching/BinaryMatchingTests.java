@@ -8,7 +8,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Run a complete test to compare bruteforce vs topmatching with enhanced deltes container
+ * Run a complete test to compare bruteforce vs topmatching with enhanced deltes
+ * container
  */
 public class BinaryMatchingTests extends TestCase {
 
@@ -22,7 +23,6 @@ public class BinaryMatchingTests extends TestCase {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = true;
-		GeneralArgs.omitRedundantItems = false;
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
 		GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
@@ -35,67 +35,75 @@ public class BinaryMatchingTests extends TestCase {
 		return new TestSuite(BinaryMatchingTests.class);
 	}
 
-	public void testBruteforceVsTopMatching1() {
-		assertTrue(TestUtils.runBinaryMatchingTest(1, 4));
+	public void testScenrio1() {
+		assertTrue(TestUtils.runTest(1, 4));
 	}
 
-	public void testBruteforceVsTopMatching2() {
-		assertTrue(TestUtils.runBinaryMatchingTest(2, 5));
+	public void testScenrio2() {
+		assertTrue(TestUtils.runTest(2, 5));
 	}
 
-	public void testBruteforceVsTopMatching3() {
-		assertTrue(TestUtils.runBinaryMatchingTest(3, 8));
+	public void testScenrio3() {
+		assertTrue(TestUtils.runTest(3, 8));
 	}
 
-	public void testBruteforceVsTopMatching4() {
-		assertTrue(TestUtils.runBinaryMatchingTest(4, 3));
+	public void testScenrio4() {
+		assertTrue(TestUtils.runTest(4, 3));
 	}
 
-	public void testBruteforceVsTopMatching5() {
-		assertTrue(TestUtils.runBinaryMatchingTest(5, 6));
+	public void testScenrio5() {
+		assertTrue(TestUtils.runTest(5, 6));
 	}
 
-	public void testBruteforceVsTopMatching6() {
-		assertTrue(TestUtils.runBinaryMatchingTest(6, 5));
+	public void testScenrio6() {
+		assertTrue(TestUtils.runTest(6, 5));
 	}
 
-	public void testBruteforceVsTopMatching7() {
-		assertTrue(TestUtils.runBinaryMatchingTest(7, 5));
+	public void testScenrio7() {
+		assertTrue(TestUtils.runTest(7, 5));
 	}
 
-	public void testBruteforceVsTopMatching8() {
-		assertTrue(TestUtils.runBinaryMatchingTest(8, 4));
+	public void testScenrio8() {
+		assertTrue(TestUtils.runTest(8, 4));
 	}
 
-	public void testBruteforceVsTopMatching9() {
-		assertTrue(TestUtils.runBinaryMatchingTest(9, 6));
+	public void testScenrio9() {
+		assertTrue(TestUtils.runTest(9, 6));
 	}
 
-	public void testBruteforceVsTopMatching10() {
-		// assertTrue(TestUtils.runBinaryMatchingTest(10, 10));
+	public void testScenrio10() {
+		assertTrue(TestUtils.runTest(10, 10));
 	}
 
-	public void testBruteforceVsTopMatching11() {
-//		 assertTrue(TestUtils.runBinaryMatchingTest(11, 9));
+	public void testScenrio11() {
+		assertTrue(TestUtils.runTest(11, 9));
 	}
 
-	public void testBruteforceVsTopMatching12() {
-		// assertTrue(TestUtils.runBinaryMatchingTest(12, 11));
+	public void testScenrio12() {
+		assertTrue(TestUtils.runTest(12, 11));
 	}
 
-	public void testBruteforceVsTopMatching13() {
-		assertTrue(TestUtils.runBinaryMatchingTest(13, 6));
+	public void testScenrio13() {
+		assertTrue(TestUtils.runTest(13, 6));
 	}
-	
-	public void testBruteforceVsTopMatching14() {
-		assertTrue(TestUtils.runBinaryMatchingTest(14, 7));
+
+	public void testScenrio14() {
+		assertTrue(TestUtils.runTest(14, 7));
 	}
-	
-	public void testBruteforceVsTopMatching15() {
-		assertTrue(TestUtils.runBinaryMatchingTest(15, 5));
+
+	public void testScenrio15() {
+		assertTrue(TestUtils.runTest(15, 5));
 	}
-	
-	public void testBruteforceVsTopMatching17() {
-		assertTrue(TestUtils.runBinaryMatchingTest(17, 4));
+
+	public void testScenrio16() {
+		assertTrue(TestUtils.runTest(16, 15));
+	}
+
+	public void testScenrio17() {
+		assertTrue(TestUtils.runTest(17, 4));
+	}
+
+	public void testScenrio18() {
+		assertTrue(TestUtils.runTest(18, 4));
 	}
 }

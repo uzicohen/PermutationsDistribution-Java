@@ -8,7 +8,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Run a complete test to compare bruteforce vs topmatching with enhanced deltes container
+ * Run a complete test to compare bruteforce vs liftedtopmatching
+ * container
  */
 public class LiftedTopMatchingTests extends TestCase {
 
@@ -22,7 +23,6 @@ public class LiftedTopMatchingTests extends TestCase {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = true;
-		GeneralArgs.omitRedundantItems = false;
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
 		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
@@ -35,75 +35,75 @@ public class LiftedTopMatchingTests extends TestCase {
 		return new TestSuite(LiftedTopMatchingTests.class);
 	}
 
-	public void testBruteforceVsTopMatching1() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(1, 4));
+	public void testScenrio1() {
+		assertTrue(TestUtils.runTest(1, 4));
 	}
 
-	public void testBruteforceVsTopMatching2() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(2, 5));
+	public void testScenrio2() {
+		assertTrue(TestUtils.runTest(2, 5));
 	}
 
-	public void testBruteforceVsTopMatching3() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(3, 8));
+	public void testScenrio3() {
+		assertTrue(TestUtils.runTest(3, 8));
 	}
 
-	public void testBruteforceVsTopMatching4() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(4, 3));
+	public void testScenrio4() {
+		assertTrue(TestUtils.runTest(4, 3));
 	}
 
-	public void testBruteforceVsTopMatching5() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(5, 6));
+	public void testScenrio5() {
+		assertTrue(TestUtils.runTest(5, 6));
 	}
 
-	public void testBruteforceVsTopMatching6() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(6, 5));
+	public void testScenrio6() {
+		assertTrue(TestUtils.runTest(6, 5));
 	}
 
-	public void testBruteforceVsTopMatching7() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(7, 5));
+	public void testScenrio7() {
+		assertTrue(TestUtils.runTest(7, 5));
 	}
 
-	public void testBruteforceVsTopMatching8() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(8, 4));
+	public void testScenrio8() {
+		assertTrue(TestUtils.runTest(8, 4));
 	}
 
-	public void testBruteforceVsTopMatching9() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(9, 6));
+	public void testScenrio9() {
+		assertTrue(TestUtils.runTest(9, 6));
 	}
 
-	public void testBruteforceVsTopMatching10() {
-		 assertTrue(TestUtils.runLiftedTopMatchingTest(10, 10));
+	public void testScenrio10() {
+		assertTrue(TestUtils.runTest(10, 10));
 	}
 
-	public void testBruteforceVsTopMatching11() {
-		 assertTrue(TestUtils.runLiftedTopMatchingTest(11, 9));
+	public void testScenrio11() {
+		assertTrue(TestUtils.runTest(11, 9));
 	}
 
-	public void testBruteforceVsTopMatching12() {
-		 assertTrue(TestUtils.runLiftedTopMatchingTest(12, 11));
+	public void testScenrio12() {
+		assertTrue(TestUtils.runTest(12, 11));
 	}
 
-	public void testBruteforceVsTopMatching13() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(13, 6));
+	public void testScenrio13() {
+		assertTrue(TestUtils.runTest(13, 6));
 	}
-	
-	public void testBruteforceVsTopMatching14() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(14, 7));
+
+	public void testScenrio14() {
+		assertTrue(TestUtils.runTest(14, 7));
 	}
-	
-	public void testBruteforceVsTopMatching15() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(15, 5));
+
+	public void testScenrio15() {
+		assertTrue(TestUtils.runTest(15, 5));
 	}
-	
-	public void testBruteforceVsTopMatching16() {
-//		assertTrue(TestUtils.runLiftedTopMatchingTest(16, 15));
+
+	public void testScenrio16() {
+		assertTrue(TestUtils.runTest(16, 15));
 	}
-	
-	public void testBruteforceVsTopMatching17() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(17, 4));
+
+	public void testScenrio17() {
+		assertTrue(TestUtils.runTest(17, 4));
 	}
-	
-	public void testBruteforceVsTopMatching18() {
-		assertTrue(TestUtils.runLiftedTopMatchingTest(18, 4));
+
+	public void testScenrio18() {
+		assertTrue(TestUtils.runTest(18, 4));
 	}
 }
