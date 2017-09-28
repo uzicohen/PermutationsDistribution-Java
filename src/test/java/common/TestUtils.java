@@ -10,6 +10,7 @@ import general.GeneralUtils;
 import general.Mallows;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
+import general.main.GeneralArgs.ScenarioSettings;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
 import pattern.Graph;
 import pattern.GraphGenerator;
@@ -39,7 +40,9 @@ public class TestUtils {
 				0.9741246606894051, 0.567747, 0.862931, 0.028696, 0.731592, 0.900444, 0.994654, 0.765118 };
 	}
 
-	public static boolean runTest(int graphId, int numItems) {
+	public static boolean runTest(int graphId, int numItems, boolean runMultiThread, int numOfThreads) {
+		GeneralArgs.runMultiThread = runMultiThread;
+		GeneralArgs.numOfThreads = numOfThreads;
 
 		Graph graph = GraphGenerator.GetGraph(graphId);
 
@@ -65,13 +68,17 @@ public class TestUtils {
 		return Math.abs(exactProb - prob) < Epsilon;
 	}
 
-	public static boolean runBinaryMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario) {
+	public static boolean runBinaryMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario,
+			boolean runMultiThread, int numOfThreads) {
 		StringBuilder summary = new StringBuilder(
 				String.format("(Labels,Items): (%d,%d), Top Matching: ", numOfLabels, numItems));
 
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
 
-		Stats stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
+		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels, runMultiThread,
+				numOfThreads);
+
+		Stats stats = new Stats(scenarioSettings, graph.toString());
 
 		// TopMatching
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
@@ -97,7 +104,7 @@ public class TestUtils {
 		System.out.println(stats);
 
 		// BinaryMatching
-		stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
+		stats = new Stats(scenarioSettings, graph.toString());
 
 		GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
 
@@ -130,13 +137,20 @@ public class TestUtils {
 
 	}
 
-	public static boolean runLiftedTopMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario) {
+	public static boolean runLiftedTopMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario,
+			boolean runMultiThread, int numOfThreads) {
+		GeneralArgs.runMultiThread = runMultiThread;
+		GeneralArgs.numOfThreads = numOfThreads;
+
 		StringBuilder summary = new StringBuilder(
 				String.format("(Labels,Items): (%d,%d), Top Matching: ", numOfLabels, numItems));
 
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
 
-		Stats stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
+		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels, runMultiThread,
+				numOfThreads);
+
+		Stats stats = new Stats(scenarioSettings, graph.toString());
 
 		// TopMatching
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
@@ -162,7 +176,7 @@ public class TestUtils {
 		System.out.println(stats);
 
 		// LiftedTopMatching
-		stats = new Stats(String.format("Random-%d", scenario), numItems, numOfLabels, graph.toString());
+		stats = new Stats(scenarioSettings, graph.toString());
 
 		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 
@@ -181,7 +195,7 @@ public class TestUtils {
 		summary.append(String.format("Lifted Top Matching: %f (%s MS)", liftedTopMatchingProb,
 				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
 
-		if (liftedTopMatchingProb != 0.000000) {
+		if (Math.abs(liftedTopMatchingProb - 0.000000) > 10e-6 && Math.abs(liftedTopMatchingProb - 1.000000) > 10e-6) {
 			summaries.add(summary.toString());
 		} else {
 			summaries.add("NI");

@@ -3,6 +3,8 @@ package topmatching;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import general.Distribution;
@@ -18,6 +20,22 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 	private static final Logger logger = Logger.getLogger(TopMatchingAlgorithm.class.getName());
 
 	private TopMatchingArgs topMatchingArgs;
+
+	private double probability;
+
+	private class AssignmentProbCalculator implements Runnable {
+		private ArrayList<HashMap<String, String>> assignments;
+
+		public AssignmentProbCalculator(ArrayList<HashMap<String, String>> assignments) {
+			this.assignments = assignments;
+		}
+
+		@Override
+		public void run() {
+			calculateProbabilityForSubsetOfAssignments(assignments);
+		}
+
+	}
 
 	public TopMatchingAlgorithm() {
 	}
@@ -39,29 +57,41 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
 
 		int numOfAssignments = allPossibleAssignments.size();
-		int counter = 0;
 
 		if (GeneralArgs.verbose) {
 			logger.info(String.format("Calculating probability over %d assignments", numOfAssignments));
 		}
 
-		// TODO: We can easily parallelize this section
-		double result = 0.0;
-		for (HashMap<String, String> gamma : allPossibleAssignments) {
-			TopProb topProb = new TopProb(gamma, topMatchingArgs);
-			double probability = topProb.calculate();
-			result += probability;
+		if (GeneralArgs.runMultiThread) {
+			ExecutorService executor = Executors.newFixedThreadPool(GeneralArgs.numOfThreads);
 
-			counter++;
-			if (GeneralArgs.verbose) {
-				if (counter % GeneralArgs.numAssignmentsForPrint == 0) {
-					double perc = 100.0 * ((double) counter) / ((double) numOfAssignments);
-					logger.info(String.format("Done with %d out of %d assignments (%f perc)", counter, numOfAssignments,
-							perc));
-				}
+			for (HashMap<String, String> assignment : allPossibleAssignments) {
+				ArrayList<HashMap<String, String>> assignments = new ArrayList<>();
+				assignments.add(assignment);
+				executor.execute(new AssignmentProbCalculator(assignments));
+
 			}
+			executor.shutdown();
+			while (!executor.isTerminated()) {
+			}
+
+		} else {
+			calculateProbabilityForSubsetOfAssignments(allPossibleAssignments);
 		}
-		return result;
+		return this.probability;
+	}
+
+	private void calculateProbabilityForSubsetOfAssignments(ArrayList<HashMap<String, String>> assignments) {
+		double prob = 0.0;
+		for (HashMap<String, String> gamma : assignments) {
+			TopProb topProb = new TopProb(gamma, topMatchingArgs);
+			prob += topProb.calculate();
+		}
+		updateProb(prob);
+	}
+
+	private synchronized void updateProb(double prob) {
+		this.probability += prob;
 	}
 
 	private void preProcessGraphAux(Node node, HashMap<String, HashSet<String>> labelToParentsMap,
@@ -75,7 +105,8 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 		for (Node child : node.getChildren()) {
 			HashSet<String> currentChildParents = labelToParentsMap.containsKey(child.getLabel())
-					? labelToParentsMap.get(child.getLabel()) : new HashSet<>();
+					? labelToParentsMap.get(child.getLabel())
+					: new HashSet<>();
 			currentChildParents.add(label);
 			labelToParentsMap.put(child.getLabel(), currentChildParents);
 

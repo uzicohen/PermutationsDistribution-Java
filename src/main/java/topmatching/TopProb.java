@@ -17,6 +17,8 @@ public class TopProb {
 
 	private TopMatchingArgs topMatchingArgs;
 
+	private TopProbUtils topProbUtils;
+
 	public TopProb(HashMap<String, String> gamma, TopMatchingArgs topMatchingArgs) {
 		this.topProbArgs = new TopProbArgs(gamma);
 		this.topMatchingArgs = topMatchingArgs;
@@ -24,7 +26,8 @@ public class TopProb {
 	}
 
 	private void initTopProbArgs() {
-		TopProbUtils.init(this.topMatchingArgs, this.topProbArgs);
+		this.topProbUtils = new TopProbUtils();
+		this.topProbUtils.init(this.topMatchingArgs, this.topProbArgs);
 	}
 
 	public double calculate() {
@@ -62,9 +65,9 @@ public class TopProb {
 						deltaTag.insertNewItem(j);
 					}
 					// else - the old delta stays
-					
+
 					// Calculate the insertion probability
-					double insertionProb = TopProbUtils.getInsertionProb(deltaTag, sigma, j);
+					double insertionProb = this.topProbUtils.getInsertionProb(deltaTag, sigma, j);
 
 					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
 
@@ -109,10 +112,10 @@ public class TopProb {
 			// Get the i from "s{i}"
 			int i = Integer.parseInt(sigma.split("s")[1]);
 
-			HashSet<String> itemsLargerThanI = TopProbUtils.getItemsLargerThanI(i);
+			HashSet<String> itemsLargerThanI = this.topProbUtils.getItemsLargerThanI(i);
 			int s = i + itemsLargerThanI.size();
 			HashSet<Integer> illegalIndices = topMatchingArgs.getLambda().containsKey(sigma)
-					? TopProbUtils.getIllegalIndices(delta, sigma)
+					? this.topProbUtils.getIllegalIndices(delta, sigma)
 					: new HashSet<>();
 			for (int j = 1; j <= s; j++) {
 				if (!illegalIndices.contains(j)) {

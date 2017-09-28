@@ -49,7 +49,7 @@ public class BinaryMatchingRandomTests extends TestCase {
 			int numOfItems = rand.nextInt(maxNumOfItems) + 1;
 			int numOfLabels = rand.nextInt(maxNumOfLabels) + 1;
 			Graph graph = RandomGraphGenerator.GetRandomGraph(numOfItems, numOfLabels, rand);
-			assertTrue(TestUtils.runBinaryMatchingRandomTest(graph, numOfItems, numOfLabels, i + 1));
+			assertTrue(TestUtils.runBinaryMatchingRandomTest(graph, numOfItems, numOfLabels, i + 1, false, 0));
 		}
 
 		for (int i = 0; i < TestUtils.summaries.size(); i++) {

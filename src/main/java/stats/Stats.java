@@ -5,6 +5,7 @@ import java.util.Date;
 
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
+import general.main.GeneralArgs.ScenarioSettings;
 
 /**
  * 
@@ -25,6 +26,10 @@ public class Stats {
 
 	private String algorithm;
 
+	private boolean runMultiThread;
+
+	private int numOfThreads;
+
 	private ArrayList<String> optimizations;
 
 	private Date startTimeDate;
@@ -33,11 +38,13 @@ public class Stats {
 
 	private double probability;
 
-	public Stats(String experimentScenario, int numOfItems, int numOfLabels, String graph) {
+	public Stats(ScenarioSettings scenarioSettings, String graph) {
 		super();
-		this.experimentScenario = experimentScenario;
-		this.numOfItems = numOfItems;
-		this.numOfLabels = numOfLabels;
+		this.experimentScenario = scenarioSettings.scenario;
+		this.numOfItems = scenarioSettings.numOfItems;
+		this.numOfLabels = scenarioSettings.numOfLabels;
+		this.runMultiThread = scenarioSettings.runMultiThread;
+		this.numOfThreads = scenarioSettings.numOfThreads;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
 		if (GeneralArgs.enhancedDeltasContainer) {
@@ -52,10 +59,14 @@ public class Stats {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append(String.format("Experiment scenraio: %s\n", experimentScenario));
-		result.append(String.format("Number of items: %s\n", numOfItems));
-		result.append(String.format("Number of labels: %s\n", numOfLabels));
+		result.append(String.format("Number of items (m): %s\n", numOfItems));
+		result.append(String.format("Number of labels (q): %s\n", numOfLabels));
 		result.append(String.format("Graph: %s\n", graph));
 		result.append(String.format("Algorithm: %s\n", algorithm));
+		result.append(String.format("Run multithread: %s\n", runMultiThread));
+		if (this.runMultiThread) {
+			result.append(String.format("Numbr of threads: %d\n", numOfThreads));
+		}
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
 			result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
 		}

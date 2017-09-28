@@ -10,7 +10,7 @@ import bruteforce.ExplicitDistribution;
 import general.Distribution;
 import general.GeneralUtils;
 import general.Mallows;
-import general.main.GeneralArgs.ScenarioToNumOfItemsPair;
+import general.main.GeneralArgs.ScenarioSettings;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
 import pattern.Graph;
 import pattern.GraphGenerator;
@@ -48,18 +48,19 @@ public class Manager {
 
 		double phi = GeneralArgs.phi;
 
-		ArrayList<ScenarioToNumOfItemsPair> scenarioToNumOfItemsPairs = GeneralArgs.scenarioToNumOfItemsPairs;
-		for (ScenarioToNumOfItemsPair scenarioToNumOfItemsPair : scenarioToNumOfItemsPairs) {
+		ArrayList<ScenarioSettings> scenariosSettings = GeneralArgs.senariosSettings;
+		for (ScenarioSettings scenariosSetting : scenariosSettings) {
+			GeneralArgs.runMultiThread = scenariosSetting.runMultiThread;
+			GeneralArgs.numOfThreads = scenariosSetting.numOfThreads;
 
-			logger.info(String.format("Creating objects for scenario-number: %s, number of items: %d",
-					scenarioToNumOfItemsPair.scenario, scenarioToNumOfItemsPair.numOfItems));
+			logger.info(String.format("Creating objects for scenario-number: %s, number of items: %d, number of labels: %d",
+					scenariosSetting.scenario, scenariosSetting.numOfItems, scenariosSetting.numOfLabels));
 
-			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioToNumOfItemsPair.scenario));
+			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenariosSetting.scenario));
 
-			Mallows model = new Mallows(GeneralUtils.getItems(scenarioToNumOfItemsPair.numOfItems), phi);
+			Mallows model = new Mallows(GeneralUtils.getItems(scenariosSetting.numOfItems), phi);
 
-			Stats stats = new Stats(scenarioToNumOfItemsPair.scenario, scenarioToNumOfItemsPair.numOfItems, 0,
-					graph.toString());
+			Stats stats = new Stats(scenariosSetting, graph.toString());
 
 			// Run brute force
 			if (GeneralArgs.runBruteforce) {
@@ -76,7 +77,7 @@ public class Manager {
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running brute-force algorithm for scenario: %s",
-						scenarioToNumOfItemsPair.scenario));
+						scenariosSetting.scenario));
 
 				double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
 
@@ -98,7 +99,7 @@ public class Manager {
 				stats.setStartTimeDate(new Date());
 
 				logger.info(
-						String.format("Running sampled algorithm for scenario: %s", scenarioToNumOfItemsPair.scenario));
+						String.format("Running sampled algorithm for scenario: %s", scenariosSetting.scenario));
 
 				double approxProb = new SampledAlgorithm().calculateProbability(graph, sampledDistribution);
 
@@ -119,7 +120,7 @@ public class Manager {
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running top-matchnig algorithm for scenario: %s",
-						scenarioToNumOfItemsPair.scenario));
+						scenariosSetting.scenario));
 
 				double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
 
@@ -141,7 +142,7 @@ public class Manager {
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running binary-matchnig algorithm for scenario: %s",
-						scenarioToNumOfItemsPair.scenario));
+						scenariosSetting.scenario));
 
 				double topBinaryProb = new BinaryMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
 
@@ -163,7 +164,7 @@ public class Manager {
 				stats.setStartTimeDate(new Date());
 				
 				logger.info(String.format("Running lifted-top-matchnig algorithm for scenario: %s",
-						scenarioToNumOfItemsPair.scenario));
+						scenariosSetting.scenario));
 				
 				double liftedTopMatchingProb = new LiftedTopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
 				

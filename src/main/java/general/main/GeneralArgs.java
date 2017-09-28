@@ -8,14 +8,21 @@ import java.util.Properties;
 
 public class GeneralArgs {
 
-	public static class ScenarioToNumOfItemsPair {
+	public static class ScenarioSettings {
 		public String scenario;
 		public int numOfItems;
+		public int numOfLabels;
+		public boolean runMultiThread;
+		public int numOfThreads;
 
-		public ScenarioToNumOfItemsPair(int scenario, int numOfItems) {
+		public ScenarioSettings(int scenario, int numOfItems, int numOfLabels, boolean runMultiThread,
+				int numOfThreads) {
 			super();
 			this.scenario = String.valueOf(scenario);
 			this.numOfItems = numOfItems;
+			this.numOfLabels = numOfLabels;
+			this.runMultiThread = runMultiThread;
+			this.numOfThreads = this.runMultiThread ? numOfThreads : 0;
 		}
 
 	}
@@ -32,7 +39,7 @@ public class GeneralArgs {
 
 	public static boolean printFlow;
 
-	public static ArrayList<ScenarioToNumOfItemsPair> scenarioToNumOfItemsPairs;
+	public static ArrayList<ScenarioSettings> senariosSettings;
 
 	public static boolean runAll;
 
@@ -56,6 +63,10 @@ public class GeneralArgs {
 
 	public static boolean enhancedDeltasContainer;
 
+	public static boolean runMultiThread;
+
+	public static int numOfThreads;
+
 	static {
 		properties = new Properties();
 
@@ -72,14 +83,18 @@ public class GeneralArgs {
 
 			printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
 
-			scenarioToNumOfItemsPairs = new ArrayList<>();
+			senariosSettings = new ArrayList<>();
 
-			String experimentScenariosStr = properties.getProperty("scenario_tuples");
+			String experimentScenariosStr = properties.getProperty("scenarios_settings").toString();
 
-			for (String tuple : experimentScenariosStr.split(",")) {
-				int scenario = Integer.parseInt(tuple.split(";")[0].split("\\(")[1]);
-				int numOfItems = Integer.parseInt(tuple.split(";")[1].split("\\)")[0]);
-				scenarioToNumOfItemsPairs.add(new ScenarioToNumOfItemsPair(scenario, numOfItems));
+			for (String setting : experimentScenariosStr.split(",")) {
+				int scenario = Integer.parseInt(setting.split(";")[0].split("\\(")[1]);
+				int numOfItems = Integer.parseInt(setting.split(";")[1]);
+				int numOfLabels = Integer.parseInt(setting.split(";")[2]);
+				boolean isMultiThread = Boolean.parseBoolean(setting.split(";")[3]);
+				int numOfThreads = Integer.parseInt(setting.split(";")[4].split("\\)")[0]);
+				senariosSettings
+						.add(new ScenarioSettings(scenario, numOfItems, numOfLabels, isMultiThread, numOfThreads));
 			}
 
 			runAll = Boolean.parseBoolean(properties.getProperty("run_all"));

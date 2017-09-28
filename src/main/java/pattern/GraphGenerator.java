@@ -365,6 +365,20 @@ public class GraphGenerator {
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
 
 			break;
+		
+		// (19, 24)
+		case 19:
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12" })), "z", new ArrayList<>());
+			
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2","s3", "s13","s14", "s15","s16", "s17","s18", "s19" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+			
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s15", "s16","s17", "s18","s19", "s20","s21", "s22","s23", "s24" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+			
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+			
+			break;
 
 		}
 		return graph;

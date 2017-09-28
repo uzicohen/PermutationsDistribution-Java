@@ -1,4 +1,4 @@
-package binarymatching;
+package topmatching;
 
 import common.TestUtils;
 import general.main.AlgorithmType;
@@ -8,10 +8,10 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Run a complete test to compare bruteforce vs topmatching with enhanced deltes
- * container
+ * Run a complete test to compare bruteforce vs topmatching with enhanced
+ * initial deltas generator
  */
-public class BinaryMatchingTests extends TestCase {
+public class TopMatchingTests extends TestCase {
 
 	/**
 	 * Create the test case
@@ -19,20 +19,20 @@ public class BinaryMatchingTests extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public BinaryMatchingTests(String testName) {
+	public TopMatchingTests(String testName) {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
-		GeneralArgs.enhancedDeltasContainer = true;
+		GeneralArgs.enhancedDeltasContainer = false;
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
-		GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
+		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
 	}
 
 	/**
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(BinaryMatchingTests.class);
+		return new TestSuite(TopMatchingTests.class);
 	}
 
 	public void testScenrio1() {
