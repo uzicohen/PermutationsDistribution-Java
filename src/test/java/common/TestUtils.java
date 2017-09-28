@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import binarytopmatching.BinaryMatchingAlgorithm;
 import general.Distribution;
 import general.GeneralUtils;
 import general.Mallows;
@@ -27,8 +26,6 @@ public class TestUtils {
 	private static double Epsilon = 10e-6;
 
 	private static final String TOP_MATCHNING = "Top Matching";
-
-	private static final String BINARY_MATCHNING = "Binary Matching";
 
 	private static final String LIFTED_TOP_MATCHNING = "Lifted Top Matching";
 
@@ -57,84 +54,12 @@ public class TestUtils {
 		case TOP_MATCHNING:
 			prob = new TopMatchingAlgorithm().calculateProbability(graph, distribution);
 			break;
-		case BINARY_MATCHING:
-			prob = new BinaryMatchingAlgorithm().calculateProbability(graph, distribution);
-			break;
 		case LIFTED_TOP_MATCHING:
 			prob = new LiftedTopMatchingAlgorithm().calculateProbability(graph, distribution);
 			break;
 		default:
 		}
 		return Math.abs(exactProb - prob) < Epsilon;
-	}
-
-	public static boolean runBinaryMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario,
-			boolean runMultiThread, int numOfThreads) {
-		StringBuilder summary = new StringBuilder(
-				String.format("(Labels,Items): (%d,%d), Top Matching: ", numOfLabels, numItems));
-
-		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
-
-		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels, runMultiThread,
-				numOfThreads);
-
-		Stats stats = new Stats(scenarioSettings, graph.toString());
-
-		// TopMatching
-		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
-
-		stats.setAlgorithm(TOP_MATCHNING);
-
-		Distribution simpleDistribution = new SimpleDistribution(model);
-
-		stats.setStartTimeDate(new Date());
-
-		logger.info(String.format("Running top-matchnig algorithm for a random scenario %d with %d labels and %d items",
-				scenario, numOfLabels, numItems));
-
-		double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-		stats.setEndTimeDate(new Date());
-
-		summary.append(String.format("%f (%s MS), ", topMatchingProb,
-				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
-
-		stats.setProbability(topMatchingProb);
-
-		System.out.println(stats);
-
-		// BinaryMatching
-		stats = new Stats(scenarioSettings, graph.toString());
-
-		GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
-
-		stats.setAlgorithm(BINARY_MATCHNING);
-
-		stats.setStartTimeDate(new Date());
-
-		logger.info(
-				String.format("Running binary-matchnig algorithm for a random scenario %d with %d labels and %d items",
-						scenario, numOfLabels, numItems));
-
-		double topBinaryProb = new BinaryMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-		stats.setEndTimeDate(new Date());
-
-		summary.append(String.format("Binary Matching: %f (%s MS)", topBinaryProb,
-				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
-
-		if (topBinaryProb != 0.000000) {
-			summaries.add(summary.toString());
-		} else {
-			summaries.add("NI");
-		}
-
-		stats.setProbability(topBinaryProb);
-
-		System.out.println(stats);
-
-		return Math.abs(topMatchingProb - topBinaryProb) < Epsilon;
-
 	}
 
 	public static boolean runLiftedTopMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario,

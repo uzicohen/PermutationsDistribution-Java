@@ -11,7 +11,7 @@ import junit.framework.TestSuite;
  * Run a complete test to compare bruteforce vs topmatching with enhanced
  * initial deltas generator
  */
-public class TopMatchingTestsMultiThread extends TestCase {
+public class TopMatchingMultiThreadTests extends TestCase {
 
 	/**
 	 * Create the test case
@@ -19,7 +19,7 @@ public class TopMatchingTestsMultiThread extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public TopMatchingTestsMultiThread(String testName) {
+	public TopMatchingMultiThreadTests(String testName) {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = false;
@@ -32,7 +32,7 @@ public class TopMatchingTestsMultiThread extends TestCase {
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(TopMatchingTestsMultiThread.class);
+		return new TestSuite(TopMatchingMultiThreadTests.class);
 	}
 
 	public void testScenrio1() {

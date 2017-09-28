@@ -10,7 +10,7 @@ import junit.framework.TestSuite;
 /**
  * Run a complete test to compare bruteforce vs liftedtopmatching container
  */
-public class LiftedTopMatchingTestsMultiThread extends TestCase {
+public class LiftedTopMatchingMultiThreadTests extends TestCase {
 
 	/**
 	 * Create the test case
@@ -18,7 +18,7 @@ public class LiftedTopMatchingTestsMultiThread extends TestCase {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public LiftedTopMatchingTestsMultiThread(String testName) {
+	public LiftedTopMatchingMultiThreadTests(String testName) {
 		super(testName);
 		GeneralArgs.enhancedInitialDeltas = true;
 		GeneralArgs.enhancedDeltasContainer = true;
@@ -31,7 +31,7 @@ public class LiftedTopMatchingTestsMultiThread extends TestCase {
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
-		return new TestSuite(LiftedTopMatchingTestsMultiThread.class);
+		return new TestSuite(LiftedTopMatchingMultiThreadTests.class);
 	}
 
 	public void testScenrio1() {

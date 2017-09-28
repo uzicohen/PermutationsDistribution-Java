@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import binarytopmatching.BinaryMatchingAlgorithm;
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
 import general.Distribution;
@@ -35,8 +34,6 @@ public class Manager {
 	private static final String SAMPLED = "Sampled";
 
 	private static final String TOP_MATCHNING = "Top Matching";
-
-	private static final String BINARY_MATCHNING = "Binary Matching";
 	
 	private static final String LIFTED_TOP_MATCHNING = "Lifted Top Matching";
 
@@ -127,28 +124,6 @@ public class Manager {
 				stats.setEndTimeDate(new Date());
 
 				stats.setProbability(topMatchingProb);
-
-				System.out.println(stats);
-
-			}
-
-			if (GeneralArgs.runBinaryMatching) {
-				GeneralArgs.currentAlgorithm = AlgorithmType.BINARY_MATCHING;
-
-				stats.setAlgorithm(BINARY_MATCHNING);
-
-				Distribution simpleDistribution = new SimpleDistribution(model);
-
-				stats.setStartTimeDate(new Date());
-
-				logger.info(String.format("Running binary-matchnig algorithm for scenario: %s",
-						scenariosSetting.scenario));
-
-				double topBinaryProb = new BinaryMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-
-				stats.setEndTimeDate(new Date());
-
-				stats.setProbability(topBinaryProb);
 
 				System.out.println(stats);
 
