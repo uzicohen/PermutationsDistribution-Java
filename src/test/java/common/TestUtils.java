@@ -73,8 +73,7 @@ public class TestUtils {
 
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
 
-		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels, runMultiThread,
-				numOfThreads);
+		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels);
 
 		Stats stats = new Stats(scenarioSettings, graph.toString());
 

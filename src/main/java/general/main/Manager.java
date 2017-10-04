@@ -47,8 +47,6 @@ public class Manager {
 
 		ArrayList<ScenarioSettings> scenariosSettings = GeneralArgs.senariosSettings;
 		for (ScenarioSettings scenariosSetting : scenariosSettings) {
-			GeneralArgs.runMultiThread = scenariosSetting.runMultiThread;
-			GeneralArgs.numOfThreads = scenariosSetting.numOfThreads;
 
 			logger.info(String.format("Creating objects for scenario-number: %s, number of items: %d, number of labels: %d",
 					scenariosSetting.scenario, scenariosSetting.numOfItems, scenariosSetting.numOfLabels));

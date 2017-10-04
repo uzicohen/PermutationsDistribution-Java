@@ -12,17 +12,12 @@ public class GeneralArgs {
 		public String scenario;
 		public int numOfItems;
 		public int numOfLabels;
-		public boolean runMultiThread;
-		public int numOfThreads;
 
-		public ScenarioSettings(int scenario, int numOfItems, int numOfLabels, boolean runMultiThread,
-				int numOfThreads) {
+		public ScenarioSettings(int scenario, int numOfItems, int numOfLabels) {
 			super();
 			this.scenario = String.valueOf(scenario);
 			this.numOfItems = numOfItems;
 			this.numOfLabels = numOfLabels;
-			this.runMultiThread = runMultiThread;
-			this.numOfThreads = this.runMultiThread ? numOfThreads : 0;
 		}
 
 	}
@@ -85,11 +80,8 @@ public class GeneralArgs {
 			for (String setting : experimentScenariosStr.split(",")) {
 				int scenario = Integer.parseInt(setting.split(";")[0].split("\\(")[1]);
 				int numOfItems = Integer.parseInt(setting.split(";")[1]);
-				int numOfLabels = Integer.parseInt(setting.split(";")[2]);
-				boolean isMultiThread = Boolean.parseBoolean(setting.split(";")[3]);
-				int numOfThreads = Integer.parseInt(setting.split(";")[4].split("\\)")[0]);
-				senariosSettings
-						.add(new ScenarioSettings(scenario, numOfItems, numOfLabels, isMultiThread, numOfThreads));
+				int numOfLabels = Integer.parseInt(setting.split(";")[2].split("\\)")[0]);
+				senariosSettings.add(new ScenarioSettings(scenario, numOfItems, numOfLabels));
 			}
 
 			runAll = Boolean.parseBoolean(properties.getProperty("run_all"));
@@ -105,6 +97,10 @@ public class GeneralArgs {
 			phi = Double.parseDouble(properties.getProperty("phi"));
 
 			numSamples = Integer.parseInt(properties.getProperty("num_samples"));
+
+			runMultiThread = Boolean.parseBoolean(properties.getProperty("run_multithread"));
+
+			numOfThreads = Integer.parseInt(properties.getProperty("num_of_threads"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

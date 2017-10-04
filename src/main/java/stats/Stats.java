@@ -43,8 +43,8 @@ public class Stats {
 		this.experimentScenario = scenarioSettings.scenario;
 		this.numOfItems = scenarioSettings.numOfItems;
 		this.numOfLabels = scenarioSettings.numOfLabels;
-		this.runMultiThread = scenarioSettings.runMultiThread;
-		this.numOfThreads = scenarioSettings.numOfThreads;
+		this.runMultiThread = GeneralArgs.runMultiThread;
+		this.numOfThreads = GeneralArgs.numOfThreads;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
 	}
