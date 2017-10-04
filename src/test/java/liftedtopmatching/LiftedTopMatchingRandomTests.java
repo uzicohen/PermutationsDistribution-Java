@@ -4,8 +4,6 @@ import java.util.Random;
 
 import common.RandomGraphGenerator;
 import common.TestUtils;
-import general.main.AlgorithmType;
-import general.main.GeneralArgs;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -32,7 +30,6 @@ public class LiftedTopMatchingRandomTests extends TestCase {
 	 */
 	public LiftedTopMatchingRandomTests(String testName) {
 		super(testName);
-		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 	}
 
 	/**

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import general.main.GeneralArgs;
 import general.main.PrintFlow;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
-import topmatching.delta.EnhancedDeltasContainer;
-import topmatching.delta.SimpleDeltasContainer;
+import topmatching.delta.DeltasContainerGenerator;
 
 public class TopProb {
 
@@ -35,14 +33,13 @@ public class TopProb {
 		PrintFlow.printGamma(this.topProbArgs.getGamma());
 
 		// Initialize R0
-		DeltasContainer r = topMatchingArgs.getDeltasContainerGenerator().getInitialDeltas(topProbArgs);
+		DeltasContainer r = new DeltasContainerGenerator(this.topMatchingArgs).getInitialDeltas(topProbArgs);
 
 		PrintFlow.printDeltasContainer("Initial deltas", r, topProbArgs.getGamma());
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
 
-			DeltasContainer newR = GeneralArgs.enhancedDeltasContainer ? new EnhancedDeltasContainer(topMatchingArgs)
-					: new SimpleDeltasContainer(topMatchingArgs);
+			DeltasContainer newR = new DeltasContainer(topMatchingArgs);
 			String sigma = this.topMatchingArgs.getRim().getModel().getModal().get(i);
 
 			PrintFlow.printItem(sigma, topProbArgs.getImgGamma().contains(sigma));
@@ -115,8 +112,7 @@ public class TopProb {
 			HashSet<String> itemsLargerThanI = this.topProbUtils.getItemsLargerThanI(i);
 			int s = i + itemsLargerThanI.size();
 			HashSet<Integer> illegalIndices = topMatchingArgs.getLambda().containsKey(sigma)
-					? this.topProbUtils.getIllegalIndices(delta, sigma)
-					: new HashSet<>();
+					? this.topProbUtils.getIllegalIndices(delta, sigma) : new HashSet<>();
 			for (int j = 1; j <= s; j++) {
 				if (!illegalIndices.contains(j)) {
 					result.add(j);

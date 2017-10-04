@@ -4,7 +4,6 @@ import java.util.Random;
 
 import common.RandomGraphGenerator;
 import common.TestUtils;
-import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -16,7 +15,7 @@ import pattern.Graph;
  */
 public class LiftedTopMatchingRandomMultiThreadTests extends TestCase {
 
-	private static int numOfTests = 100;
+	private static int numOfTests = 10;
 
 	private static int maxNumOfItems = 20;
 
@@ -32,7 +31,6 @@ public class LiftedTopMatchingRandomMultiThreadTests extends TestCase {
 	 */
 	public LiftedTopMatchingRandomMultiThreadTests(String testName) {
 		super(testName);
-		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 		GeneralArgs.runMultiThread = true;
 		GeneralArgs.numOfThreads = 4;
 	}

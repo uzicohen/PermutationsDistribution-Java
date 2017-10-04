@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import general.Distribution;
 import general.GeneralUtils;
 import general.IAlgorithm;
+import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
@@ -42,6 +43,8 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 	@Override
 	public double calculateProbability(Graph graph, Distribution distribution) {
+		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
+		
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
 
 		// For each label, we keep in a dictionary it's parents

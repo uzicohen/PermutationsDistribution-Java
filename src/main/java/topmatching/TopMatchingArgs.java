@@ -5,11 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import general.Distribution;
-import general.main.GeneralArgs;
 import pattern.Graph;
-import topmatching.delta.EnhancedDeltasContainerGenerator;
-import topmatching.delta.IDeltasContainerGenerator;
-import topmatching.delta.SimpleDeltasContainerGenerator;
 
 public class TopMatchingArgs {
 
@@ -23,8 +19,6 @@ public class TopMatchingArgs {
 
 	private ArrayList<ArrayList<Double>> insertionProbs;
 
-	private IDeltasContainerGenerator deltasContainerGenerator;
-
 	public TopMatchingArgs(Graph g, Distribution rim, HashMap<String, HashSet<String>> labelToParentsMap,
 			HashMap<String, HashSet<String>> lambda, ArrayList<ArrayList<Double>> insertionProbs) {
 		this.g = g;
@@ -32,9 +26,6 @@ public class TopMatchingArgs {
 		this.labelToParentsMap = labelToParentsMap;
 		this.lambda = lambda;
 		this.insertionProbs = insertionProbs;
-		this.deltasContainerGenerator = GeneralArgs.enhancedInitialDeltas ? new EnhancedDeltasContainerGenerator()
-				: new SimpleDeltasContainerGenerator();
-		this.deltasContainerGenerator.init(this);
 	}
 
 	public Graph getG() {
@@ -75,13 +66,5 @@ public class TopMatchingArgs {
 
 	public void setInsertionProbs(ArrayList<ArrayList<Double>> insertionProbs) {
 		this.insertionProbs = insertionProbs;
-	}
-
-	public IDeltasContainerGenerator getDeltasContainerGenerator() {
-		return deltasContainerGenerator;
-	}
-
-	public void setDeltasContainerGenerator(IDeltasContainerGenerator deltasContainerGenerator) {
-		this.deltasContainerGenerator = deltasContainerGenerator;
 	}
 }

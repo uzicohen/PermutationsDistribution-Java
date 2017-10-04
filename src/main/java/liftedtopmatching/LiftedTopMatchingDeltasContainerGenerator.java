@@ -1,4 +1,4 @@
-package liftedtopmatching.delta;
+package liftedtopmatching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,20 +11,18 @@ import topmatching.TopMatchingArgs;
 import topmatching.TopProbArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
-import topmatching.delta.EnhancedDeltasContainer;
-import topmatching.delta.EnhancedDeltasContainerGenerator;
+import topmatching.delta.DeltasContainerGenerator;
 
 public class LiftedTopMatchingDeltasContainerGenerator {
 
 	public DeltasContainer getInitialDeltas(TopMatchingArgs topMatchingArgs) {
-		EnhancedDeltasContainer result = new EnhancedDeltasContainer(topMatchingArgs);
+		DeltasContainer result = new DeltasContainer(topMatchingArgs);
 
 		Graph graph = topMatchingArgs.getG();
 
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
 
-		EnhancedDeltasContainerGenerator deltasGenerator = new EnhancedDeltasContainerGenerator();
-		deltasGenerator.init(topMatchingArgs);
+		DeltasContainerGenerator deltasGenerator = new DeltasContainerGenerator(topMatchingArgs);
 
 		for (HashMap<String, String> gamma : allPossibleAssignments) {
 

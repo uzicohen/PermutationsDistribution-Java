@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import general.Distribution;
 import general.GeneralUtils;
 import general.IAlgorithm;
+import general.main.AlgorithmType;
 import general.main.GeneralArgs;
-import liftedtopmatching.delta.LiftedTopMatchingDeltasContainerGenerator;
 import pattern.Graph;
 import topmatching.TopMatchingArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
-import topmatching.delta.EnhancedDeltasContainer;
 
 public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 
@@ -41,7 +38,7 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 			Iterator<Delta> iter = r.iterator();
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
-				DeltasContainer newDc = new EnhancedDeltasContainer(topMatchingArgs);
+				DeltasContainer newDc = new DeltasContainer(topMatchingArgs);
 				newDc.addDelta(delta);
 				calculateProbabilityForSubsetOfDeltas(newDc);
 			}
@@ -51,7 +48,8 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 
 	@Override
 	public double calculateProbability(Graph graph, Distribution distribution) {
-
+		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
+		
 		// For each label, we keep in a dictionary it's parents
 		HashMap<String, HashSet<String>> labelToParentsMap = new HashMap<>();
 
@@ -73,7 +71,7 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 			Iterator<Delta> iter = r.iterator();
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
-				DeltasContainer newDc = new EnhancedDeltasContainer(topMatchingArgs);
+				DeltasContainer newDc = new DeltasContainer(topMatchingArgs);
 				newDc.addDelta(delta);
 				executor.execute(new DeltaProbCalculator(newDc));
 			}
@@ -97,7 +95,7 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 
 		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
 			String sigma = this.topMatchingArgs.getRim().getModel().getModal().get(i);
-			DeltasContainer newR = new EnhancedDeltasContainer(topMatchingArgs);
+			DeltasContainer newR = new DeltasContainer(topMatchingArgs);
 
 			Iterator<Delta> iter = r.iterator();
 			while (iter.hasNext()) {

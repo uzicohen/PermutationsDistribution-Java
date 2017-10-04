@@ -57,15 +57,12 @@ public class GeneralArgs {
 
 	public static AlgorithmType currentAlgorithm;
 
-	public static boolean enhancedInitialDeltas;
-
-	public static boolean enhancedDeltasContainer;
-
 	public static boolean runMultiThread;
 
 	public static int numOfThreads;
 
 	static {
+
 		properties = new Properties();
 
 		try {
@@ -108,10 +105,6 @@ public class GeneralArgs {
 			phi = Double.parseDouble(properties.getProperty("phi"));
 
 			numSamples = Integer.parseInt(properties.getProperty("num_samples"));
-
-			enhancedDeltasContainer = Boolean.parseBoolean(properties.getProperty("enhanced_deltas_container"));
-
-			enhancedInitialDeltas = Boolean.parseBoolean(properties.getProperty("enhanced_initial_deltas"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -61,8 +61,6 @@ public class Manager {
 
 			// Run brute force
 			if (GeneralArgs.runBruteforce) {
-				GeneralArgs.currentAlgorithm = AlgorithmType.BRUTE_FORCE;
-
 				stats.setAlgorithm(BRUTE_FORCE);
 
 				Distribution explicitDistribution = new ExplicitDistribution(model);
@@ -87,8 +85,6 @@ public class Manager {
 			}
 
 			if (GeneralArgs.runSampled) {
-				GeneralArgs.currentAlgorithm = AlgorithmType.SAMPLED;
-
 				stats.setAlgorithm(SAMPLED);
 
 				Distribution sampledDistribution = new SampledDistribution(model, GeneralArgs.numSamples);
@@ -108,8 +104,6 @@ public class Manager {
 			}
 
 			if (GeneralArgs.runTopMatching) {
-				GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
-
 				stats.setAlgorithm(TOP_MATCHNING);
 
 				Distribution simpleDistribution = new SimpleDistribution(model);
@@ -129,9 +123,7 @@ public class Manager {
 
 			}
 			
-			if (GeneralArgs.runLiftedTopMatching) {
-				GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
-				
+			if (GeneralArgs.runLiftedTopMatching) {				
 				stats.setAlgorithm(LIFTED_TOP_MATCHNING);
 				
 				Distribution simpleDistribution = new SimpleDistribution(model);

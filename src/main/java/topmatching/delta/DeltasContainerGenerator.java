@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import general.main.GeneralArgs;
 import pattern.Node;
 import topmatching.TopMatchingArgs;
 import topmatching.TopProbArgs;
 
-public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerator {
+public class DeltasContainerGenerator {
 
 	private static class Result {
 
@@ -23,15 +22,13 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 
 	private TopMatchingArgs topMatchingArgs;
 
-	@Override
-	public void init(TopMatchingArgs topMatchingArgs) {
+	public DeltasContainerGenerator(TopMatchingArgs topMatchingArgs) {
 		this.topMatchingArgs = topMatchingArgs;
 	}
 
-	@Override
 	public DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
-		DeltasContainer dc = getNewDeltasContainer();
-		
+		DeltasContainer dc = new DeltasContainer(topMatchingArgs);
+
 		// First delta is empty
 		dc.addDelta(new Delta());
 
@@ -44,7 +41,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 		HashSet<Node> roots = new HashSet<>(this.topMatchingArgs.getG().getRoots());
 
 		fillDependenciesMaps(topProbArgs, roots, childToParent, parentToChild);
-		
+
 		// Copy the childToParent map
 		HashMap<String, HashSet<String>> origChildToParent = new HashMap<>();
 		for (String key : childToParent.keySet()) {
@@ -64,15 +61,15 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 
 			// If no new roots, this means we have a cycle
 			if (currentRoots.isEmpty()) {
-				return getNewDeltasContainer();
+				return new DeltasContainer(topMatchingArgs);
 			}
 
 			for (String sigma : currentRoots) {
-				DeltasContainer newResult = getNewDeltasContainer();
+				DeltasContainer newResult = new DeltasContainer(topMatchingArgs);
 
 				// Go through all previously created deltas and push the current
 				// label in them while keeping the constraints that is reflected
-				// by the childTpParent map
+				// by the childToParent map
 
 				Iterator<Delta> iter = dc.iterator();
 				while (iter.hasNext()) {
@@ -83,7 +80,8 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					// them. o.w., it'll come in all possible indices
 					if (origChildToParent.containsKey(sigma)) {
 						for (String parentLabel : origChildToParent.get(sigma)) {
-							// Integer parentIdx = delta.getLabelToIndex().get(parentLabel);
+							// Integer parentIdx =
+							// delta.getLabelToIndex().get(parentLabel);
 							Integer parentIdx = delta.getLabelPosition(parentLabel);
 							maxIdx = Math.max(parentIdx != null ? parentIdx : 0, maxIdx);
 						}
@@ -125,7 +123,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 		}
 
 		// Go over the deltas and replace the key-as-sigma to key-as-label
-		DeltasContainer result = getNewDeltasContainer();
+		DeltasContainer result = new DeltasContainer(topMatchingArgs);
 
 		Iterator<Delta> iter = dc.iterator();
 		while (iter.hasNext()) {
@@ -137,7 +135,8 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 					newDelta.putKeyValue(label, delta.getLabelPosition(sigma));
 				}
 			}
-			// Check if this delta is consistent with the top-matching constraints
+			// Check if this delta is consistent with the top-matching
+			// constraints
 			if (isDeltaConsistent(topProbArgs, newDelta)) {
 				result.addDelta(newDelta);
 			}
@@ -182,11 +181,11 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 	 * Consistent with g: for every (l,l') in E, delta(l) < delta(l')
 	 * 
 	 * Consistent with top-matching: for every l in V and sigma s.t sigma in
-	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and tau(sigma) <
-	 * max_{l' in parents(l)} delta(l')
+	 * lambda(l), if tau(sigma) < delta(l), then: parents(l) neq {} and
+	 * tau(sigma) < max_{l' in parents(l)} delta(l')
 	 * 
-	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked sigma
-	 * s.t l in lambda(sigma)
+	 * In particular, if parents(l) = {}, then gamma(l) is the highest ranked
+	 * sigma s.t l in lambda(sigma)
 	 */
 	private boolean isDeltaConsistent(TopProbArgs topProbArgs, Delta delta) {
 		Result result = new Result();
@@ -205,8 +204,7 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 
 		// Check top-matching's constraints
 		HashSet<String> parentsOfL = this.topMatchingArgs.getLabelToParentsMap().containsKey(l.getLabel())
-				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel())
-				: new HashSet<>();
+				? this.topMatchingArgs.getLabelToParentsMap().get(l.getLabel()) : new HashSet<>();
 
 		if (parentsOfL.isEmpty()) {
 			// If the label has no parents, it's mapping has to be the best
@@ -261,10 +259,5 @@ public class EnhancedDeltasContainerGenerator implements IDeltasContainerGenerat
 		for (Node child : l.getChildren()) {
 			isDeltaConsistentAux(topProbArgs, delta, result, child);
 		}
-	}
-
-	private DeltasContainer getNewDeltasContainer() {
-		return GeneralArgs.enhancedDeltasContainer ? new EnhancedDeltasContainer(topMatchingArgs)
-				: new SimpleDeltasContainer(topMatchingArgs);
 	}
 }

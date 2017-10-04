@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import general.Distribution;
 import general.IAlgorithm;
 import general.Permutation;
+import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
@@ -64,7 +65,9 @@ public class SampledAlgorithm implements IAlgorithm {
 		return false;
 	}
 
+	@Override
 	public double calculateProbability(Graph graph, Distribution distribution) {
+		GeneralArgs.currentAlgorithm = AlgorithmType.SAMPLED;
 
 		int numOfSample = distribution.getPermutations().size();
 		int counter = 0;
@@ -72,7 +75,7 @@ public class SampledAlgorithm implements IAlgorithm {
 
 		double result = 0.0;
 		for (Permutation permutation : distribution.getPermutations()) {
-			
+
 			result += isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0;
 
 			counter++;

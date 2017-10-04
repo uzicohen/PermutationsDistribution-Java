@@ -37,7 +37,8 @@ public class TestUtils {
 				0.9741246606894051, 0.567747, 0.862931, 0.028696, 0.731592, 0.900444, 0.994654, 0.765118 };
 	}
 
-	public static boolean runTest(int graphId, int numItems, boolean runMultiThread, int numOfThreads) {
+	public static boolean runTest(int graphId, int numItems, boolean runMultiThread, int numOfThreads,
+			AlgorithmType algorithmType) {
 		GeneralArgs.runMultiThread = runMultiThread;
 		GeneralArgs.numOfThreads = numOfThreads;
 
@@ -50,7 +51,7 @@ public class TestUtils {
 		Distribution distribution = new SimpleDistribution(model);
 
 		double prob = 0.0;
-		switch (GeneralArgs.currentAlgorithm) {
+		switch (algorithmType) {
 		case TOP_MATCHNING:
 			prob = new TopMatchingAlgorithm().calculateProbability(graph, distribution);
 			break;
@@ -78,8 +79,6 @@ public class TestUtils {
 		Stats stats = new Stats(scenarioSettings, graph.toString());
 
 		// TopMatching
-		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
-
 		stats.setAlgorithm(TOP_MATCHNING);
 
 		Distribution simpleDistribution = new SimpleDistribution(model);
@@ -102,8 +101,6 @@ public class TestUtils {
 
 		// LiftedTopMatching
 		stats = new Stats(scenarioSettings, graph.toString());
-
-		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 
 		stats.setAlgorithm(LIFTED_TOP_MATCHNING);
 

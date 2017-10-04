@@ -1,46 +1,66 @@
 package topmatching.delta;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import topmatching.TopMatchingArgs;
 
-public abstract class DeltasContainer {
+public class DeltasContainer {
 
-	protected TopMatchingArgs topMatchingArgs;
+	public class EnhancedDeltasContainerIterator implements Iterator<Delta> {
+
+		private int index;
+
+		private ArrayList<Delta> deltas;
+
+		/**
+		 * 
+		 * @param n
+		 *            the size of the container
+		 */
+		public EnhancedDeltasContainerIterator(HashMap<String, Delta> deltasMap) {
+			this.index = 0;
+			this.deltas = new ArrayList<>();
+			for (Delta delta : deltasMap.values()) {
+				this.deltas.add(delta);
+			}
+		}
+
+		@Override
+		public boolean hasNext() {
+			return index < this.deltas.size();
+		}
+
+		@Override
+		public Delta next() {
+			int currentIndex = this.index;
+			this.index++;
+			return this.deltas.get(currentIndex);
+		}
+
+	}
+
+	private HashMap<String, Delta> deltas;
 
 	public DeltasContainer(TopMatchingArgs topMatchingArgs) {
-		this.topMatchingArgs = topMatchingArgs;
+		this.deltas = new HashMap<>();
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		Iterator<Delta> iter = iterator();
-
-		if (!iter.hasNext()) {
-			return "[]";
-		}
-
-		while (iter.hasNext()) {
-			sb.append(iter.next());
-			sb.append("\n          ");
-		}
-		sb.replace(sb.length() - 11, sb.length(), "");
-		return sb.toString();
+	public Delta getDelta(Delta inputDelta) {
+		return this.deltas.get(inputDelta.getStrForHash());
 	}
 
-	public abstract void addDelta(Delta delta);
+	public void addDelta(Delta delta) {
+		this.deltas.put(delta.getStrForHash(), delta);
+	}
 
-	/**
-	 * 
-	 * 
-	 * @param delta
-	 * @return the object if the delta exists and null o.w.
-	 */
-	public abstract Delta getDelta(Delta delta);
+	public Iterator<Delta> iterator() {
+		return new EnhancedDeltasContainerIterator(this.deltas);
+	}
 
-	public abstract Iterator<Delta> iterator();
-	
-	public abstract int getNumOfDeltas();
+	public int getNumOfDeltas() {
+		return this.deltas.size();
+	}
 
 }

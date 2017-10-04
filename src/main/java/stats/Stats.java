@@ -47,12 +47,6 @@ public class Stats {
 		this.numOfThreads = scenarioSettings.numOfThreads;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
-		if (GeneralArgs.enhancedDeltasContainer) {
-			this.optimizations.add("Enhanced deltas container");
-		}
-		if (GeneralArgs.enhancedInitialDeltas) {
-			this.optimizations.add("Enhanced initial deltas");
-		}
 	}
 
 	@Override
