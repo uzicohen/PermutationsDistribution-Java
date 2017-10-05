@@ -8,14 +8,14 @@ import java.util.Properties;
 
 public class GeneralArgs {
 
-	public static class ScenarioSettings {
-		public String scenario;
+	public static class GraphGeneratorParameters {
+		public String graphGeneratorCase;
 		public int numOfItems;
 		public int numOfLabels;
 
-		public ScenarioSettings(int scenario, int numOfItems, int numOfLabels) {
+		public GraphGeneratorParameters(int graphGeneratorCase, int numOfItems, int numOfLabels) {
 			super();
-			this.scenario = String.valueOf(scenario);
+			this.graphGeneratorCase = String.valueOf(graphGeneratorCase);
 			this.numOfItems = numOfItems;
 			this.numOfLabels = numOfLabels;
 		}
@@ -34,7 +34,7 @@ public class GeneralArgs {
 
 	public static boolean printFlow;
 
-	public static ArrayList<ScenarioSettings> senariosSettings;
+	public static ArrayList<GraphGeneratorParameters> graphGeneratorParameters;
 
 	public static boolean runAll;
 
@@ -73,15 +73,15 @@ public class GeneralArgs {
 
 			printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
 
-			senariosSettings = new ArrayList<>();
+			graphGeneratorParameters = new ArrayList<>();
 
-			String experimentScenariosStr = properties.getProperty("scenarios_settings").toString();
+			String graphGeneratorSingleCases = properties.getProperty("graph_generator_cases").toString();
 
-			for (String setting : experimentScenariosStr.split(",")) {
-				int scenario = Integer.parseInt(setting.split(";")[0].split("\\(")[1]);
-				int numOfItems = Integer.parseInt(setting.split(";")[1]);
-				int numOfLabels = Integer.parseInt(setting.split(";")[2].split("\\)")[0]);
-				senariosSettings.add(new ScenarioSettings(scenario, numOfItems, numOfLabels));
+			for (String graphGeneratorSingleCase : graphGeneratorSingleCases.split(",")) {
+				int graphGeneratorCase = Integer.parseInt(graphGeneratorSingleCase.split(";")[0].split("\\(")[1]);
+				int numOfItems = Integer.parseInt(graphGeneratorSingleCase.split(";")[1]);
+				int numOfLabels = Integer.parseInt(graphGeneratorSingleCase.split(";")[2].split("\\)")[0]);
+				graphGeneratorParameters.add(new GraphGeneratorParameters(graphGeneratorCase, numOfItems, numOfLabels));
 			}
 
 			runAll = Boolean.parseBoolean(properties.getProperty("run_all"));

@@ -9,7 +9,7 @@ import general.GeneralUtils;
 import general.Mallows;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
-import general.main.GeneralArgs.ScenarioSettings;
+import general.main.GeneralArgs.GraphGeneratorParameters;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
 import pattern.Graph;
 import pattern.GraphGenerator;
@@ -73,7 +73,7 @@ public class TestUtils {
 
 		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
 
-		ScenarioSettings scenarioSettings = new ScenarioSettings(scenario, numItems, numOfLabels);
+		GraphGeneratorParameters scenarioSettings = new GraphGeneratorParameters(scenario, numItems, numOfLabels);
 
 		Stats stats = new Stats(scenarioSettings, graph.toString());
 

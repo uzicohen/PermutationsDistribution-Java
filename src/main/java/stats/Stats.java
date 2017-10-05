@@ -5,7 +5,7 @@ import java.util.Date;
 
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
-import general.main.GeneralArgs.ScenarioSettings;
+import general.main.GeneralArgs.GraphGeneratorParameters;
 
 /**
  * 
@@ -16,7 +16,7 @@ import general.main.GeneralArgs.ScenarioSettings;
  */
 public class Stats {
 
-	private String experimentScenario;
+	private String sectionDescription;
 
 	private int numOfItems;
 
@@ -36,13 +36,42 @@ public class Stats {
 
 	private Date endTimeDate;
 
+	private int totalTime;
+
 	private double probability;
 
-	public Stats(ScenarioSettings scenarioSettings, String graph) {
+	private boolean inferenceRunning = true;
+
+	// Uzi's way of calling the Stats c'tor
+	public Stats(GraphGeneratorParameters grapgGeneratorParameters, String graph) {
 		super();
-		this.experimentScenario = scenarioSettings.scenario;
-		this.numOfItems = scenarioSettings.numOfItems;
-		this.numOfLabels = scenarioSettings.numOfLabels;
+		this.sectionDescription = "Inference over graph-generator case " + grapgGeneratorParameters.graphGeneratorCase;
+		this.numOfItems = grapgGeneratorParameters.numOfItems;
+		this.numOfLabels = grapgGeneratorParameters.numOfLabels;
+		this.runMultiThread = GeneralArgs.runMultiThread;
+		this.numOfThreads = GeneralArgs.numOfThreads;
+		this.graph = graph;
+		this.optimizations = new ArrayList<>();
+	}
+
+	// Non probability-calculation step
+	// Haoyue's way of calling the Stats c'tor for non-inference running
+	public Stats(String sectionDescription) {
+		super();
+		this.sectionDescription = sectionDescription;
+		this.runMultiThread = GeneralArgs.runMultiThread;
+		this.numOfThreads = GeneralArgs.numOfThreads;
+		this.optimizations = new ArrayList<>();
+		this.inferenceRunning = false;
+	}
+
+	// Probability-calculation step
+	// Haoyue's way of calling the Stats c'tor for inference running
+	public Stats(int numOfItems, int numOfLabels, String graph) {
+		super();
+		this.sectionDescription = "LabeldRIM probability calculation";
+		this.numOfItems = numOfItems;
+		this.numOfLabels = numOfLabels;
 		this.runMultiThread = GeneralArgs.runMultiThread;
 		this.numOfThreads = GeneralArgs.numOfThreads;
 		this.graph = graph;
@@ -52,31 +81,33 @@ public class Stats {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(String.format("Experiment scenraio: %s\n", experimentScenario));
-		result.append(String.format("Number of items (m): %s\n", numOfItems));
-		result.append(String.format("Number of labels (q): %s\n", numOfLabels));
-		result.append(String.format("Graph: %s\n", graph));
-		result.append(String.format("Algorithm: %s\n", algorithm));
-		result.append(String.format("Run multithread: %s\n", runMultiThread));
-		if (this.runMultiThread) {
-			result.append(String.format("Numbr of threads: %d\n", numOfThreads));
-		}
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
-			result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
+		result.append(String.format("Section description: %s\n", sectionDescription));
+		if (this.inferenceRunning) {
+			result.append(String.format("Number of items (m): %s\n", numOfItems));
+			result.append(String.format("Number of labels (q): %s\n", numOfLabels));
+			result.append(String.format("Graph: %s\n", graph));
+			result.append(String.format("Algorithm: %s\n", algorithm));
+			result.append(String.format("Run multithread: %s\n", runMultiThread));
+			if (this.runMultiThread) {
+				result.append(String.format("Numbr of threads: %d\n", numOfThreads));
+			}
+			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+				result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
+			}
+			result.append(String.format("Probability: %f\n", probability));
 		}
 		result.append(String.format("Start Time: %s\n", startTimeDate));
 		result.append(String.format("End Time: %s\n", endTimeDate));
-		result.append(String.format("Total Time: %s MS\n", (endTimeDate.getTime() - startTimeDate.getTime())));
-		result.append(String.format("Probability: %f\n", probability));
+		result.append(String.format("Total Time: %s MS\n", (this.totalTime)));
 		return result.toString();
 	}
 
 	public String getExperimentScenario() {
-		return experimentScenario;
+		return sectionDescription;
 	}
 
 	public void setExperimentScenario(String experimentScenario) {
-		this.experimentScenario = experimentScenario;
+		this.sectionDescription = experimentScenario;
 	}
 
 	public String getGraph() {
@@ -133,6 +164,7 @@ public class Stats {
 
 	public void setEndTimeDate(Date endTimeDate) {
 		this.endTimeDate = endTimeDate;
+		this.totalTime = new Long(endTimeDate.getTime() - startTimeDate.getTime()).intValue();
 	}
 
 	public double getProbability() {
@@ -141,5 +173,9 @@ public class Stats {
 
 	public void setProbability(double probability) {
 		this.probability = probability;
-	};
+	}
+
+	public int getTotalTime() {
+		return this.totalTime;
+	}
 }
