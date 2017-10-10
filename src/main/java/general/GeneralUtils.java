@@ -5,7 +5,17 @@ import java.util.HashMap;
 
 public class GeneralUtils {
 
-	public static ArrayList<ArrayList<Double>> getInsertionProbabilities(Mallows model) {
+	public static HashMap<Double, ArrayList<ArrayList<Double>>> getPhiToInsertionProbabilities(
+			ArrayList<Distribution> distributions) {
+		HashMap<Double, ArrayList<ArrayList<Double>>> result = new HashMap<>();
+		for (int i = 0; i < distributions.size(); i++) {
+			Distribution current = distributions.get(i);
+			result.put(current.getModel().getPhi(), getInsertionProbabilities(current.getModel()));
+		}
+		return result;
+	}
+
+	private static ArrayList<ArrayList<Double>> getInsertionProbabilities(Mallows model) {
 		ArrayList<ArrayList<Double>> result = new ArrayList<>();
 		for (int i = 0; i < model.getModal().size(); i++) {
 			ArrayList<Double> current = new ArrayList<>();

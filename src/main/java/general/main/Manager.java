@@ -2,6 +2,7 @@ package general.main;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import bruteforce.BruteforceAlgorithm;
@@ -34,7 +35,7 @@ public class Manager {
 	private static final String SAMPLED = "Sampled";
 
 	private static final String TOP_MATCHNING = "Top Matching";
-	
+
 	private static final String LIFTED_TOP_MATCHNING = "Lifted Top Matching";
 
 	private static final Logger logger = Logger.getLogger(Manager.class.getName());
@@ -48,7 +49,8 @@ public class Manager {
 		ArrayList<GraphGeneratorParameters> scenariosSettings = GeneralArgs.graphGeneratorParameters;
 		for (GraphGeneratorParameters scenarioSettings : scenariosSettings) {
 
-			logger.info(String.format("Creating objects for graph-generator case %s, number of items: %d, number of labels: %d",
+			logger.info(String.format(
+					"Creating objects for graph-generator case %s, number of items: %d, number of labels: %d",
 					scenarioSettings.graphGeneratorCase, scenarioSettings.numOfItems, scenarioSettings.numOfLabels));
 
 			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase));
@@ -62,6 +64,8 @@ public class Manager {
 				stats.setAlgorithm(BRUTE_FORCE);
 
 				Distribution explicitDistribution = new ExplicitDistribution(model);
+				ArrayList<Distribution> distributions = new ArrayList<>();
+				distributions.add(explicitDistribution);
 
 				if (GeneralArgs.printDistribution) {
 					System.out.println(explicitDistribution);
@@ -72,11 +76,12 @@ public class Manager {
 				logger.info(String.format("Running brute-force algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
-				double exactProb = new BruteforceAlgorithm().calculateProbability(graph, explicitDistribution);
+				HashMap<Double, Double> exactProbs = new BruteforceAlgorithm().calculateProbability(graph,
+						distributions);
 
 				stats.setEndTimeDate(new Date());
 
-				stats.setProbability(exactProb);
+				stats.setPhiToProbability(exactProbs);
 
 				System.out.println(stats);
 
@@ -89,14 +94,16 @@ public class Manager {
 
 				stats.setStartTimeDate(new Date());
 
-				logger.info(
-						String.format("Running sampled algorithm for graph-generator case %s", scenarioSettings.graphGeneratorCase));
+				logger.info(String.format("Running sampled algorithm for graph-generator case %s",
+						scenarioSettings.graphGeneratorCase));
 
-				double approxProb = new SampledAlgorithm().calculateProbability(graph, sampledDistribution);
+				ArrayList<Distribution> distributions = new ArrayList<>();
+				distributions.add(sampledDistribution);
+				HashMap<Double, Double> approxProbs = new SampledAlgorithm().calculateProbability(graph, distributions);
 
 				stats.setEndTimeDate(new Date());
 
-				stats.setProbability(approxProb);
+				stats.setPhiToProbability(approxProbs);
 
 				System.out.println(stats);
 			}
@@ -105,40 +112,46 @@ public class Manager {
 				stats.setAlgorithm(TOP_MATCHNING);
 
 				Distribution simpleDistribution = new SimpleDistribution(model);
+				ArrayList<Distribution> distributions = new ArrayList<>();
+				distributions.add(simpleDistribution);
 
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running top-matchnig algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
-				double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
+				HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm().calculateProbability(graph,
+						distributions);
 
 				stats.setEndTimeDate(new Date());
 
-				stats.setProbability(topMatchingProb);
+				stats.setPhiToProbability(topMatchingProbs);
 
 				System.out.println(stats);
 
 			}
-			
-			if (GeneralArgs.runLiftedTopMatching) {				
+
+			if (GeneralArgs.runLiftedTopMatching) {
 				stats.setAlgorithm(LIFTED_TOP_MATCHNING);
-				
+
 				Distribution simpleDistribution = new SimpleDistribution(model);
-				
+				ArrayList<Distribution> distributions = new ArrayList<>();
+				distributions.add(simpleDistribution);
+
 				stats.setStartTimeDate(new Date());
-				
+
 				logger.info(String.format("Running lifted-top-matchnig algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
-				
-				double liftedTopMatchingProb = new LiftedTopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
-				
+
+				HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm()
+						.calculateProbability(graph, distributions);
+
 				stats.setEndTimeDate(new Date());
-				
-				stats.setProbability(liftedTopMatchingProb);
-				
+
+				stats.setPhiToProbability(liftedTopMatchingProbs);
+
 				System.out.println(stats);
-				
+
 			}
 		}
 

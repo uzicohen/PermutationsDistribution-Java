@@ -96,7 +96,7 @@ public class PrintFlow {
 			sb.append(",");
 			sb.append(delta.getLabelsToIndex());
 			sb.append(",");
-			sb.append(delta.getProbability());
+			sb.append(delta.getPhiToProbability());
 			System.out.println(sb);
 		}
 	}

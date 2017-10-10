@@ -28,8 +28,7 @@ public class LiftedTopMatchingUtils {
 
 		for (Node child : node.getChildren()) {
 			HashSet<String> currentChildParents = labelToParentsMap.containsKey(child.getLabel())
-					? labelToParentsMap.get(child.getLabel())
-					: new HashSet<>();
+					? labelToParentsMap.get(child.getLabel()) : new HashSet<>();
 			currentChildParents.add(label);
 			labelToParentsMap.put(child.getLabel(), currentChildParents);
 
@@ -59,8 +58,7 @@ public class LiftedTopMatchingUtils {
 			int labelDelta = delta.getLabelPosition(label);
 			int maxParentDelta = 0;
 			HashSet<String> parents = topMatchingArgs.getLabelToParentsMap().containsKey(label)
-					? topMatchingArgs.getLabelToParentsMap().get(label)
-					: new HashSet<>();
+					? topMatchingArgs.getLabelToParentsMap().get(label) : new HashSet<>();
 			for (String parentLable : parents) {
 				maxParentDelta = Math.max(maxParentDelta, delta.getLabelPosition(parentLable));
 			}
@@ -74,7 +72,7 @@ public class LiftedTopMatchingUtils {
 		return result;
 	}
 
-	public static double getInsertionProb(Delta delta, String sigma, int j) {
+	public static HashMap<Double, Double> getInsertionProbs(Delta delta, String sigma, int j) {
 		// Get the i from "s{i}"
 		int i = Integer.parseInt(sigma.split("s")[1]);
 		int jTag = j;
@@ -86,7 +84,13 @@ public class LiftedTopMatchingUtils {
 				jTag--;
 			}
 		}
-		return topMatchingArgs.getInsertionProbs().get(i - 1).get(jTag - 1);
+		HashMap<Double, Double> result = new HashMap<>();
+		HashSet<Double> setOfPhi = new HashSet<>();
+		topMatchingArgs.getDistributions().forEach(dist -> setOfPhi.add(dist.getModel().getPhi()));
+		for (double phi : setOfPhi) {
+			result.put(phi, topMatchingArgs.getPhiToInsertionProbs().get(phi).get(i - 1).get(jTag - 1));
+		}
+		return result;
 	}
 
 	public static HashSet<Integer> getIllegalLables(String sigma, Delta delta,
@@ -94,10 +98,12 @@ public class LiftedTopMatchingUtils {
 
 		// For each label, make sure that the following applies:
 		// for each l' s.t l' in lambda(sigma) and delta(l) < delta(l'),
-		// parents(l') != empty_set AND delta(l) < Max delta(u), where u in parents(l')
+		// parents(l') != empty_set AND delta(l) < Max delta(u), where u in
+		// parents(l')
 		//
 		//
-		// (if parents(l') = empty_set, then l' should be the one that takes sigma)
+		// (if parents(l') = empty_set, then l' should be the one that takes
+		// sigma)
 
 		HashSet<Integer> result = new HashSet<>();
 		for (int j : jToSetOfLabels.keySet()) {

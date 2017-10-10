@@ -11,21 +11,22 @@ public class TopMatchingArgs {
 
 	private Graph g;
 
-	private Distribution rim;
+	private ArrayList<Distribution> distributions;
 
 	private HashMap<String, HashSet<String>> labelToParentsMap;
 
 	private HashMap<String, HashSet<String>> lambda;
 
-	private ArrayList<ArrayList<Double>> insertionProbs;
+	private HashMap<Double, ArrayList<ArrayList<Double>>> phiToInsertionProbs;
 
-	public TopMatchingArgs(Graph g, Distribution rim, HashMap<String, HashSet<String>> labelToParentsMap,
-			HashMap<String, HashSet<String>> lambda, ArrayList<ArrayList<Double>> insertionProbs) {
+	public TopMatchingArgs(Graph g, ArrayList<Distribution> distributions,
+			HashMap<String, HashSet<String>> labelToParentsMap, HashMap<String, HashSet<String>> lambda,
+			HashMap<Double, ArrayList<ArrayList<Double>>> phiToInsertionProbs) {
 		this.g = g;
-		this.rim = rim;
+		this.distributions = distributions;
 		this.labelToParentsMap = labelToParentsMap;
 		this.lambda = lambda;
-		this.insertionProbs = insertionProbs;
+		this.phiToInsertionProbs = phiToInsertionProbs;
 	}
 
 	public Graph getG() {
@@ -36,12 +37,12 @@ public class TopMatchingArgs {
 		this.g = g;
 	}
 
-	public Distribution getRim() {
-		return rim;
+	public ArrayList<Distribution> getDistributions() {
+		return distributions;
 	}
 
-	public void setRim(Distribution rim) {
-		this.rim = rim;
+	public void setDistributions(ArrayList<Distribution> distributions) {
+		this.distributions = distributions;
 	}
 
 	public HashMap<String, HashSet<String>> getLabelToParentsMap() {
@@ -60,11 +61,11 @@ public class TopMatchingArgs {
 		this.lambda = lambda;
 	}
 
-	public ArrayList<ArrayList<Double>> getInsertionProbs() {
-		return insertionProbs;
+	public HashMap<Double, ArrayList<ArrayList<Double>>> getPhiToInsertionProbs() {
+		return phiToInsertionProbs;
 	}
 
-	public void setInsertionProbs(ArrayList<ArrayList<Double>> insertionProbs) {
-		this.insertionProbs = insertionProbs;
+	public void setInsertionProbs(HashMap<Double, ArrayList<ArrayList<Double>>> phiToInsertionProbs) {
+		this.phiToInsertionProbs = phiToInsertionProbs;
 	}
 }

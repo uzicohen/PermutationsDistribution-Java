@@ -66,23 +66,36 @@ public class SampledAlgorithm implements IAlgorithm {
 	}
 
 	@Override
-	public double calculateProbability(Graph graph, Distribution distribution) {
+	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
 		GeneralArgs.currentAlgorithm = AlgorithmType.SAMPLED;
 
-		int numOfSample = distribution.getPermutations().size();
-		int counter = 0;
-		logger.info(String.format("Calculating probability over %d samples", numOfSample));
+		HashMap<Double, Double> result = new HashMap<>();
 
-		double result = 0.0;
-		for (Permutation permutation : distribution.getPermutations()) {
+		for (Distribution distribution : distributions) {
 
-			result += isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0;
+			int numOfSample = distribution.getPermutations().size();
+			int counter = 0;
 
-			counter++;
 			if (GeneralArgs.verbose) {
-				if (counter % GeneralArgs.numSamplesForPrint == 0) {
-					double perc = 100.0 * ((double) counter) / ((double) numOfSample);
-					logger.info(String.format("Done with %d out of %d samples (%f perc)", counter, numOfSample, perc));
+				logger.info(String.format("Calculating probability over %d samples", numOfSample));
+			}
+
+			double phi = distribution.getModel().getPhi();
+			for (Permutation permutation : distribution.getPermutations()) {
+				Double currentProb = result.get(phi);
+				if (currentProb == null) {
+					currentProb = 0.0;
+				}
+				result.put(phi, currentProb
+						+ (isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0));
+
+				counter++;
+				if (GeneralArgs.verbose) {
+					if (counter % GeneralArgs.numSamplesForPrint == 0) {
+						double perc = 100.0 * ((double) counter) / ((double) numOfSample);
+						logger.info(String.format("Done with %d out of %d permutations (%f perc)", counter, numOfSample,
+								perc));
+					}
 				}
 			}
 		}

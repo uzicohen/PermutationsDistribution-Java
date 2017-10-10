@@ -22,7 +22,7 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 	private TopMatchingArgs topMatchingArgs;
 
-	private double probability;
+	private HashMap<Double, Double> phiToProbability;
 
 	private class AssignmentProbCalculator implements Runnable {
 		private ArrayList<HashMap<String, String>> assignments;
@@ -39,12 +39,13 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 	}
 
 	public TopMatchingAlgorithm() {
+		this.phiToProbability = new HashMap<>();
 	}
 
 	@Override
-	public double calculateProbability(Graph graph, Distribution distribution) {
+	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
-		
+
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
 
 		// For each label, we keep in a dictionary it's parents
@@ -56,9 +57,9 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 		// Create the data structures in the level of top matching
 		preProcessGraph(graph, labelToParentsMap, lambda);
 
-		this.topMatchingArgs = new TopMatchingArgs(graph, distribution, labelToParentsMap, lambda,
-				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
-
+		this.topMatchingArgs = new TopMatchingArgs(graph, distributions, labelToParentsMap, lambda,
+				GeneralUtils.getPhiToInsertionProbabilities(distributions));
+		
 		int numOfAssignments = allPossibleAssignments.size();
 
 		if (GeneralArgs.verbose) {
@@ -81,20 +82,25 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 		} else {
 			calculateProbabilityForSubsetOfAssignments(allPossibleAssignments);
 		}
-		return this.probability;
+		return this.phiToProbability;
 	}
 
 	private void calculateProbabilityForSubsetOfAssignments(ArrayList<HashMap<String, String>> assignments) {
-		double prob = 0.0;
 		for (HashMap<String, String> gamma : assignments) {
 			TopProb topProb = new TopProb(gamma, topMatchingArgs);
-			prob += topProb.calculate();
+			HashMap<Double, Double> currentProbs = topProb.calculate();
+			for (Double phi : currentProbs.keySet()) {
+				updateProb(phi, currentProbs.get(phi));
+			}
 		}
-		updateProb(prob);
 	}
 
-	private synchronized void updateProb(double prob) {
-		this.probability += prob;
+	private synchronized void updateProb(double phi, double prob) {
+		double newProb = 0.0;
+		if (this.phiToProbability.containsKey(phi)) {
+			newProb = this.phiToProbability.get(phi);
+		}
+		this.phiToProbability.put(phi, newProb + prob);
 	}
 
 	private void preProcessGraphAux(Node node, HashMap<String, HashSet<String>> labelToParentsMap,
@@ -108,8 +114,7 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 		for (Node child : node.getChildren()) {
 			HashSet<String> currentChildParents = labelToParentsMap.containsKey(child.getLabel())
-					? labelToParentsMap.get(child.getLabel())
-					: new HashSet<>();
+					? labelToParentsMap.get(child.getLabel()) : new HashSet<>();
 			currentChildParents.add(label);
 			labelToParentsMap.put(child.getLabel(), currentChildParents);
 

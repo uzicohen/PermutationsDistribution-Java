@@ -210,14 +210,15 @@ public class DeltasContainerGenerator {
 			// If the label has no parents, it's mapping has to be the best
 			// possible
 
-			for (String sigma : this.topMatchingArgs.getRim().getModel().getModal()) {
+			ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
+			for (String sigma : modal) {
 				if (!this.topMatchingArgs.getLambda().containsKey(sigma)
 						|| sigma.equals(topProbArgs.getGamma().get(l.getLabel()))) {
 					continue;
 				}
 
 				if (this.topMatchingArgs.getLambda().get(sigma).contains(l.getLabel())) {
-					int minIndexForItem = this.topMatchingArgs.getRim().getModel().getModal().size();
+					int minIndexForItem = modal.size();
 
 					// Check if this sigma is mapped to a better position than
 					// the position of l's item

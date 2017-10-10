@@ -18,7 +18,7 @@ public class Delta {
 	// 1: assigned
 	private HashMap<String, Integer> labelsState;
 
-	private double probability;
+	private HashMap<Double, Double> phiToProbability;
 
 	private String strForHash;
 
@@ -39,8 +39,11 @@ public class Delta {
 			}
 			this.labelToIndex.put(label, sigmaToIndexMap.get(sigma));
 		}
-		this.probability = 1.0;
+		for (Double phi : this.phiToProbability.keySet()) {
+			this.phiToProbability.put(phi, 1.0);
+		}
 		this.hashIsValid = false;
+		this.phiToProbability = new HashMap<>();
 	}
 
 	public Delta(Delta other) {
@@ -48,8 +51,8 @@ public class Delta {
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState = new HashMap<>(other.labelsState);
 		}
-		this.probability = other.probability;
 		this.hashIsValid = false;
+		this.phiToProbability = new HashMap<>(other.phiToProbability);
 	}
 
 	public Delta() {
@@ -57,17 +60,17 @@ public class Delta {
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 			this.labelsState = new HashMap<>();
 		}
-		this.probability = 1.0;
 		this.hashIsValid = false;
+		this.phiToProbability = new HashMap<>();
 	}
 
 	@Override
 	public String toString() {
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
-			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.probability);
+			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.phiToProbability);
 		}
 		return String.format("Mapping: %s, States: %s, Prob: %f", this.labelToIndex, this.labelsState,
-				this.probability);
+				this.phiToProbability);
 	}
 
 	@Override
@@ -151,12 +154,23 @@ public class Delta {
 		return this.labelsState.get(label);
 	}
 
-	public double getProbability() {
-		return probability;
+	public HashMap<Double, Double> getPhiToProbability() {
+		return phiToProbability;
 	}
 
-	public void setProbability(double probability) {
-		this.probability = probability;
+	public void setPhiToProbability(HashMap<Double, Double> phiToProbability) {
+		this.phiToProbability = phiToProbability;
+	}
+
+	public void setProbabilityOfPhi(double phi, double probability) {
+		this.phiToProbability.put(phi, probability);
+	}
+
+	public double getProbabilityOfPhi(double phi) {
+		if (!this.phiToProbability.containsKey(phi)) {
+			this.phiToProbability.put(phi, 1.0);
+		}
+		return this.phiToProbability.get(phi);
 	}
 
 	public void setStrForHash(String strForHash) {
@@ -188,8 +202,8 @@ public class Delta {
 		return this.labelToIndex.get(label);
 	}
 
-	public HashMap<Integer, HashSet<String>> getNonAssignedJsToLabels(
-			HashMap<String, HashSet<String>> lambda, String sigma) {
+	public HashMap<Integer, HashSet<String>> getNonAssignedJsToLabels(HashMap<String, HashSet<String>> lambda,
+			String sigma) {
 		if (!lambda.containsKey(sigma)) {
 			return new HashMap<>();
 		}
@@ -207,7 +221,8 @@ public class Delta {
 			}
 		}
 
-		// Go over the sets of labels and omit the ones that are not contained in
+		// Go over the sets of labels and omit the ones that are not contained
+		// in
 		// sigma's lambda's set
 		ArrayList<Integer> jsToRemove = new ArrayList<>();
 		for (int j : result.keySet()) {

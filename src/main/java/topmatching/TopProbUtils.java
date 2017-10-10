@@ -1,5 +1,6 @@
 package topmatching;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import topmatching.delta.Delta;
@@ -15,7 +16,7 @@ public class TopProbUtils {
 		topProbArgs = topProbArgsInput;
 	}
 
-	public double getInsertionProb(Delta delta, String sigma, int j) {
+	public HashMap<Double, Double> getInsertionProbs(Delta delta, String sigma, int j) {
 		// Get the i from "s{i}"
 		int i = Integer.parseInt(sigma.split("s")[1]);
 
@@ -29,7 +30,15 @@ public class TopProbUtils {
 			}
 		}
 		int jTag = j - numOfElementsSmallerThanJ;
-		return topMatchingArgs.getInsertionProbs().get(i - 1).get(jTag - 1);
+		
+		HashMap<Double, Double> result = new HashMap<>();
+		HashSet<Double> setOfPhi = new HashSet<>();
+		topMatchingArgs.getDistributions().forEach(dist -> setOfPhi.add(dist.getModel().getPhi()));
+		for (double phi : setOfPhi) {
+			result.put(phi, topMatchingArgs.getPhiToInsertionProbs().get(phi).get(i - 1).get(jTag - 1));
+		}
+		return result;
+		
 	}
 
 	public HashSet<String> getItemsLargerThanI(int i) {
@@ -51,8 +60,7 @@ public class TopProbUtils {
 			int labelDelta = delta.getLabelPosition(label);
 			int maxParentDelta = 0;
 			HashSet<String> parents = topMatchingArgs.getLabelToParentsMap().containsKey(label)
-					? topMatchingArgs.getLabelToParentsMap().get(label)
-					: new HashSet<>();
+					? topMatchingArgs.getLabelToParentsMap().get(label) : new HashSet<>();
 			for (String parentLable : parents) {
 				maxParentDelta = Math.max(maxParentDelta, delta.getLabelPosition(parentLable));
 			}

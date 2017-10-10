@@ -2,6 +2,7 @@ package stats;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
@@ -38,7 +39,7 @@ public class Stats {
 
 	private int totalTime;
 
-	private double probability;
+	private HashMap<Double, Double> phiToProbability;
 
 	private boolean inferenceRunning = true;
 
@@ -94,7 +95,7 @@ public class Stats {
 			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
 				result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
 			}
-			result.append(String.format("Probability: %f\n", probability));
+			result.append(String.format("Probabilities: %s\n", phiToProbability));
 		}
 		result.append(String.format("Start Time: %s\n", startTimeDate));
 		result.append(String.format("End Time: %s\n", endTimeDate));
@@ -167,12 +168,12 @@ public class Stats {
 		this.totalTime = new Long(endTimeDate.getTime() - startTimeDate.getTime()).intValue();
 	}
 
-	public double getProbability() {
-		return probability;
+	public HashMap<Double, Double> getPhiToProbability() {
+		return phiToProbability;
 	}
 
-	public void setProbability(double probability) {
-		this.probability = probability;
+	public void setPhiToProbability(HashMap<Double, Double> phiToProbability) {
+		this.phiToProbability = phiToProbability;
 	}
 
 	public int getTotalTime() {

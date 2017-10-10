@@ -28,7 +28,7 @@ public class TopProb {
 		this.topProbUtils.init(this.topMatchingArgs, this.topProbArgs);
 	}
 
-	public double calculate() {
+	public HashMap<Double, Double> calculate() {
 
 		PrintFlow.printGamma(this.topProbArgs.getGamma());
 
@@ -37,10 +37,11 @@ public class TopProb {
 
 		PrintFlow.printDeltasContainer("Initial deltas", r, topProbArgs.getGamma());
 
-		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
+		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
+		for (int i = 0; i < modal.size(); i++) {
 
 			DeltasContainer newR = new DeltasContainer(topMatchingArgs);
-			String sigma = this.topMatchingArgs.getRim().getModel().getModal().get(i);
+			String sigma = modal.get(i);
 
 			PrintFlow.printItem(sigma, topProbArgs.getImgGamma().contains(sigma));
 
@@ -63,16 +64,22 @@ public class TopProb {
 					}
 					// else - the old delta stays
 
-					// Calculate the insertion probability
-					double insertionProb = this.topProbUtils.getInsertionProb(deltaTag, sigma, j);
-
-					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
+					// Update the probability
+					HashMap<Double, Double> phiToInsertionProb = this.topProbUtils.getInsertionProbs(deltaTag, sigma,
+							j);
+					for (double phi : phiToInsertionProb.keySet()) {
+						deltaTag.setProbabilityOfPhi(phi,
+								deltaTag.getProbabilityOfPhi(phi) * phiToInsertionProb.get(phi));
+					}
 
 					// Search in newR the constructed delta
 					Delta exisitingDelta = newR.getDelta(deltaTag);
 
 					if (exisitingDelta != null) {
-						exisitingDelta.setProbability(exisitingDelta.getProbability() + deltaTag.getProbability());
+						for (double phi : phiToInsertionProb.keySet()) {
+							exisitingDelta.setProbabilityOfPhi(phi,
+									exisitingDelta.getProbabilityOfPhi(phi) + deltaTag.getProbabilityOfPhi(phi));
+						}
 						PrintFlow.printJAndNewDelta(j, exisitingDelta, topProbArgs.getGamma());
 					} else {
 						// insert the new delta into the new R
@@ -86,18 +93,23 @@ public class TopProb {
 
 		PrintFlow.printDeltasContainer("Final deltas", r, topProbArgs.getGamma());
 
-		double probability = 0.0;
+		HashMap<Double, Double> result = new HashMap<>();
+
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
-			probability += delta.getProbability();
+			for (double phi : delta.getPhiToProbability().keySet()) {
+				double prob = delta.getProbabilityOfPhi(phi);
+				Double currentProb = result.get(phi);
+				if (currentProb == null) {
+					currentProb = 0.0;
+				}
+				result.put(phi, currentProb + prob);
+			}
 		}
-
-		PrintFlow.printProbability(probability);
-
 		PrintFlow.printSeparator();
 
-		return probability;
+		return result;
 	}
 
 	private ArrayList<Integer> range(Delta delta, String sigma) {

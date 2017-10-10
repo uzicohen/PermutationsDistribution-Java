@@ -2,6 +2,7 @@ package common;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import general.Distribution;
@@ -32,6 +33,7 @@ public class TestUtils {
 	private static double[] exactProbs;
 
 	static {
+		// For phi = 0.3
 		exactProbs = new double[] { 0.990541370714296, 0.989000393257776, 0.732986262312703, 0.719424460431655,
 				0.761006046617952, 0.934812879701345, 0.9498882307361549, 1.0, 0.6937277499487445, 0.503103,
 				0.9741246606894051, 0.567747, 0.862931, 0.028696, 0.731592, 0.900444, 0.994654, 0.765118 };
@@ -49,18 +51,24 @@ public class TestUtils {
 		double exactProb = exactProbs[graphId - 1];
 
 		Distribution distribution = new SimpleDistribution(model);
+		ArrayList<Distribution> distributions = new ArrayList<>();
+		distributions.add(distribution);
 
-		double prob = 0.0;
+		HashMap<Double, Double> result = null;
 		switch (algorithmType) {
 		case TOP_MATCHNING:
-			prob = new TopMatchingAlgorithm().calculateProbability(graph, distribution);
+			result = new TopMatchingAlgorithm().calculateProbability(graph, distributions);
 			break;
 		case LIFTED_TOP_MATCHING:
-			prob = new LiftedTopMatchingAlgorithm().calculateProbability(graph, distribution);
+			result = new LiftedTopMatchingAlgorithm().calculateProbability(graph, distributions);
 			break;
 		default:
 		}
-		return Math.abs(exactProb - prob) < Epsilon;
+		boolean allEqual = true;
+		for (double phi : result.keySet()) {
+			allEqual &= Math.abs(exactProb - result.get(phi)) < Epsilon;
+		}
+		return allEqual;
 	}
 
 	public static boolean runLiftedTopMatchingRandomTest(Graph graph, int numItems, int numOfLabels, int scenario,
@@ -81,20 +89,23 @@ public class TestUtils {
 		stats.setAlgorithm(TOP_MATCHNING);
 
 		Distribution simpleDistribution = new SimpleDistribution(model);
+		ArrayList<Distribution> distributions = new ArrayList<>();
+		distributions.add(simpleDistribution);
 
 		stats.setStartTimeDate(new Date());
 
 		logger.info(String.format("Running top-matchnig algorithm for a random scenario %d with %d labels and %d items",
 				scenario, numOfLabels, numItems));
 
-		double topMatchingProb = new TopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
+		HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm().calculateProbability(graph,
+				distributions);
 
 		stats.setEndTimeDate(new Date());
 
-		summary.append(String.format("%f (%s MS), ", topMatchingProb,
+		summary.append(String.format("%f (%s MS), ", topMatchingProbs,
 				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
 
-		stats.setProbability(topMatchingProb);
+		stats.setPhiToProbability(topMatchingProbs);
 
 		System.out.println(stats);
 
@@ -109,25 +120,30 @@ public class TestUtils {
 				"Running lifted-top-matchnig algorithm for a random scenario %d with %d labels and %d items", scenario,
 				numOfLabels, numItems));
 
-		double liftedTopMatchingProb = new LiftedTopMatchingAlgorithm().calculateProbability(graph, simpleDistribution);
+		HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm().calculateProbability(graph,
+				distributions);
 
 		stats.setEndTimeDate(new Date());
 
-		summary.append(String.format("Lifted Top Matching: %f (%s MS)", liftedTopMatchingProb,
+		summary.append(String.format("Lifted Top Matching: %f (%s MS)", liftedTopMatchingProbs,
 				(stats.getEndTimeDate().getTime() - stats.getStartTimeDate().getTime())));
 
-		if (Math.abs(liftedTopMatchingProb - 0.000000) > 10e-6 && Math.abs(liftedTopMatchingProb - 1.000000) > 10e-6) {
-			summaries.add(summary.toString());
-		} else {
-			summaries.add("NI");
-		}
+		// if (Math.abs(liftedTopMatchingProbs - 0.000000) > 10e-6 &&
+		// Math.abs(liftedTopMatchingProb - 1.000000) > 10e-6) {
+		// summaries.add(summary.toString());
+		// } else {
+		// summaries.add("NI");
+		// }
 
-		stats.setProbability(liftedTopMatchingProb);
+		stats.setPhiToProbability(liftedTopMatchingProbs);
 
 		System.out.println(stats);
 
-		return Math.abs(topMatchingProb - liftedTopMatchingProb) < Epsilon;
-
+		boolean allEqual = true;
+		for (double phi : topMatchingProbs.keySet()) {
+			allEqual &= Math.abs(topMatchingProbs.get(phi) - liftedTopMatchingProbs.get(phi)) < Epsilon;
+		}
+		return allEqual;
 	}
 
 }

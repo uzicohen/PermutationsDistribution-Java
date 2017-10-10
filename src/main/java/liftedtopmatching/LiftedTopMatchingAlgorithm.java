@@ -24,7 +24,7 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 
 	private TopMatchingArgs topMatchingArgs;
 
-	private double probability;
+	private HashMap<Double, Double> phiToProbability;
 
 	private class DeltaProbCalculator implements Runnable {
 		private DeltasContainer r;
@@ -43,13 +43,16 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 				calculateProbabilityForSubsetOfDeltas(newDc);
 			}
 		}
+	}
 
+	public LiftedTopMatchingAlgorithm() {
+		this.phiToProbability = new HashMap<>();
 	}
 
 	@Override
-	public double calculateProbability(Graph graph, Distribution distribution) {
+	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
 		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
-		
+
 		// For each label, we keep in a dictionary it's parents
 		HashMap<String, HashSet<String>> labelToParentsMap = new HashMap<>();
 
@@ -59,8 +62,8 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 		// Create the data structures in the level of top matching
 		LiftedTopMatchingUtils.preProcessGraph(graph, labelToParentsMap, lambda);
 
-		this.topMatchingArgs = new TopMatchingArgs(graph, distribution, labelToParentsMap, lambda,
-				GeneralUtils.getInsertionProbabilities(distribution.getModel()));
+		this.topMatchingArgs = new TopMatchingArgs(graph, distributions, labelToParentsMap, lambda,
+				GeneralUtils.getPhiToInsertionProbabilities(distributions));
 
 		LiftedTopMatchingUtils.init(this.topMatchingArgs);
 
@@ -82,19 +85,24 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 		} else {
 			calculateProbabilityForSubsetOfDeltas(r);
 		}
-		return this.probability;
+		return this.phiToProbability;
 	}
 
-	private synchronized void updateProb(double prob) {
-		this.probability += prob;
+	private synchronized void updateProb(double phi, double prob) {
+		double newProb = 0.0;
+		if (this.phiToProbability.containsKey(phi)) {
+			newProb = this.phiToProbability.get(phi);
+		}
+		this.phiToProbability.put(phi, newProb + prob);
 	}
 
 	// For multi thread purposes
 	private void calculateProbabilityForSubsetOfDeltas(DeltasContainer dc) {
 		DeltasContainer r = dc;
 
-		for (int i = 0; i < this.topMatchingArgs.getRim().getModel().getModal().size(); i++) {
-			String sigma = this.topMatchingArgs.getRim().getModel().getModal().get(i);
+		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
+		for (int i = 0; i < modal.size(); i++) {
+			String sigma = modal.get(i);
 			DeltasContainer newR = new DeltasContainer(topMatchingArgs);
 
 			Iterator<Delta> iter = r.iterator();
@@ -105,7 +113,8 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 				HashMap<Integer, HashSet<String>> jToSetOfLabels = delta
 						.getNonAssignedJsToLabels(this.topMatchingArgs.getLambda(), sigma);
 
-				// For each j, test if the labels that are mapped to it are legal
+				// For each j, test if the labels that are mapped to it are
+				// legal
 				HashSet<Integer> illegalIndices = LiftedTopMatchingUtils.getIllegalLables(sigma, delta, jToSetOfLabels);
 
 				for (int j : jToSetOfLabels.keySet()) {
@@ -118,41 +127,53 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 					}
 
 					// Update the probability
-					double insertionProb = LiftedTopMatchingUtils.getInsertionProb(deltaTag, sigma, j);
-
-					deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
+					HashMap<Double, Double> phiToInsertionProb = LiftedTopMatchingUtils.getInsertionProbs(deltaTag,
+							sigma, j);
+					for (double phi : phiToInsertionProb.keySet()) {
+						deltaTag.setProbabilityOfPhi(phi,
+								deltaTag.getProbabilityOfPhi(phi) * phiToInsertionProb.get(phi));
+					}
 
 					// Search in newR the constructed delta
 					Delta exisitingDelta = newR.getDelta(deltaTag);
 
 					if (exisitingDelta != null) {
-						exisitingDelta.setProbability(exisitingDelta.getProbability() + deltaTag.getProbability());
+						for (double phi : phiToInsertionProb.keySet()) {
+							exisitingDelta.setProbabilityOfPhi(phi,
+									exisitingDelta.getProbabilityOfPhi(phi) + deltaTag.getProbabilityOfPhi(phi));
+						}
 					} else {
 						// insert the new delta into the new R
 						newR.addDelta(deltaTag);
 					}
 				}
 
-				// Finally, we insert the item to all possible indices in a case it is not
+				// Finally, we insert the item to all possible indices in a case
+				// it is not
 				// assigned to any label
 
-				if (i + delta.getNumOfDistinctNonAssignedLabels() < topMatchingArgs.getRim().getModel().getModal()
-						.size()) {
+				if (i + delta.getNumOfDistinctNonAssignedLabels() < modal.size()) {
 					ArrayList<Integer> rangeNotWithinLabels = LiftedTopMatchingUtils.rangeNotWithinLabels(delta, sigma);
 					for (int j : rangeNotWithinLabels) {
 						Delta deltaTag = new Delta(delta);
 						deltaTag.insertNewItem(j);
 
 						// Update the probability
-						double insertionProb = LiftedTopMatchingUtils.getInsertionProb(deltaTag, sigma, j);
-
-						deltaTag.setProbability(deltaTag.getProbability() * insertionProb);
+						HashMap<Double, Double> phiToInsertionProb = LiftedTopMatchingUtils.getInsertionProbs(deltaTag,
+								sigma, j);
+						for (double phi : phiToInsertionProb.keySet()) {
+							deltaTag.setProbabilityOfPhi(phi,
+									deltaTag.getProbabilityOfPhi(phi) * phiToInsertionProb.get(phi));
+						}
 
 						// Search in newR the constructed delta
 						Delta exisitingDelta = newR.getDelta(deltaTag);
 
 						if (exisitingDelta != null) {
-							exisitingDelta.setProbability(exisitingDelta.getProbability() + deltaTag.getProbability());
+							for (double phi : phiToInsertionProb.keySet()) {
+								exisitingDelta.setProbabilityOfPhi(phi,
+										exisitingDelta.getProbabilityOfPhi(phi) + deltaTag.getProbabilityOfPhi(phi));
+							}
 						} else {
 							// insert the new delta into the new R
 							newR.addDelta(deltaTag);
@@ -163,14 +184,14 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 			r = newR;
 		}
 
-		double prob = 0.0;
-
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
-			prob += delta.getProbability();
+			for (double phi : delta.getPhiToProbability().keySet()) {
+				double prob = delta.getProbabilityOfPhi(phi);
+				updateProb(phi, prob);
+			}
 		}
-		updateProb(prob);
 	}
 
 }
