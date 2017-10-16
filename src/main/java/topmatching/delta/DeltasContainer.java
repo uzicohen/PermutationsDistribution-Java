@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import topmatching.TopMatchingArgs;
-
 public class DeltasContainer {
 
-	public class EnhancedDeltasContainerIterator implements Iterator<Delta> {
+	public class DeltasContainerIterator implements Iterator<Delta> {
 
 		private int index;
 
@@ -19,7 +17,7 @@ public class DeltasContainer {
 		 * @param n
 		 *            the size of the container
 		 */
-		public EnhancedDeltasContainerIterator(HashMap<String, Delta> deltasMap) {
+		public DeltasContainerIterator(HashMap<String, Delta> deltasMap) {
 			this.index = 0;
 			this.deltas = new ArrayList<>();
 			for (Delta delta : deltasMap.values()) {
@@ -41,9 +39,21 @@ public class DeltasContainer {
 
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Delta> iter = iterator();
+		while (iter.hasNext()) {
+			Delta delta = iter.next();
+			sb.append(delta);
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
 	private HashMap<String, Delta> deltas;
 
-	public DeltasContainer(TopMatchingArgs topMatchingArgs) {
+	public DeltasContainer() {
 		this.deltas = new HashMap<>();
 	}
 
@@ -56,7 +66,7 @@ public class DeltasContainer {
 	}
 
 	public Iterator<Delta> iterator() {
-		return new EnhancedDeltasContainerIterator(this.deltas);
+		return new DeltasContainerIterator(this.deltas);
 	}
 
 	public int getNumOfDeltas() {

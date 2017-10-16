@@ -27,7 +27,7 @@ public class DeltasContainerGenerator {
 	}
 
 	public DeltasContainer getInitialDeltas(TopProbArgs topProbArgs) {
-		DeltasContainer dc = new DeltasContainer(topMatchingArgs);
+		DeltasContainer dc = new DeltasContainer();
 
 		// First delta is empty
 		dc.addDelta(new Delta());
@@ -61,11 +61,11 @@ public class DeltasContainerGenerator {
 
 			// If no new roots, this means we have a cycle
 			if (currentRoots.isEmpty()) {
-				return new DeltasContainer(topMatchingArgs);
+				return new DeltasContainer();
 			}
 
 			for (String sigma : currentRoots) {
-				DeltasContainer newResult = new DeltasContainer(topMatchingArgs);
+				DeltasContainer newResult = new DeltasContainer();
 
 				// Go through all previously created deltas and push the current
 				// label in them while keeping the constraints that is reflected
@@ -123,7 +123,7 @@ public class DeltasContainerGenerator {
 		}
 
 		// Go over the deltas and replace the key-as-sigma to key-as-label
-		DeltasContainer result = new DeltasContainer(topMatchingArgs);
+		DeltasContainer result = new DeltasContainer();
 
 		Iterator<Delta> iter = dc.iterator();
 		while (iter.hasNext()) {

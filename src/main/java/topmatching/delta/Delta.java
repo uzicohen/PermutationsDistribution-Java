@@ -69,7 +69,7 @@ public class Delta {
 		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
 			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.phiToProbability);
 		}
-		return String.format("Mapping: %s, States: %s, Prob: %f", this.labelToIndex, this.labelsState,
+		return String.format("Mapping: %s, States: %s, Prob: %s", this.labelToIndex, this.labelsState,
 				this.phiToProbability);
 	}
 
@@ -237,6 +237,15 @@ public class Delta {
 		}
 
 		return result;
+	}
+
+	public boolean isFull() {
+		for (int labelState : this.labelsState.values()) {
+			if (labelState == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	// LiftedTopMatching section

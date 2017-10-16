@@ -58,6 +58,8 @@ public class GeneralArgs {
 
 	public static boolean sharedModalOptimization;
 
+	public static boolean earlyPrunningOptimization;
+
 	static {
 
 		properties = new Properties();
@@ -105,6 +107,8 @@ public class GeneralArgs {
 			numOfThreads = Integer.parseInt(properties.getProperty("num_of_threads"));
 
 			sharedModalOptimization = Boolean.parseBoolean(properties.getProperty("shared_modal_optimization"));
+
+			earlyPrunningOptimization = Boolean.parseBoolean(properties.getProperty("early_prunning_optimization"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -16,7 +16,7 @@ import topmatching.delta.DeltasContainerGenerator;
 public class LiftedTopMatchingDeltasContainerGenerator {
 
 	public DeltasContainer getInitialDeltas(TopMatchingArgs topMatchingArgs) {
-		DeltasContainer result = new DeltasContainer(topMatchingArgs);
+		DeltasContainer result = new DeltasContainer();
 
 		Graph graph = topMatchingArgs.getG();
 
