@@ -53,6 +53,7 @@ public class Stats {
 		this.numOfThreads = GeneralArgs.numOfThreads;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
+		fillOptimizations();
 	}
 
 	// Non probability-calculation step
@@ -64,6 +65,7 @@ public class Stats {
 		this.numOfThreads = GeneralArgs.numOfThreads;
 		this.optimizations = new ArrayList<>();
 		this.inferenceRunning = false;
+		fillOptimizations();
 	}
 
 	// Probability-calculation step
@@ -77,8 +79,18 @@ public class Stats {
 		this.numOfThreads = GeneralArgs.numOfThreads;
 		this.graph = graph;
 		this.optimizations = new ArrayList<>();
+		fillOptimizations();
 	}
 
+	private void fillOptimizations(){
+		if (GeneralArgs.earlyPrunningOptimization) {
+			this.optimizations.add("Early prunning");
+		}
+		if (GeneralArgs.sharedModalOptimization) {
+			this.optimizations.add("Shared modals");
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
@@ -92,7 +104,8 @@ public class Stats {
 			if (this.runMultiThread) {
 				result.append(String.format("Numbr of threads: %d\n", numOfThreads));
 			}
-			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING
+					|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 				result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
 			}
 			result.append(String.format("Probabilities: %s\n", phiToProbability));
