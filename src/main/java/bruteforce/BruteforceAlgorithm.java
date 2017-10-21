@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import general.Distribution;
-import general.IAlgorithm;
+import general.Algorithm;
 import general.Permutation;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
@@ -13,7 +13,7 @@ import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
 
-public class BruteforceAlgorithm implements IAlgorithm {
+public class BruteforceAlgorithm extends Algorithm {
 
 	private static class Result {
 		public Result() {
@@ -24,6 +24,53 @@ public class BruteforceAlgorithm implements IAlgorithm {
 	}
 
 	private static final Logger logger = Logger.getLogger(BruteforceAlgorithm.class.getName());
+
+	public BruteforceAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
+		super(graph, distributions);
+		this.graph = originalGraph;
+		this.distributions = originalDistributions;
+	}
+
+	@Override
+	public HashMap<Double, Double> calculateProbability() {
+		GeneralArgs.currentAlgorithm = AlgorithmType.BRUTE_FORCE;
+		HashMap<Double, Double> result = new HashMap<>();
+
+		for (Distribution distribution : distributions) {
+
+			int numOfSample = distribution.getPermutations().size();
+			int counter = 0;
+
+			if (GeneralArgs.verbose) {
+				logger.info(String.format("Calculating probability over %d samples", numOfSample));
+			}
+
+			double phi = distribution.getModel().getPhi();
+			for (Permutation permutation : distribution.getPermutations()) {
+				Double currentProb = result.get(phi);
+				if (currentProb == null) {
+					currentProb = 0.0;
+				}
+				result.put(phi, currentProb
+						+ (isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0));
+
+				counter++;
+				if (GeneralArgs.verbose) {
+					if (counter % GeneralArgs.numSamplesForPrint == 0) {
+						double perc = 100.0 * ((double) counter) / ((double) numOfSample);
+						logger.info(String.format("Done with %d out of %d permutations (%f perc)", counter, numOfSample,
+								perc));
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
+		return calculateProbability();
+	}
 
 	private void checkOneAssignmentAux(ArrayList<Node> nodes, HashMap<String, Integer> itemToPosition,
 			HashMap<String, String> assignment, Result result) {
@@ -63,41 +110,5 @@ public class BruteforceAlgorithm implements IAlgorithm {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
-		GeneralArgs.currentAlgorithm = AlgorithmType.BRUTE_FORCE;
-		HashMap<Double, Double> result = new HashMap<>();
-
-		for (Distribution distribution : distributions) {
-
-			int numOfSample = distribution.getPermutations().size();
-			int counter = 0;
-
-			if (GeneralArgs.verbose) {
-				logger.info(String.format("Calculating probability over %d samples", numOfSample));
-			}
-
-			double phi = distribution.getModel().getPhi();
-			for (Permutation permutation : distribution.getPermutations()) {
-				Double currentProb = result.get(phi);
-				if (currentProb == null) {
-					currentProb = 0.0;
-				}
-				result.put(phi, currentProb
-						+ (isPermutationSatisfyGraph(graph, permutation) ? permutation.getProbability() : 0.0));
-
-				counter++;
-				if (GeneralArgs.verbose) {
-					if (counter % GeneralArgs.numSamplesForPrint == 0) {
-						double perc = 100.0 * ((double) counter) / ((double) numOfSample);
-						logger.info(String.format("Done with %d out of %d permutations (%f perc)", counter, numOfSample,
-								perc));
-					}
-				}
-			}
-		}
-		return result;
 	}
 }

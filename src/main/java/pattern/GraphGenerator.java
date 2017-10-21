@@ -3,13 +3,16 @@ package pattern;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+
+import general.GeneralUtils;
+import general.Mallows;
 import pattern.Graph;
 import pattern.Node;
 
 public class GraphGenerator {
 
-	public static Graph GetGraph(int scenrio) {
-
+	public static Graph GetGraph(int scenrio, Mallows model, int numOfItems) {
+		model.setModal(GeneralUtils.getItems(numOfItems));
 		Graph graph = null;
 		switch (scenrio) {
 
@@ -27,7 +30,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (2,5), P = 0.989000393257776
+		// (2,5,4), P = 0.989000393257776
 		case 2:
 
 			Node w = new Node(new HashSet<>(Arrays.asList(new String[] { "s4", "s5" })), "w", new ArrayList<>());
@@ -365,20 +368,69 @@ public class GraphGenerator {
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
 
 			break;
-		
+
 		// (19, 24)
 		case 19:
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12" })), "z", new ArrayList<>());
-			
-			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2","s3", "s13","s14", "s15","s16", "s17","s18", "s19" })), "y",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-			
-			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s15", "s16","s17", "s18","s19", "s20","s21", "s22","s23", "s24" })), "x",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-			
+			z = new Node(
+					new HashSet<>(Arrays
+							.asList(new String[] { "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12" })),
+					"z", new ArrayList<>());
+
+			y = new Node(
+					new HashSet<>(Arrays.asList(
+							new String[] { "s1", "s2", "s3", "s13", "s14", "s15", "s16", "s17", "s18", "s19" })),
+					"y", new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			x = new Node(
+					new HashSet<>(Arrays.asList(
+							new String[] { "s15", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24" })),
+					"x", new ArrayList<>(Arrays.asList(new Node[] { z })));
+
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
-			
+
 			break;
+
+		// (20,4,3), P = 0.990541370714296
+		case 20:
+			ArrayList<String> modal = new ArrayList<>();
+			modal.add("Trump");
+			modal.add("Clinton");
+			modal.add("Rubio");
+			modal.add("Romney");
+			model.setModal(modal);
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+
+			break;
+
+		// (21,5,4), P = 0.989000393257776
+		case 21:
+			modal = new ArrayList<>();
+			modal.add("Trump");
+			modal.add("Clinton");
+			modal.add("Rubio");
+			modal.add("Romney");
+			modal.add("Johnson");
+			model.setModal(modal);
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
 
 		}
 		return graph;

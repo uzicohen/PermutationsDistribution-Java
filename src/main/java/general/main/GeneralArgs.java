@@ -59,7 +59,11 @@ public class GeneralArgs {
 	public static boolean sharedModalOptimization;
 
 	public static boolean earlyPrunningOptimization;
-
+	
+	public static boolean commonPrefixOptimization;
+	
+	public static boolean commonPrefixOptimizationUseDatabase;
+	
 	static {
 
 		properties = new Properties();
@@ -109,6 +113,10 @@ public class GeneralArgs {
 			sharedModalOptimization = Boolean.parseBoolean(properties.getProperty("shared_modal_optimization"));
 
 			earlyPrunningOptimization = Boolean.parseBoolean(properties.getProperty("early_prunning_optimization"));
+
+			commonPrefixOptimization = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization"));
+			
+			commonPrefixOptimizationUseDatabase = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

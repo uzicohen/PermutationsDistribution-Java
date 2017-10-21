@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import general.Distribution;
 import general.GeneralUtils;
-import general.IAlgorithm;
+import general.Algorithm;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import pattern.Graph;
@@ -18,7 +18,7 @@ import topmatching.TopMatchingArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
 
-public class LiftedTopMatchingAlgorithm implements IAlgorithm {
+public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 	private static final Logger logger = Logger.getLogger(LiftedTopMatchingAlgorithm.class.getName());
 
@@ -45,12 +45,13 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 		}
 	}
 
-	public LiftedTopMatchingAlgorithm() {
+	public LiftedTopMatchingAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
+		super(graph, distributions);
 		this.phiToProbability = new HashMap<>();
 	}
 
 	@Override
-	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
+	public HashMap<Double, Double> calculateProbability() {
 		GeneralArgs.currentAlgorithm = AlgorithmType.LIFTED_TOP_MATCHING;
 
 		// For each label, we keep in a dictionary it's parents
@@ -88,6 +89,11 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 		return this.phiToProbability;
 	}
 
+	@Override
+	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
+		return calculateProbability();
+	}
+
 	private synchronized void updateProb(double phi, double prob) {
 		double newProb = 0.0;
 		if (this.phiToProbability.containsKey(phi)) {
@@ -104,11 +110,11 @@ public class LiftedTopMatchingAlgorithm implements IAlgorithm {
 		for (int i = 0; i < modal.size(); i++) {
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
 		}
-		
+
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
-			if(!GeneralArgs.earlyPrunningOptimization && !delta.isFull()){
+			if (!GeneralArgs.earlyPrunningOptimization && !delta.isFull()) {
 				continue;
 			}
 			for (double phi : delta.getPhiToProbability().keySet()) {

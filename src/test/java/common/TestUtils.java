@@ -44,9 +44,8 @@ public class TestUtils {
 		GeneralArgs.runMultiThread = runMultiThread;
 		GeneralArgs.numOfThreads = numOfThreads;
 
-		Graph graph = GraphGenerator.GetGraph(graphId);
-
-		Mallows model = new Mallows(GeneralUtils.getItems(numItems), 0.3);
+		Mallows model = new Mallows(0.3);
+		Graph graph = GraphGenerator.GetGraph(graphId, model, numItems);
 
 		double exactProb = exactProbs[graphId - 1];
 
@@ -57,10 +56,10 @@ public class TestUtils {
 		HashMap<Double, Double> result = null;
 		switch (algorithmType) {
 		case TOP_MATCHNING:
-			result = new TopMatchingAlgorithm().calculateProbability(graph, distributions);
+			result = new TopMatchingAlgorithm(graph, distributions).calculateProbability();
 			break;
 		case LIFTED_TOP_MATCHING:
-			result = new LiftedTopMatchingAlgorithm().calculateProbability(graph, distributions);
+			result = new LiftedTopMatchingAlgorithm(graph, distributions).calculateProbability();
 			break;
 		default:
 		}
@@ -97,8 +96,8 @@ public class TestUtils {
 		logger.info(String.format("Running top-matchnig algorithm for a random scenario %d with %d labels and %d items",
 				scenario, numOfLabels, numItems));
 
-		HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm().calculateProbability(graph,
-				distributions);
+		HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm(graph, distributions)
+				.calculateProbability();
 
 		stats.setEndTimeDate(new Date());
 
@@ -120,8 +119,8 @@ public class TestUtils {
 				"Running lifted-top-matchnig algorithm for a random scenario %d with %d labels and %d items", scenario,
 				numOfLabels, numItems));
 
-		HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm().calculateProbability(graph,
-				distributions);
+		HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm(graph, distributions)
+				.calculateProbability();
 
 		stats.setEndTimeDate(new Date());
 

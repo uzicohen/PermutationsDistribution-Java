@@ -12,14 +12,11 @@ public class Mallows {
 	public Mallows(ArrayList<String> modal, double phi) {
 		this.modal = modal;
 		this.phi = phi;
-		this.z = 1.0;
-		for (int i = 0; i < modal.size(); i++) {
-			double current = 1.0;
-			for (int j = 0; j < i; j++) {
-				current += Math.pow(this.phi, j + 1);
-			}
-			this.z *= current;
-		}
+		calculateZ();
+	}
+
+	public Mallows(double phi) {
+		this.phi = phi;
 	}
 
 	public ArrayList<String> getModal() {
@@ -36,6 +33,7 @@ public class Mallows {
 
 	public void setModal(ArrayList<String> modal) {
 		this.modal = modal;
+		calculateZ();
 	}
 
 	public void setPhi(double phi) {
@@ -44,5 +42,16 @@ public class Mallows {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+
+	private void calculateZ() {
+		this.z = 1.0;
+		for (int i = 0; i < modal.size(); i++) {
+			double current = 1.0;
+			for (int j = 0; j < i; j++) {
+				current += Math.pow(this.phi, j + 1);
+			}
+			this.z *= current;
+		}
 	}
 }

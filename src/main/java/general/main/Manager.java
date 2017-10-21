@@ -53,9 +53,9 @@ public class Manager {
 					"Creating objects for graph-generator case %s, number of items: %d, number of labels: %d",
 					scenarioSettings.graphGeneratorCase, scenarioSettings.numOfItems, scenarioSettings.numOfLabels));
 
-			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase));
-
-			Mallows model = new Mallows(GeneralUtils.getItems(scenarioSettings.numOfItems), phi);
+			Mallows model = new Mallows(phi);
+			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase), model,
+					scenarioSettings.numOfItems);
 
 			Stats stats = new Stats(scenarioSettings, graph.toString());
 
@@ -76,8 +76,8 @@ public class Manager {
 				logger.info(String.format("Running brute-force algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
-				HashMap<Double, Double> exactProbs = new BruteforceAlgorithm().calculateProbability(graph,
-						distributions);
+				HashMap<Double, Double> exactProbs = new BruteforceAlgorithm(graph, distributions)
+						.calculateProbability();
 
 				stats.setEndTimeDate(new Date());
 
@@ -99,7 +99,7 @@ public class Manager {
 
 				ArrayList<Distribution> distributions = new ArrayList<>();
 				distributions.add(sampledDistribution);
-				HashMap<Double, Double> approxProbs = new SampledAlgorithm().calculateProbability(graph, distributions);
+				HashMap<Double, Double> approxProbs = new SampledAlgorithm(graph, distributions).calculateProbability();
 
 				stats.setEndTimeDate(new Date());
 
@@ -120,8 +120,8 @@ public class Manager {
 				logger.info(String.format("Running top-matchnig algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
-				HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm().calculateProbability(graph,
-						distributions);
+				HashMap<Double, Double> topMatchingProbs = new TopMatchingAlgorithm(graph, distributions)
+						.calculateProbability();
 
 				stats.setEndTimeDate(new Date());
 
@@ -143,8 +143,8 @@ public class Manager {
 				logger.info(String.format("Running lifted-top-matchnig algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
-				HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm()
-						.calculateProbability(graph, distributions);
+				HashMap<Double, Double> liftedTopMatchingProbs = new LiftedTopMatchingAlgorithm(graph, distributions)
+						.calculateProbability();
 
 				stats.setEndTimeDate(new Date());
 

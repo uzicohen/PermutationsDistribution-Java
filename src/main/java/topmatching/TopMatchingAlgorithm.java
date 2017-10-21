@@ -9,14 +9,14 @@ import java.util.logging.Logger;
 
 import general.Distribution;
 import general.GeneralUtils;
-import general.IAlgorithm;
+import general.Algorithm;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
 import pattern.PatternUtils;
 
-public class TopMatchingAlgorithm implements IAlgorithm {
+public class TopMatchingAlgorithm extends Algorithm {
 
 	private static final Logger logger = Logger.getLogger(TopMatchingAlgorithm.class.getName());
 
@@ -38,12 +38,13 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 	}
 
-	public TopMatchingAlgorithm() {
+	public TopMatchingAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
+		super(graph, distributions);
 		this.phiToProbability = new HashMap<>();
 	}
 
 	@Override
-	public HashMap<Double, Double> calculateProbability(Graph graph, ArrayList<Distribution> distributions) {
+	public HashMap<Double, Double> calculateProbability() {
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
 
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
@@ -59,7 +60,7 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 
 		this.topMatchingArgs = new TopMatchingArgs(graph, distributions, labelToParentsMap, lambda,
 				GeneralUtils.getPhiToInsertionProbabilities(distributions));
-		
+
 		int numOfAssignments = allPossibleAssignments.size();
 
 		if (GeneralArgs.verbose) {
@@ -83,6 +84,11 @@ public class TopMatchingAlgorithm implements IAlgorithm {
 			calculateProbabilityForSubsetOfAssignments(allPossibleAssignments);
 		}
 		return this.phiToProbability;
+	}
+
+	@Override
+	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
+		return calculateProbability();
 	}
 
 	private void calculateProbabilityForSubsetOfAssignments(ArrayList<HashMap<String, String>> assignments) {
