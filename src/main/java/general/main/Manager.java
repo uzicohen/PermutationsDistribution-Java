@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
 import general.Distribution;
-import general.GeneralUtils;
 import general.Mallows;
 import general.main.GeneralArgs.GraphGeneratorParameters;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;

@@ -8,11 +8,14 @@ public class Graph {
 
 	private ArrayList<Node> roots;
 
-	public Graph(ArrayList<Node> roots) {
+	private int id;
+
+	public Graph(ArrayList<Node> roots, int id) {
 		this.roots = roots;
 		for (Node root : this.roots) {
 			InitGraph(root, 0);
 		}
+		this.id = id;
 	}
 
 	private void InitGraph(Node node, int level) {
@@ -58,4 +61,11 @@ public class Graph {
 		this.roots = roots;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

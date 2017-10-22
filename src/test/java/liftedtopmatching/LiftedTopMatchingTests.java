@@ -22,6 +22,7 @@ public class LiftedTopMatchingTests extends TestCase {
 		super(testName);
 		GeneralArgs.verbose = false;
 		GeneralArgs.printFlow = false;
+		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**

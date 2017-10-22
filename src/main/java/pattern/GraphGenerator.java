@@ -26,7 +26,7 @@ public class GraphGenerator {
 			Node y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 1);
 
 			break;
 
@@ -43,7 +43,7 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s3" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 2);
 
 			break;
 
@@ -64,7 +64,7 @@ public class GraphGenerator {
 			Node g = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s4" })), "g",
 					new ArrayList<>(Arrays.asList(new Node[] { r })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { g, p })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { g, p })), 3);
 
 			break;
 
@@ -79,7 +79,7 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s2" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 4);
 
 			break;
 
@@ -96,7 +96,7 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { z, w })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 5);
 
 			break;
 
@@ -111,7 +111,7 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 6);
 
 			break;
 
@@ -129,7 +129,7 @@ public class GraphGenerator {
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1" })), "z",
 					new ArrayList<>(Arrays.asList(new Node[] { w })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })), 7);
 
 			break;
 
@@ -146,7 +146,7 @@ public class GraphGenerator {
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s4" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { y, z, w })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })), 8);
 
 			break;
 
@@ -168,7 +168,7 @@ public class GraphGenerator {
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 9);
 
 			break;
 
@@ -197,7 +197,7 @@ public class GraphGenerator {
 			t = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s9", "s10" })), "t",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, t })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, t })), 10);
 
 			break;
 
@@ -215,7 +215,7 @@ public class GraphGenerator {
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s5", "s9" })), "z",
 					new ArrayList<>(Arrays.asList(new Node[] { w })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y, z })), 11);
 
 			break;
 
@@ -250,7 +250,7 @@ public class GraphGenerator {
 			Node x1 = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2", "s3", "s6", "s9", "s10" })), "x1",
 					new ArrayList<>(Arrays.asList(new Node[] { x3, x5, x7 })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x1, x2 })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x1, x2 })), 12);
 
 			break;
 
@@ -270,7 +270,7 @@ public class GraphGenerator {
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 13);
 
 			break;
 
@@ -293,7 +293,7 @@ public class GraphGenerator {
 			r = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "r",
 					new ArrayList<>(Arrays.asList(new Node[] { b })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })), 14);
 
 			break;
 
@@ -313,7 +313,7 @@ public class GraphGenerator {
 			g = new Node(new HashSet<>(Arrays.asList(new String[] { "s3" })), "g",
 					new ArrayList<>(Arrays.asList(new Node[] { y, p })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })), 15);
 
 			break;
 
@@ -335,7 +335,7 @@ public class GraphGenerator {
 					new HashSet<>(Arrays.asList(new String[] { "s3", "s6", "s7", "s8", "s10", "s12", "s13", "s14" })),
 					"g", new ArrayList<>(Arrays.asList(new Node[] { y, p })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { r, g })), 16);
 
 			break;
 
@@ -351,7 +351,7 @@ public class GraphGenerator {
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "z",
 					new ArrayList<>(Arrays.asList(new Node[] { w })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, z })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, z })), 17);
 
 			break;
 
@@ -365,7 +365,7 @@ public class GraphGenerator {
 			x = new Node(new HashSet<>(Arrays.asList(new String[] { "s1", "s2" })), "x",
 					new ArrayList<>(Arrays.asList(new Node[] { y, z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })), 18);
 
 			break;
 
@@ -386,7 +386,7 @@ public class GraphGenerator {
 							new String[] { "s15", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24" })),
 					"x", new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })), 19);
 
 			break;
 
@@ -407,7 +407,7 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 20);
 
 			break;
 
@@ -419,6 +419,10 @@ public class GraphGenerator {
 			modal.add("Rubio");
 			modal.add("Romney");
 			modal.add("Johnson");
+			modal.add("Eli");
+			modal.add("Cohen");
+			modal.add("Adi");
+			modal.add("Benny");
 			model.setModal(modal);
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
 
@@ -430,7 +434,56 @@ public class GraphGenerator {
 			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
 					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })));
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
+
+			break;
+		// (21,9,4), P = 0.989000393257776
+		case 22:
+			modal = new ArrayList<>();
+			modal.add("Trump");
+			modal.add("Clinton");
+			modal.add("Rubio");
+			modal.add("Romney");
+			modal.add("Johnson");
+			modal.add("Eli");
+			modal.add("Adi");
+			modal.add("Cohen");
+			modal.add("Benny");
+			model.setModal(modal);
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
+
+			break;
+
+		// (22,5,4), P = 0.9950402
+		case 23:
+			modal = new ArrayList<>();
+			modal.add("Trump");
+			modal.add("Clinton");
+			modal.add("Rubio");
+			modal.add("Johnson");
+			modal.add("Romney");
+			model.setModal(modal);
+			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
+
+			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
+
+			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
+					new ArrayList<>(Arrays.asList(new Node[] { z })));
+
+			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
+					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
 
 		}
 		return graph;

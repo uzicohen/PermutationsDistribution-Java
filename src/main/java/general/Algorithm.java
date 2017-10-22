@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import general.main.AlgorithmType;
-import general.main.GeneralArgs;
 import pattern.Graph;
 import pattern.Node;
 
@@ -95,7 +93,7 @@ public abstract class Algorithm {
 		}
 		ArrayList<Node> newRoots = new ArrayList<>();
 		this.originalGraph.getRoots().forEach(root -> newRoots.add(labelToNode.get(root.getLabel())));
-		this.graph = new Graph(newRoots);
+		this.graph = new Graph(newRoots, this.originalGraph.getId());
 	}
 
 	private void createNewNodesMap(HashMap<String, Node> labelToNode) {

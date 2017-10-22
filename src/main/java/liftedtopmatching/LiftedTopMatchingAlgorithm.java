@@ -17,6 +17,8 @@ import pattern.Graph;
 import topmatching.TopMatchingArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
+import topmatching.delta.cache.DeltasCache;
+import topmatching.delta.cache.DeltasCache.DeltasCacheInfo;
 
 public class LiftedTopMatchingAlgorithm extends Algorithm {
 
@@ -25,6 +27,10 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 	private TopMatchingArgs topMatchingArgs;
 
 	private HashMap<Double, Double> phiToProbability;
+
+	private static DeltasCache deltasCache = new DeltasCache();
+
+	private DeltasCacheInfo deltasCacheInfo;
 
 	private class DeltaProbCalculator implements Runnable {
 		private DeltasContainer r;
@@ -48,6 +54,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 	public LiftedTopMatchingAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
 		super(graph, distributions);
 		this.phiToProbability = new HashMap<>();
+		this.deltasCacheInfo = new DeltasCacheInfo();
 	}
 
 	@Override
@@ -68,7 +75,14 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 		LiftedTopMatchingUtils.init(this.topMatchingArgs);
 
-		DeltasContainer r = new LiftedTopMatchingDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
+		DeltasContainer r = null;
+		if (GeneralArgs.commonPrefixOptimization) {
+			ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
+			r = deltasCache.getFromCache(this.graph.getId(), originalModal, deltasCacheInfo);
+		}
+		if (r == null) {
+			r = new LiftedTopMatchingDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
+		}
 
 		if (GeneralArgs.runMultiThread) {
 			ExecutorService executor = Executors.newFixedThreadPool(GeneralArgs.numOfThreads);
@@ -107,8 +121,12 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		DeltasContainer r = dc;
 
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
-		for (int i = 0; i < modal.size(); i++) {
+		ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
+		for (int i = this.deltasCacheInfo.numberOfItem; i < modal.size(); i++) {
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
+			if (GeneralArgs.commonPrefixOptimization) {
+				deltasCache.storeInCache(graph.getId(), i + 1, originalModal, r);
+			}
 		}
 
 		Iterator<Delta> iter = r.iterator();

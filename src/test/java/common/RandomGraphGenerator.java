@@ -57,7 +57,7 @@ public class RandomGraphGenerator {
 			}
 		}
 
-		return new Graph(roots);
+		return new Graph(roots, 0);
 
 	}
 }

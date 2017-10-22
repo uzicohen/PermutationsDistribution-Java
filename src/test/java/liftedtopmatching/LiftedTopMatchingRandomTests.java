@@ -4,6 +4,7 @@ import java.util.Random;
 
 import common.RandomGraphGenerator;
 import common.TestUtils;
+import general.main.GeneralArgs;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -36,6 +37,7 @@ public class LiftedTopMatchingRandomTests extends TestCase {
 	 * @return the suite of tests being tested
 	 */
 	public static Test suite() {
+		GeneralArgs.commonPrefixOptimization = false;
 		return new TestSuite(LiftedTopMatchingRandomTests.class);
 	}
 

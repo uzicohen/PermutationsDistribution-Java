@@ -33,6 +33,7 @@ public class LiftedTopMatchingRandomMultiThreadTests extends TestCase {
 		super(testName);
 		GeneralArgs.runMultiThread = true;
 		GeneralArgs.numOfThreads = 4;
+		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**

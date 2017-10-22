@@ -25,6 +25,7 @@ public class LiftedTopMatchingEarlyPrunningTests extends TestCase {
 		// in case early pruning optimization is turned off, it acts as the
 		// regular algorithm
 		GeneralArgs.earlyPrunningOptimization = false;
+		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**
