@@ -68,59 +68,73 @@ public class GeneralArgs {
 
 		properties = new Properties();
 
-		try {
-			properties.load(new FileInputStream(new File("src/main/java/resources/conf.properties")));
-
-			verbose = Boolean.parseBoolean(properties.getProperty("verbose"));
-
-			printDistribution = Boolean.parseBoolean(properties.getProperty("print_distribution"));
-
-			numSamplesForPrint = Integer.parseInt(properties.getProperty("num_samples_for_print"));
-
-			numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
-
-			printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
-
-			graphGeneratorParameters = new ArrayList<>();
-
-			String graphGeneratorSingleCases = properties.getProperty("graph_generator_cases").toString();
-
-			for (String graphGeneratorSingleCase : graphGeneratorSingleCases.split(",")) {
-				int graphGeneratorCase = Integer.parseInt(graphGeneratorSingleCase.split(";")[0].split("\\(")[1]);
-				int numOfItems = Integer.parseInt(graphGeneratorSingleCase.split(";")[1]);
-				int numOfLabels = Integer.parseInt(graphGeneratorSingleCase.split(";")[2].split("\\)")[0]);
-				graphGeneratorParameters.add(new GraphGeneratorParameters(graphGeneratorCase, numOfItems, numOfLabels));
+		String conf1 = "src/main/java/resources/conf.properties";
+		String conf2 = "data/conf.properties";
+		if (new File(conf1).exists()){
+			try {
+				properties.load(new FileInputStream(new File(conf1)));
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new IllegalArgumentException(String.format("Cannot read %s", conf1));
 			}
-
-			runAll = Boolean.parseBoolean(properties.getProperty("run_all"));
-
-			runBruteforce = Boolean.parseBoolean(properties.getProperty("run_bruteforce")) || runAll;
-
-			runSampled = Boolean.parseBoolean(properties.getProperty("run_sampled")) || runAll;
-
-			runTopMatching = Boolean.parseBoolean(properties.getProperty("run_topmatching")) || runAll;
-
-			runLiftedTopMatching = Boolean.parseBoolean(properties.getProperty("run_liftedtopmatching")) || runAll;
-
-			phi = Double.parseDouble(properties.getProperty("phi"));
-
-			numSamples = Integer.parseInt(properties.getProperty("num_samples"));
-
-			runMultiThread = Boolean.parseBoolean(properties.getProperty("run_multithread"));
-
-			numOfThreads = Integer.parseInt(properties.getProperty("num_of_threads"));
-
-			sharedModalOptimization = Boolean.parseBoolean(properties.getProperty("shared_modal_optimization"));
-
-			earlyPrunningOptimization = Boolean.parseBoolean(properties.getProperty("early_prunning_optimization"));
-
-			commonPrefixOptimization = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization"));
-			
-			commonPrefixOptimizationUseDatabase = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else if (new File(conf2).exists()) {
+			try {
+				properties.load(new FileInputStream(new File(conf2)));
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new IllegalArgumentException(String.format("Cannot read %s", conf2));
+			}
+		} else {
+			throw new IllegalArgumentException("Cannot find conf.properties");
 		}
+
+		verbose = Boolean.parseBoolean(properties.getProperty("verbose"));
+
+		printDistribution = Boolean.parseBoolean(properties.getProperty("print_distribution"));
+
+		numSamplesForPrint = Integer.parseInt(properties.getProperty("num_samples_for_print"));
+
+		numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
+
+		printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
+
+		graphGeneratorParameters = new ArrayList<>();
+
+		String graphGeneratorSingleCases = properties.getProperty("graph_generator_cases").toString();
+
+		for (String graphGeneratorSingleCase : graphGeneratorSingleCases.split(",")) {
+			int graphGeneratorCase = Integer.parseInt(graphGeneratorSingleCase.split(";")[0].split("\\(")[1]);
+			int numOfItems = Integer.parseInt(graphGeneratorSingleCase.split(";")[1]);
+			int numOfLabels = Integer.parseInt(graphGeneratorSingleCase.split(";")[2].split("\\)")[0]);
+			graphGeneratorParameters.add(new GraphGeneratorParameters(graphGeneratorCase, numOfItems, numOfLabels));
+		}
+
+		runAll = Boolean.parseBoolean(properties.getProperty("run_all"));
+
+		runBruteforce = Boolean.parseBoolean(properties.getProperty("run_bruteforce")) || runAll;
+
+		runSampled = Boolean.parseBoolean(properties.getProperty("run_sampled")) || runAll;
+
+		runTopMatching = Boolean.parseBoolean(properties.getProperty("run_topmatching")) || runAll;
+
+		runLiftedTopMatching = Boolean.parseBoolean(properties.getProperty("run_liftedtopmatching")) || runAll;
+
+		phi = Double.parseDouble(properties.getProperty("phi"));
+
+		numSamples = Integer.parseInt(properties.getProperty("num_samples"));
+
+		runMultiThread = Boolean.parseBoolean(properties.getProperty("run_multithread"));
+
+		numOfThreads = Integer.parseInt(properties.getProperty("num_of_threads"));
+
+		sharedModalOptimization = Boolean.parseBoolean(properties.getProperty("shared_modal_optimization"));
+
+		earlyPrunningOptimization = Boolean.parseBoolean(properties.getProperty("early_prunning_optimization"));
+
+		commonPrefixOptimization = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization"));
+
+		commonPrefixOptimizationUseDatabase = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
+
 	}
 
 }
