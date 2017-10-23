@@ -19,6 +19,8 @@ public class Stats {
 
 	private String sectionDescription;
 
+	private ArrayList<String> originalRanking;
+
 	private int numOfItems;
 
 	private int numOfLabels;
@@ -44,10 +46,11 @@ public class Stats {
 	private boolean inferenceRunning = true;
 
 	// Uzi's way of calling the Stats c'tor
-	public Stats(GraphGeneratorParameters grapgGeneratorParameters, String graph) {
+	public Stats(GraphGeneratorParameters grapgGeneratorParameters, String graph, ArrayList<String> originalRanking) {
 		super();
 		this.sectionDescription = "Inference over graph-generator case " + grapgGeneratorParameters.graphGeneratorCase;
 		this.numOfItems = grapgGeneratorParameters.numOfItems;
+		this.originalRanking = originalRanking;
 		this.numOfLabels = grapgGeneratorParameters.numOfLabels;
 		this.runMultiThread = GeneralArgs.runMultiThread;
 		this.numOfThreads = GeneralArgs.numOfThreads;
@@ -70,10 +73,11 @@ public class Stats {
 
 	// Probability-calculation step
 	// Haoyue's way of calling the Stats c'tor for inference running
-	public Stats(int numOfItems, int numOfLabels, String graph) {
+	public Stats(ArrayList<String> originalRanking, int numOfLabels, String graph) {
 		super();
 		this.sectionDescription = "LabeldRIM probability calculation";
-		this.numOfItems = numOfItems;
+		this.originalRanking = originalRanking;
+		this.numOfItems = this.originalRanking.size();
 		this.numOfLabels = numOfLabels;
 		this.runMultiThread = GeneralArgs.runMultiThread;
 		this.numOfThreads = GeneralArgs.numOfThreads;
@@ -82,20 +86,24 @@ public class Stats {
 		fillOptimizations();
 	}
 
-	private void fillOptimizations(){
+	private void fillOptimizations() {
 		if (GeneralArgs.earlyPrunningOptimization) {
 			this.optimizations.add("Early prunning");
 		}
 		if (GeneralArgs.sharedModalOptimization) {
 			this.optimizations.add("Shared modals");
 		}
+		if (GeneralArgs.commonPrefixOptimization) {
+			this.optimizations.add("Common prefix");
+		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append(String.format("Section description: %s\n", sectionDescription));
 		if (this.inferenceRunning) {
+			result.append(String.format("Original ranking: %s\n", originalRanking));
 			result.append(String.format("Number of items (m): %s\n", numOfItems));
 			result.append(String.format("Number of labels (q): %s\n", numOfLabels));
 			result.append(String.format("Graph: %s\n", graph));

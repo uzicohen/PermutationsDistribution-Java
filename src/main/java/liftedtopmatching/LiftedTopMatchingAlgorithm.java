@@ -75,6 +75,10 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 		LiftedTopMatchingUtils.init(this.topMatchingArgs);
 
+		if (GeneralArgs.verbose) {
+			logger.info("Generating initial deltas");
+		}
+
 		DeltasContainer r = null;
 		if (GeneralArgs.commonPrefixOptimization) {
 			ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
@@ -82,6 +86,16 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		}
 		if (r == null) {
 			r = new LiftedTopMatchingDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
+		}
+
+		if (GeneralArgs.verbose) {
+			if (this.deltasCacheInfo.numberOfItem != -1) {
+				logger.info(String.format("Got initial deltas from cache (starting from item number %d)",
+						this.deltasCacheInfo.numberOfItem));
+			} else {
+				logger.info("Initial deltas generated from scratch");
+			}
+			logger.info(String.format("Running multithread is %s", GeneralArgs.runMultiThread));
 		}
 
 		if (GeneralArgs.runMultiThread) {
@@ -100,6 +114,11 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		} else {
 			calculateProbabilityForSubsetOfDeltas(r);
 		}
+
+		if (GeneralArgs.verbose) {
+			logger.info("Done calculating the probability");
+		}
+
 		return this.phiToProbability;
 	}
 
@@ -122,10 +141,10 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
 		ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
-		for (int i = this.deltasCacheInfo.numberOfItem; i < modal.size(); i++) {
+		for (int i = this.deltasCacheInfo.numberOfItem + 1; i < modal.size(); i++) {
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
 			if (GeneralArgs.commonPrefixOptimization) {
-				deltasCache.storeInCache(graph.getId(), i + 1, originalModal, r);
+				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}
 		}
 

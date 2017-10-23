@@ -172,7 +172,7 @@ public class GraphGenerator {
 
 			break;
 
-		// (10,10), P = 0.503103
+		// (10,10,7), P = 0.503103
 		case 10:
 
 			// Level 2

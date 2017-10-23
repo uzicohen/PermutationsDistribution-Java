@@ -52,13 +52,13 @@ public class GeneralArgs {
 
 	public static AlgorithmType currentAlgorithm;
 
-	public static boolean runMultiThread;
+	public static boolean runMultiThread = true;
 
-	public static int numOfThreads;
+	public static int numOfThreads = 45;
 
-	public static boolean sharedModalOptimization;
+	public static boolean sharedModalOptimization = true;
 
-	public static boolean earlyPrunningOptimization;
+	public static boolean earlyPrunningOptimization = true;
 	
 	public static boolean commonPrefixOptimization;
 	

@@ -82,7 +82,7 @@ public class TestUtils {
 
 		GraphGeneratorParameters scenarioSettings = new GraphGeneratorParameters(scenario, numItems, numOfLabels);
 
-		Stats stats = new Stats(scenarioSettings, graph.toString());
+		Stats stats = new Stats(scenarioSettings, graph.toString(), model.getModal());
 
 		// TopMatching
 		stats.setAlgorithm(TOP_MATCHNING);
@@ -109,7 +109,7 @@ public class TestUtils {
 		System.out.println(stats);
 
 		// LiftedTopMatching
-		stats = new Stats(scenarioSettings, graph.toString());
+		stats = new Stats(scenarioSettings, graph.toString(), model.getModal());
 
 		stats.setAlgorithm(LIFTED_TOP_MATCHNING);
 

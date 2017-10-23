@@ -56,7 +56,7 @@ public class Manager {
 			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase), model,
 					scenarioSettings.numOfItems);
 
-			Stats stats = new Stats(scenarioSettings, graph.toString());
+			Stats stats = new Stats(scenarioSettings, graph.toString(), model.getModal());
 
 			// Run brute force
 			if (GeneralArgs.runBruteforce) {

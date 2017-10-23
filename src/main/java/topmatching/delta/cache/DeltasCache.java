@@ -7,7 +7,7 @@ import topmatching.delta.DeltasContainer;
 public class DeltasCache {
 
 	public static class DeltasCacheInfo {
-		public int numberOfItem = 0;
+		public int numberOfItem = -1;
 	}
 
 	private HashMap<String, DeltasCacheItem> cache;
@@ -26,9 +26,9 @@ public class DeltasCache {
 		this.cache.put(key, deltasCacheItem);
 	}
 
-	private int prefixLength(ArrayList<String> a, ArrayList<String> b) {
-		int len = 0, i = 0, minLen = Math.min(a.size(), b.size());
-		while (i < minLen) {
+	private synchronized int prefixLength(ArrayList<String> a, ArrayList<String> b) {
+		int len = -1, i = 0, minLen = Math.min(a.size(), b.size());
+		while (i <= minLen) {
 			if (a.get(i).equals(b.get(i))) {
 				len++;
 			} else {
