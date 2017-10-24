@@ -43,7 +43,7 @@ public class Manager {
 
 		logger.info("Resolving running arguments");
 
-		double phi = GeneralArgs.phi;
+		ArrayList<Double> phiArray = GeneralArgs.phiArray;
 
 		ArrayList<GraphGeneratorParameters> scenariosSettings = GeneralArgs.graphGeneratorParameters;
 		for (GraphGeneratorParameters scenarioSettings : scenariosSettings) {
@@ -52,22 +52,25 @@ public class Manager {
 					"Creating objects for graph-generator case %s, number of items: %d, number of labels: %d",
 					scenarioSettings.graphGeneratorCase, scenarioSettings.numOfItems, scenarioSettings.numOfLabels));
 
-			Mallows model = new Mallows(phi);
-			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase), model,
+			ArrayList<Mallows> models = new ArrayList<>();
+			for (double phi : phiArray) {
+				models.add(new Mallows(phi));
+			}
+
+			Graph graph = GraphGenerator.GetGraph(Integer.parseInt(scenarioSettings.graphGeneratorCase), models,
 					scenarioSettings.numOfItems);
 
-			Stats stats = new Stats(scenarioSettings, graph.toString(), model.getModal());
+			Stats stats = new Stats(scenarioSettings, graph.toString(), models.get(0).getModal());
 
 			// Run brute force
 			if (GeneralArgs.runBruteforce) {
 				stats.setAlgorithm(BRUTE_FORCE);
 
-				Distribution explicitDistribution = new ExplicitDistribution(model);
 				ArrayList<Distribution> distributions = new ArrayList<>();
-				distributions.add(explicitDistribution);
+				models.forEach(model -> distributions.add(new ExplicitDistribution(model)));
 
 				if (GeneralArgs.printDistribution) {
-					System.out.println(explicitDistribution);
+					System.out.println(distributions);
 				}
 
 				stats.setStartTimeDate(new Date());
@@ -89,15 +92,13 @@ public class Manager {
 			if (GeneralArgs.runSampled) {
 				stats.setAlgorithm(SAMPLED);
 
-				Distribution sampledDistribution = new SampledDistribution(model, GeneralArgs.numSamples);
-
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running sampled algorithm for graph-generator case %s",
 						scenarioSettings.graphGeneratorCase));
 
 				ArrayList<Distribution> distributions = new ArrayList<>();
-				distributions.add(sampledDistribution);
+				models.forEach(model -> distributions.add(new SampledDistribution(model, GeneralArgs.numSamples)));
 				HashMap<Double, Double> approxProbs = new SampledAlgorithm(graph, distributions).calculateProbability();
 
 				stats.setEndTimeDate(new Date());
@@ -110,9 +111,8 @@ public class Manager {
 			if (GeneralArgs.runTopMatching) {
 				stats.setAlgorithm(TOP_MATCHNING);
 
-				Distribution simpleDistribution = new SimpleDistribution(model);
 				ArrayList<Distribution> distributions = new ArrayList<>();
-				distributions.add(simpleDistribution);
+				models.forEach(model -> distributions.add(new SimpleDistribution(model)));
 
 				stats.setStartTimeDate(new Date());
 
@@ -133,10 +133,8 @@ public class Manager {
 			if (GeneralArgs.runLiftedTopMatching) {
 				stats.setAlgorithm(LIFTED_TOP_MATCHNING);
 
-				Distribution simpleDistribution = new SimpleDistribution(model);
 				ArrayList<Distribution> distributions = new ArrayList<>();
-				distributions.add(simpleDistribution);
-
+				models.forEach(model -> distributions.add(new SimpleDistribution(model)));
 				stats.setStartTimeDate(new Date());
 
 				logger.info(String.format("Running lifted-top-matchnig algorithm for graph-generator case %s",

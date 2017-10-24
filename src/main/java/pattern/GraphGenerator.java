@@ -11,8 +11,10 @@ import pattern.Node;
 
 public class GraphGenerator {
 
-	public static Graph GetGraph(int scenrio, Mallows model, int numOfItems) {
-		model.setModal(GeneralUtils.getItems(numOfItems));
+	public static Graph GetGraph(int scenrio, ArrayList<Mallows> models, int numOfItems) {
+		for (Mallows model : models) {
+			model.setModal(GeneralUtils.getItems(numOfItems));
+		}
 		Graph graph = null;
 		switch (scenrio) {
 
@@ -397,7 +399,10 @@ public class GraphGenerator {
 			modal.add("Clinton");
 			modal.add("Rubio");
 			modal.add("Romney");
-			model.setModal(modal);
+
+			for (Mallows model : models) {
+				model.setModal(new ArrayList<>(modal));
+			}
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
 
@@ -423,7 +428,11 @@ public class GraphGenerator {
 			modal.add("Cohen");
 			modal.add("Adi");
 			modal.add("Benny");
-			model.setModal(modal);
+
+			for (Mallows model : models) {
+				model.setModal(new ArrayList<>(modal));
+			}
+
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
@@ -449,7 +458,11 @@ public class GraphGenerator {
 			modal.add("Adi");
 			modal.add("Cohen");
 			modal.add("Benny");
-			model.setModal(modal);
+
+			for (Mallows model : models) {
+				model.setModal(new ArrayList<>(modal));
+			}
+
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
@@ -472,7 +485,11 @@ public class GraphGenerator {
 			modal.add("Rubio");
 			modal.add("Johnson");
 			modal.add("Romney");
-			model.setModal(modal);
+
+			for (Mallows model : models) {
+				model.setModal(new ArrayList<>(modal));
+			}
+
 			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
 
 			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
@@ -484,6 +501,32 @@ public class GraphGenerator {
 					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
+
+			break;
+
+		// (24,20,5), P = 0.9950402
+		case 24:
+			modal = new ArrayList<>(Arrays.asList(new String[] { "12", "20", "17", "13", "9", "2", "16", "18", "10",
+					"1", "15", "14", "6", "4", "5", "3", "19", "8", "7", "11" }));
+
+			for (Mallows model : models) {
+				model.setModal(new ArrayList<>(modal));
+			}
+
+			Node cand5 = new Node(new HashSet<>(Arrays.asList(new String[] { "9", "14" })), "Cand5", new ArrayList<>());
+
+			Node cand3 = new Node(new HashSet<>(Arrays.asList(new String[] { "4" })), "Cand3", new ArrayList<>());
+
+			Node cand4 = new Node(new HashSet<>(Arrays.asList(new String[] { "13", "16" })), "Cand4",
+					new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+
+			Node cand1 = new Node(new HashSet<>(Arrays.asList(new String[] { "2", "10", "15", "19" })), "Cand1",
+					new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+
+			Node cand2 = new Node(new HashSet<>(Arrays.asList(new String[] { "20" })), "Cand2",
+					new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 24);
 
 		}
 		return graph;

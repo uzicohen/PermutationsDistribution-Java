@@ -46,7 +46,7 @@ public class GeneralArgs {
 
 	public static boolean runLiftedTopMatching;
 
-	public static double phi;
+	public static ArrayList<Double> phiArray;
 
 	public static int numSamples;
 
@@ -59,18 +59,18 @@ public class GeneralArgs {
 	public static boolean sharedModalOptimization = true;
 
 	public static boolean earlyPrunningOptimization = true;
-	
+
 	public static boolean commonPrefixOptimization;
-	
+
 	public static boolean commonPrefixOptimizationUseDatabase;
-	
+
 	static {
 
 		properties = new Properties();
 
 		String conf1 = "src/main/java/resources/conf.properties";
 		String conf2 = "data/conf.properties";
-		if (new File(conf1).exists()){
+		if (new File(conf1).exists()) {
 			try {
 				properties.load(new FileInputStream(new File(conf1)));
 			} catch (IOException e) {
@@ -119,7 +119,11 @@ public class GeneralArgs {
 
 		runLiftedTopMatching = Boolean.parseBoolean(properties.getProperty("run_liftedtopmatching")) || runAll;
 
-		phi = Double.parseDouble(properties.getProperty("phi"));
+		String[] phiStrs = properties.getProperty("phi").split(",");
+		phiArray = new ArrayList<>();
+		for (String phiStr : phiStrs) {
+			phiArray.add(Double.parseDouble(phiStr));
+		}
 
 		numSamples = Integer.parseInt(properties.getProperty("num_samples"));
 
@@ -133,7 +137,8 @@ public class GeneralArgs {
 
 		commonPrefixOptimization = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization"));
 
-		commonPrefixOptimizationUseDatabase = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
+		commonPrefixOptimizationUseDatabase = Boolean
+				.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
 
 	}
 

@@ -88,14 +88,17 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			r = new LiftedTopMatchingDeltasContainerGenerator().getInitialDeltas(this.topMatchingArgs);
 		}
 
-		if (GeneralArgs.verbose) {
+		if (GeneralArgs.commonPrefixOptimization && GeneralArgs.verbose) {
 			if (this.deltasCacheInfo.numberOfItem != -1) {
 				logger.info(String.format("Got initial deltas from cache (starting from item number %d)",
 						this.deltasCacheInfo.numberOfItem));
 			} else {
 				logger.info("Initial deltas generated from scratch");
 			}
-			logger.info(String.format("Running multithread is %s", GeneralArgs.runMultiThread));
+		}
+
+		if (GeneralArgs.verbose) {
+			logger.info(String.format("Starting inference. Running multithread is %s", GeneralArgs.runMultiThread));
 		}
 
 		if (GeneralArgs.runMultiThread) {
@@ -142,7 +145,14 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
 		ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
 		for (int i = this.deltasCacheInfo.numberOfItem + 1; i < modal.size(); i++) {
+			if (GeneralArgs.verbose) {
+				logger.info(String.format("Generating R%d", i + 1));
+			}
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
+			if (GeneralArgs.verbose) {
+				logger.info(String.format("R%d contains %d deltas", i + 1, r.getNumOfDeltas()));
+			}
+
 			if (GeneralArgs.commonPrefixOptimization) {
 				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}

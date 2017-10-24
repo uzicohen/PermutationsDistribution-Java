@@ -44,15 +44,15 @@ public class TestUtils {
 		GeneralArgs.runMultiThread = runMultiThread;
 		GeneralArgs.numOfThreads = numOfThreads;
 
-		Mallows model = new Mallows(0.3);
-		Graph graph = GraphGenerator.GetGraph(graphId, model, numItems);
+		ArrayList<Mallows> models = new ArrayList<>();
+		models.add(new Mallows(0.3));
+		Graph graph = GraphGenerator.GetGraph(graphId, models, numItems);
 
 		double exactProb = exactProbs[graphId - 1];
 
-		Distribution distribution = new SimpleDistribution(model);
 		ArrayList<Distribution> distributions = new ArrayList<>();
-		distributions.add(distribution);
-
+		models.forEach(model -> distributions.add(new SimpleDistribution(model)));
+		
 		HashMap<Double, Double> result = null;
 		switch (algorithmType) {
 		case TOP_MATCHNING:
