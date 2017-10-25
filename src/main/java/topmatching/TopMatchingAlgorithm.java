@@ -104,11 +104,15 @@ public class TopMatchingAlgorithm extends Algorithm {
 	}
 
 	private void calculateProbabilityForSubsetOfAssignments(ArrayList<HashMap<String, String>> assignments) {
+		int i = 1;
 		for (HashMap<String, String> gamma : assignments) {
 			TopProb topProb = new TopProb(gamma, topMatchingArgs);
 			HashMap<Double, Double> currentProbs = topProb.calculate();
 			for (Double phi : currentProbs.keySet()) {
 				updateProb(phi, currentProbs.get(phi));
+			}
+			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
+				logger.info(String.format("Done with %d assignments", i++));
 			}
 		}
 	}
