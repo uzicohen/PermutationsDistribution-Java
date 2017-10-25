@@ -22,13 +22,13 @@ public class MultiThreadExperiment {
 
 	private static final Logger logger = Logger.getLogger(MultiThreadExperiment.class.getName());
 
-	private static final String INPUT_FOLDER_PATH = "C:\\Dev\\RimExperiments\\Input\\";
+	private static final String INPUT_FOLDER_PATH = "/home/uzicohen/Desktop/experiments/input/";
 
-	private static final String OUTPUT_FOLDER_PATH = "C:\\Dev\\RimExperiments\\Output\\";
+	private static final String OUTPUT_FOLDER_PATH = "/home/uzicohen/Desktop/experiments/output/";
 
-	private static int maximalNumOfThreads = 50;
+	private static int maximalNumOfThreads = 5;
 
-	private static int numOfExperimentsPerPattern = 1;
+	private static int numOfExperimentsPerPattern = 5;
 
 	// For the actual graph, add 19
 	private static int[] patternNums = new int[] { 0, 1, 2, 3 };
