@@ -1,4 +1,4 @@
-package pattern;
+package experiments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -371,163 +371,67 @@ public class GraphGenerator {
 
 			break;
 
-		// (19, 24)
+		// End of tests section. Start of experiments section
+
+		// Query 0
 		case 19:
-			z = new Node(
-					new HashSet<>(Arrays
-							.asList(new String[] { "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12" })),
-					"z", new ArrayList<>());
 
-			y = new Node(
-					new HashSet<>(Arrays.asList(
-							new String[] { "s1", "s2", "s3", "s13", "s14", "s15", "s16", "s17", "s18", "s19" })),
-					"y", new ArrayList<>(Arrays.asList(new Node[] { z })));
+			Node cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
 
-			x = new Node(
-					new HashSet<>(Arrays.asList(
-							new String[] { "s15", "s16", "s17", "s18", "s19", "s20", "s21", "s22", "s23", "s24" })),
-					"x", new ArrayList<>(Arrays.asList(new Node[] { z })));
+			Node cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x })), 19);
+			Node cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
 
-			break;
-
-		// (20,4,3), P = 0.990541370714296
-		case 20:
-			ArrayList<String> modal = new ArrayList<>();
-			modal.add("Trump");
-			modal.add("Clinton");
-			modal.add("Rubio");
-			modal.add("Romney");
-
-			for (Mallows model : models) {
-				model.setModal(new ArrayList<>(modal));
-			}
-
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
-
-			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-
-			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 20);
-
-			break;
-
-		// (21,5,4), P = 0.989000393257776
-		case 21:
-			modal = new ArrayList<>();
-			modal.add("Trump");
-			modal.add("Clinton");
-			modal.add("Rubio");
-			modal.add("Romney");
-			modal.add("Johnson");
-			modal.add("Eli");
-			modal.add("Cohen");
-			modal.add("Adi");
-			modal.add("Benny");
-
-			for (Mallows model : models) {
-				model.setModal(new ArrayList<>(modal));
-			}
-
-			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
-
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
-
-			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-
-			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
-					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
-
-			break;
-		// (21,9,4), P = 0.989000393257776
-		case 22:
-			modal = new ArrayList<>();
-			modal.add("Trump");
-			modal.add("Clinton");
-			modal.add("Rubio");
-			modal.add("Romney");
-			modal.add("Johnson");
-			modal.add("Eli");
-			modal.add("Adi");
-			modal.add("Cohen");
-			modal.add("Benny");
-
-			for (Mallows model : models) {
-				model.setModal(new ArrayList<>(modal));
-			}
-
-			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
-
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
-
-			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-
-			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
-					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
-
-			break;
-
-		// (22,5,4), P = 0.9950402
-		case 23:
-			modal = new ArrayList<>();
-			modal.add("Trump");
-			modal.add("Clinton");
-			modal.add("Rubio");
-			modal.add("Johnson");
-			modal.add("Romney");
-
-			for (Mallows model : models) {
-				model.setModal(new ArrayList<>(modal));
-			}
-
-			w = new Node(new HashSet<>(Arrays.asList(new String[] { "Romney", "Johnson" })), "w", new ArrayList<>());
-
-			z = new Node(new HashSet<>(Arrays.asList(new String[] { "Rubio", "Romney" })), "z", new ArrayList<>());
-
-			x = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Clinton" })), "x",
-					new ArrayList<>(Arrays.asList(new Node[] { z })));
-
-			y = new Node(new HashSet<>(Arrays.asList(new String[] { "Trump", "Rubio" })), "y",
-					new ArrayList<>(Arrays.asList(new Node[] { w, z })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { x, y })), 21);
-
-			break;
-
-		// (24,20,5), P = 0.9950402
-		case 24:
-			modal = new ArrayList<>(Arrays.asList(new String[] { "12", "20", "17", "13", "9", "2", "16", "18", "10",
-					"1", "15", "14", "6", "4", "5", "3", "19", "8", "7", "11" }));
-
-			for (Mallows model : models) {
-				model.setModal(new ArrayList<>(modal));
-			}
-
-			Node cand5 = new Node(new HashSet<>(Arrays.asList(new String[] { "9", "14" })), "Cand5", new ArrayList<>());
-
-			Node cand3 = new Node(new HashSet<>(Arrays.asList(new String[] { "4" })), "Cand3", new ArrayList<>());
-
-			Node cand4 = new Node(new HashSet<>(Arrays.asList(new String[] { "13", "16" })), "Cand4",
-					new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
-
-			Node cand1 = new Node(new HashSet<>(Arrays.asList(new String[] { "2", "10", "15", "19" })), "Cand1",
+			Node cand1 = new Node(new HashSet<>(), "Cand1",
 					new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
 
-			Node cand2 = new Node(new HashSet<>(Arrays.asList(new String[] { "20" })), "Cand2",
-					new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+			Node cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 24);
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 19);
 
+			break;
+
+		case 20:
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 20);
+
+			break;
+		case 21:
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 21);
+
+			break;
+
+		case 22:
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
+
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>(Arrays.asList(new Node[] { cand4, cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 22);
 		}
 		return graph;
 

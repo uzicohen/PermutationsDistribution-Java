@@ -3,16 +3,15 @@ package general;
 import java.util.ArrayList;
 
 public class Distribution {
-	
+
 	protected Mallows model;
 
 	protected ArrayList<Permutation> permutations;
 
-    @Override
-    public String toString()
-    {
-        return this.permutations.toString();
-    }
+	@Override
+	public String toString() {
+		return this.permutations != null ? this.permutations.toString() : this.model.toString();
+	}
 
 	public Mallows getModel() {
 		return model;
@@ -28,6 +27,6 @@ public class Distribution {
 
 	public void setPermutations(ArrayList<Permutation> permutations) {
 		this.permutations = permutations;
-	}    
-    
+	}
+
 }

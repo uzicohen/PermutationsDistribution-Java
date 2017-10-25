@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
+import experiments.GraphGenerator;
 import general.Distribution;
 import general.Mallows;
 import general.main.GeneralArgs.GraphGeneratorParameters;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
 import pattern.Graph;
-import pattern.GraphGenerator;
 import sampled.SampledAlgorithm;
 import sampled.SampledDistribution;
 import stats.Stats;

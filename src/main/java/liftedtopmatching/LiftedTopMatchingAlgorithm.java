@@ -97,8 +97,15 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			}
 		}
 
+		int numOfDeltas = r.getNumOfDeltas();
+
 		if (GeneralArgs.verbose) {
-			logger.info(String.format("Starting inference. Running multithread is %s", GeneralArgs.runMultiThread));
+			logger.info(String.format("Calculating probability over %d deltas", numOfDeltas));
+			if (GeneralArgs.runMultiThread) {
+				logger.info(String.format("Multithread is true. Running with %d threads", GeneralArgs.numOfThreads));
+			} else {
+				logger.info("Multithread is false");
+			}
 		}
 
 		if (GeneralArgs.runMultiThread) {
@@ -145,14 +152,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
 		ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
 		for (int i = this.deltasCacheInfo.numberOfItem + 1; i < modal.size(); i++) {
-			if (GeneralArgs.verbose) {
-				logger.info(String.format("Generating R%d", i + 1));
-			}
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
-			if (GeneralArgs.verbose) {
-				logger.info(String.format("R%d contains %d deltas", i + 1, r.getNumOfDeltas()));
-			}
-
 			if (GeneralArgs.commonPrefixOptimization) {
 				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}

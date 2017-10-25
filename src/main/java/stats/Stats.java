@@ -200,4 +200,13 @@ public class Stats {
 	public int getTotalTime() {
 		return this.totalTime;
 	}
+
+	public String getSectionDescription() {
+		return sectionDescription;
+	}
+
+	public void setSectionDescription(String sectionDescription) {
+		this.sectionDescription = sectionDescription;
+	}	
+	
 }

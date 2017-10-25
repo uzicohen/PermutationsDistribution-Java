@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import experiments.GraphGenerator;
 import general.Distribution;
 import general.GeneralUtils;
 import general.Mallows;
@@ -13,7 +14,6 @@ import general.main.GeneralArgs;
 import general.main.GeneralArgs.GraphGeneratorParameters;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
 import pattern.Graph;
-import pattern.GraphGenerator;
 import stats.Stats;
 import topmatching.SimpleDistribution;
 import topmatching.TopMatchingAlgorithm;

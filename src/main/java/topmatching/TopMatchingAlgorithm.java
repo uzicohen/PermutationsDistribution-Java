@@ -47,6 +47,10 @@ public class TopMatchingAlgorithm extends Algorithm {
 	public HashMap<Double, Double> calculateProbability() {
 		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
 
+		if (GeneralArgs.verbose) {
+			logger.info("Generating all possible assignments");
+		}
+
 		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
 
 		// For each label, we keep in a dictionary it's parents
@@ -65,6 +69,11 @@ public class TopMatchingAlgorithm extends Algorithm {
 
 		if (GeneralArgs.verbose) {
 			logger.info(String.format("Calculating probability over %d assignments", numOfAssignments));
+			if (GeneralArgs.runMultiThread) {
+				logger.info(String.format("Multithread is true. Running with %d threads", GeneralArgs.numOfThreads));
+			} else {
+				logger.info("Multithread is false");
+			}
 		}
 
 		if (GeneralArgs.runMultiThread) {
@@ -83,6 +92,9 @@ public class TopMatchingAlgorithm extends Algorithm {
 		} else {
 			calculateProbabilityForSubsetOfAssignments(allPossibleAssignments);
 		}
+
+		logger.info("Done calculating the probability");
+
 		return this.phiToProbability;
 	}
 

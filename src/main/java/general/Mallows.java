@@ -19,6 +19,11 @@ public class Mallows {
 		this.phi = phi;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Phi: %f, Modal: %s", this.phi, this.modal);
+	}
+
 	public ArrayList<String> getModal() {
 		return this.modal;
 	}
