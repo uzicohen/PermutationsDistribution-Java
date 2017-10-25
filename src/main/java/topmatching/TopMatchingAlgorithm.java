@@ -111,8 +111,8 @@ public class TopMatchingAlgorithm extends Algorithm {
 			for (Double phi : currentProbs.keySet()) {
 				updateProb(phi, currentProbs.get(phi));
 			}
-			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
-				logger.info(String.format("Done with %d assignments", i++));
+			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread && i++ % 10 == 0) {
+				logger.info(String.format("Done with %d out of %d assignments", i, assignments.size()));
 			}
 		}
 	}
