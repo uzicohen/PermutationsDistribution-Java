@@ -156,6 +156,9 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			if (GeneralArgs.commonPrefixOptimization) {
 				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}
+			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread && i % 10 == 0) {
+				logger.info(String.format("Done with %d out of %d deltas", i, r.getNumOfDeltas()));
+			}
 		}
 
 		Iterator<Delta> iter = r.iterator();
