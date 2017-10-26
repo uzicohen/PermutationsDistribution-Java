@@ -43,7 +43,7 @@ public class MultiThreadExperiment {
 
 	private static int maximalNumOfThreads = 49;
 
-	private static int numOfExperimentsPerPattern = 50;
+	private static int numOfExperimentsPerPattern = 3;
 
 	// For the actual graph, add 19
 	private static int[] patternNums = new int[] { 0, 1, 2, 3 };
