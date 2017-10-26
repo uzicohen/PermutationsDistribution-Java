@@ -43,7 +43,7 @@ public class MultiThreadExperiment {
 
 	private static int maximalNumOfThreads = 50;
 
-	private static int numOfExperimentsPerPattern = 5;
+	private static int numOfExperimentsPerPattern = 50;
 
 	// For the actual graph, add 19
 	private static int[] patternNums = new int[] { 0, 1, 2, 3 };
@@ -133,10 +133,29 @@ public class MultiThreadExperiment {
 		return stats;
 	}
 
-	private static void createStatsFile(int patternNum) {
+	private static int createStatsFile(int patternNum) {
+		String filePath = String.format("%s/q%d.csv", OUTPUT_FOLDER_PATH, patternNum);
+		if (new File(filePath).exists()) {
+			int i = 0;
+
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(new File(filePath)));
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					if (!line.isEmpty()) {
+						i++;
+					}
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return (i * 2) - 1;
+		}
+
 		BufferedWriter writer = null;
 		try {
-			String filePath = String.format("%s/q%d.csv", OUTPUT_FOLDER_PATH, patternNum);
 			writer = new BufferedWriter(new FileWriter(new File(filePath)));
 			writer.write(
 					"Pattern Number, Row Number, Number Of Threads, Top Matching (MS), Lifted Top Matching (MS), Improvement Ratio\n");
@@ -144,6 +163,7 @@ public class MultiThreadExperiment {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return 1;
 	}
 
 	public static void main(String[] args) {
@@ -158,9 +178,9 @@ public class MultiThreadExperiment {
 			ArrayList<ExperimentData> experimentsData = getExperimentData(patternNum);
 
 			logger.info(String.format("Creating the stats file for pattern number %d", patternNum));
-			createStatsFile(patternNum);
+			int startFromThreadNum = createStatsFile(patternNum);
 
-			for (int numOfThreads = 1; numOfThreads <= maximalNumOfThreads; numOfThreads += 2) {
+			for (int numOfThreads = startFromThreadNum; numOfThreads <= maximalNumOfThreads; numOfThreads += 2) {
 				logger.info(String.format("Running experiments for %d threads", numOfThreads));
 				runExperiment(patternNum, numOfThreads, experimentsData);
 			}
