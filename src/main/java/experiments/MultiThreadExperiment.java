@@ -22,11 +22,26 @@ public class MultiThreadExperiment {
 
 	private static final Logger logger = Logger.getLogger(MultiThreadExperiment.class.getName());
 
-	private static final String INPUT_FOLDER_PATH = "/home/uzicohen/Desktop/experiments/input/";
+	private static final String LINUX_INPUT_FOLDER_PATH = "/home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/input/";
 
-	private static final String OUTPUT_FOLDER_PATH = "/home/uzicohen/Desktop/experiments/output/";
+	private static final String LINUX_OUTPUT_FOLDER_PATH = "/home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/output/";
 
-	private static int maximalNumOfThreads = 5;
+	private static final String WINDOWS_INPUT_FOLDER_PATH = "C:\\Users\\Uzi Cohen\\Documents\\eclipseWorkplace\\PermutationsDistribution\\src\\main\\java\\resources\\experiments\\input\\";
+
+	private static final String WINDOWS_OUTPUT_FOLDER_PATH = "C:\\Users\\Uzi Cohen\\Documents\\eclipseWorkplace\\PermutationsDistribution\\src\\main\\java\\resources\\experiments\\output\\";
+
+	private static final String INPUT_FOLDER_PATH;
+
+	private static final String OUTPUT_FOLDER_PATH;
+
+	static {
+		INPUT_FOLDER_PATH = System.getProperty("os.name").equals("Windows 10") ? WINDOWS_INPUT_FOLDER_PATH
+				: LINUX_INPUT_FOLDER_PATH;
+		OUTPUT_FOLDER_PATH = System.getProperty("os.name").equals("Windows 10") ? WINDOWS_OUTPUT_FOLDER_PATH
+				: LINUX_OUTPUT_FOLDER_PATH;
+	}
+
+	private static int maximalNumOfThreads = 50;
 
 	private static int numOfExperimentsPerPattern = 5;
 
@@ -82,8 +97,7 @@ public class MultiThreadExperiment {
 			float improvementRatio = ((float) topMatchingStats.getTotalTime())
 					/ ((float) liftedTopMatchingStats.getTotalTime());
 			String statsRow = String.format("%d,%d,%d,%d,%d,%f\n", patternNum, rowNum, GeneralArgs.numOfThreads,
-					topMatchingStats.getTotalTime(), liftedTopMatchingStats.getTotalTime(),
-					improvementRatio);
+					topMatchingStats.getTotalTime(), liftedTopMatchingStats.getTotalTime(), improvementRatio);
 			writer.write(statsRow);
 			writer.close();
 		} catch (IOException e) {

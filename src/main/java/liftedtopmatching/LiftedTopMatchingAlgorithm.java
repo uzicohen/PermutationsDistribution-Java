@@ -152,12 +152,18 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
 		ArrayList<String> originalModal = this.originalDistributions.get(0).getModel().getModal();
 		for (int i = this.deltasCacheInfo.numberOfItem + 1; i < modal.size(); i++) {
+			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
+				logger.info(String.format("Calculating probability over %d deltas", r.getNumOfDeltas()));
+			}
+			
 			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
+			
 			if (GeneralArgs.commonPrefixOptimization) {
 				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}
-			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread && i % 10 == 0) {
-				logger.info(String.format("Done with %d out of %d deltas", i, r.getNumOfDeltas()));
+			
+			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
+				logger.info(String.format("Done with %d out of %d items", i + 1, modal.size()));
 			}
 		}
 
