@@ -41,12 +41,18 @@ public class MultiThreadExperiment {
 				: LINUX_OUTPUT_FOLDER_PATH;
 	}
 
-	private static int maximalNumOfThreads = 50;
+	private static int maximalNumOfThreads = 49;
 
 	private static int numOfExperimentsPerPattern = 50;
 
 	// For the actual graph, add 19
 	private static int[] patternNums = new int[] { 0, 1, 2, 3 };
+
+	private static class RowThread {
+		private int numOfRow = 0;
+		private int numOfThreads = 1;
+		private boolean wasUsed = false;
+	}
 
 	private static ArrayList<ExperimentData> getExperimentData(int patternNum) {
 		ArrayList<ExperimentData> result = new ArrayList<>();
@@ -66,7 +72,7 @@ public class MultiThreadExperiment {
 		return result;
 	}
 
-	private static void runExperiment(int patternNum, int numOfThreads, ArrayList<ExperimentData> experimentsData) {
+	private static void runExperiment(int patternNum, int numOfThreads, int rowNum, ExperimentData experimentData) {
 		if (numOfThreads == 1) {
 			GeneralArgs.runMultiThread = false;
 			GeneralArgs.numOfThreads = 1;
@@ -74,18 +80,12 @@ public class MultiThreadExperiment {
 			GeneralArgs.runMultiThread = true;
 			GeneralArgs.numOfThreads = numOfThreads;
 		}
+		Stats topMatchingStats = runInference(experimentData, rowNum, AlgorithmType.TOP_MATCHNING);
+		Stats liftedTopMatchingStats = runInference(experimentData, rowNum, AlgorithmType.LIFTED_TOP_MATCHING);
 
-		for (int rowNum = 0; rowNum < Math.min(numOfExperimentsPerPattern, experimentsData.size()); rowNum++) {
-			logger.info(String.format("Running experiment %d for pattern number %d with %d threads", rowNum, patternNum,
-					numOfThreads));
+		logger.info(String.format("Adding a new Stats row to the stats file for pattern %d", patternNum));
+		addStatsRowToPatternFile(patternNum, rowNum, topMatchingStats, liftedTopMatchingStats);
 
-			ExperimentData experimentData = experimentsData.get(rowNum);
-			Stats topMatchingStats = runInference(experimentData, rowNum, AlgorithmType.TOP_MATCHNING);
-			Stats liftedTopMatchingStats = runInference(experimentData, rowNum, AlgorithmType.LIFTED_TOP_MATCHING);
-
-			logger.info(String.format("Adding a new Stats row to the stats file for pattern %d", patternNum));
-			addStatsRowToPatternFile(patternNum, rowNum, topMatchingStats, liftedTopMatchingStats);
-		}
 	}
 
 	private static void addStatsRowToPatternFile(int patternNum, int rowNum, Stats topMatchingStats,
@@ -96,7 +96,7 @@ public class MultiThreadExperiment {
 			writer = new BufferedWriter(new FileWriter(new File(filePath), true));
 			float improvementRatio = ((float) topMatchingStats.getTotalTime())
 					/ ((float) liftedTopMatchingStats.getTotalTime());
-			String statsRow = String.format("%d,%d,%d,%d,%d,%f\n", patternNum, rowNum, GeneralArgs.numOfThreads,
+			String statsRow = String.format("%d,%d,%d,%d,%f\n", rowNum, GeneralArgs.numOfThreads,
 					topMatchingStats.getTotalTime(), liftedTopMatchingStats.getTotalTime(), improvementRatio);
 			writer.write(statsRow);
 			writer.close();
@@ -133,37 +133,39 @@ public class MultiThreadExperiment {
 		return stats;
 	}
 
-	private static int createStatsFile(int patternNum) {
+	private static RowThread createStatsFile(int patternNum) {
+		RowThread result = new RowThread();
 		String filePath = String.format("%s/q%d.csv", OUTPUT_FOLDER_PATH, patternNum);
 		if (new File(filePath).exists()) {
-			int i = 0;
-
 			BufferedReader reader = null;
+			boolean firstLine = true;
 			try {
 				reader = new BufferedReader(new FileReader(new File(filePath)));
 				String line = null;
 				while ((line = reader.readLine()) != null) {
-					if (!line.isEmpty()) {
-						i++;
+					if (!line.isEmpty() && !firstLine) {
+						result.numOfRow = Integer.parseInt(line.split(",")[0]);
+						result.numOfThreads = Integer.parseInt(line.split(",")[1]);
 					}
+					firstLine = false;
 				}
 				reader.close();
+				result.numOfThreads += 2;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return (i * 2) - 1;
+		} else {
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(new File(filePath)));
+				writer.write(
+						"Row Number, Number Of Threads, Top Matching (MS), Lifted Top Matching (MS), Improvement Ratio\n");
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(new File(filePath)));
-			writer.write(
-					"Pattern Number, Row Number, Number Of Threads, Top Matching (MS), Lifted Top Matching (MS), Improvement Ratio\n");
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return 1;
+		return result;
 	}
 
 	public static void main(String[] args) {
@@ -178,13 +180,27 @@ public class MultiThreadExperiment {
 			ArrayList<ExperimentData> experimentsData = getExperimentData(patternNum);
 
 			logger.info(String.format("Creating the stats file for pattern number %d", patternNum));
-			int startFromThreadNum = createStatsFile(patternNum);
-
-			for (int numOfThreads = startFromThreadNum; numOfThreads <= maximalNumOfThreads; numOfThreads += 2) {
-				logger.info(String.format("Running experiments for %d threads", numOfThreads));
-				runExperiment(patternNum, numOfThreads, experimentsData);
+			RowThread rowThread = createStatsFile(patternNum);
+			if (rowThread.numOfThreads > maximalNumOfThreads) {
+				rowThread.numOfRow++;
+				rowThread.numOfThreads = 1;
 			}
 
+			for (int rowNum = rowThread.numOfRow; rowNum < Math.min(numOfExperimentsPerPattern,
+					experimentsData.size()); rowNum++) {
+				ExperimentData experimentData = experimentsData.get(rowNum);
+				if(rowThread.wasUsed){
+					rowThread.numOfThreads = 1;
+				}
+				for (int numOfThreads = rowThread.numOfThreads; numOfThreads <= maximalNumOfThreads; numOfThreads += 2) {
+					rowThread.wasUsed = true;
+					
+					logger.info(String.format(
+							"Running experiment for pettern number %d, row number %d, number of therads %d", patternNum,
+							rowNum, numOfThreads));
+					runExperiment(patternNum, numOfThreads, rowNum, experimentData);
+				}
+			}
 			logger.info(String.format("Done running experiments for pattern number %d", patternNum));
 		}
 		logger.info("Done invoking the experiment!!!");
