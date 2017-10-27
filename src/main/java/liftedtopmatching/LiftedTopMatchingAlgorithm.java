@@ -155,16 +155,30 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
 				logger.info(String.format("Calculating probability over %d deltas", r.getNumOfDeltas()));
 			}
-			
-			r = LiftedTopMatchingUtils.getNewR(modal, r, i);
-			
+
+			// labelWithFutureItems contains labels that can be assigned by
+			// items greater than i
+			HashSet<String> labelsWithFutureItems = new HashSet<>();
+			for (String sigma : topMatchingArgs.getLambda().keySet()) {
+				int sigmaNum = Integer.parseInt(sigma.split("s")[1]);
+				if (sigmaNum > i + 1) {
+					labelsWithFutureItems.addAll(topMatchingArgs.getLambda().get(sigma));
+				}
+			}
+
+			r = LiftedTopMatchingUtils.getNewR(modal, r, i, labelsWithFutureItems);
+
 			if (GeneralArgs.commonPrefixOptimization) {
 				deltasCache.storeInCache(graph.getId(), i, originalModal, r);
 			}
-			
+
 			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
 				logger.info(String.format("Done with %d out of %d items", i + 1, modal.size()));
 			}
+		}
+
+		if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
+			logger.info(String.format("Calculating probability over %d deltas", r.getNumOfDeltas()));
 		}
 
 		Iterator<Delta> iter = r.iterator();

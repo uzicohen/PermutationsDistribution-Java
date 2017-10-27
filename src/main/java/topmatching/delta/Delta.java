@@ -196,6 +196,16 @@ public class Delta {
 		return seen.size();
 	}
 
+	public HashSet<String> getNonAssignedLabels() {
+		HashSet<String> result = new HashSet<>();
+		for (String label : this.labelsState.keySet()) {
+			if (this.labelsState.get(label) == 0) {
+				result.add(label);
+			}
+		}
+		return result;
+	}
+
 	public int addAssignmentToLabel(String label) {
 		this.labelsState.put(label, 1);
 		this.hashIsValid = false;

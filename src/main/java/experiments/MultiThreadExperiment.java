@@ -80,7 +80,7 @@ public class MultiThreadExperiment {
 			GeneralArgs.runMultiThread = true;
 			GeneralArgs.numOfThreads = numOfThreads;
 		}
-		Stats topMatchingStats = runInference(experimentData, rowNum, AlgorithmType.TOP_MATCHNING);
+		Stats topMatchingStats = null;//runInference(experimentData, rowNum, AlgorithmType.TOP_MATCHNING);
 		Stats liftedTopMatchingStats = runInference(experimentData, rowNum, AlgorithmType.LIFTED_TOP_MATCHING);
 
 		logger.info(String.format("Adding a new Stats row to the stats file for pattern %d", patternNum));

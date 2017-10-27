@@ -166,7 +166,8 @@ public class LiftedTopMatchingUtils {
 		return result;
 	}
 
-	public static DeltasContainer getNewR(ArrayList<String> modal, DeltasContainer r, int i) {
+	public static DeltasContainer getNewR(ArrayList<String> modal, DeltasContainer r, int i,
+			HashSet<String> labelWithFutureItems) {
 		String sigma = modal.get(i);
 		DeltasContainer newR = new DeltasContainer();
 
@@ -212,6 +213,18 @@ public class LiftedTopMatchingUtils {
 				}
 			}
 
+			if (GeneralArgs.earlyPrunningOptimization) {
+				// Check if this delta can get any future item. o.w., this delta
+				// can
+				// be pruned
+
+				// Check if there is any label that cannot get future item
+				HashSet<String> nonAssignedLabels = delta.getNonAssignedLabels();
+				if (!labelWithFutureItems.containsAll(nonAssignedLabels)) {
+					continue;
+				}
+			}
+
 			// Finally, we insert the item to all possible indices in a case
 			// it is not
 			// assigned to any label
@@ -223,7 +236,7 @@ public class LiftedTopMatchingUtils {
 			boolean continueExtraction = true;
 			if (GeneralArgs.earlyPrunningOptimization) {
 				continueExtraction = i + delta.getNumOfDistinctNonAssignedLabels() < modal.size();
-			} 
+			}
 
 			if (continueExtraction) {
 				ArrayList<Integer> rangeNotWithinLabels = LiftedTopMatchingUtils.rangeNotWithinLabels(delta, sigma);
