@@ -80,7 +80,8 @@ public class MultiThreadExperiment {
 			GeneralArgs.runMultiThread = true;
 			GeneralArgs.numOfThreads = numOfThreads;
 		}
-		Stats topMatchingStats = null;//runInference(experimentData, rowNum, AlgorithmType.TOP_MATCHNING);
+		Stats topMatchingStats = null;// runInference(experimentData, rowNum,
+										// AlgorithmType.TOP_MATCHNING);
 		Stats liftedTopMatchingStats = runInference(experimentData, rowNum, AlgorithmType.LIFTED_TOP_MATCHING);
 
 		logger.info(String.format("Adding a new Stats row to the stats file for pattern %d", patternNum));
@@ -96,8 +97,10 @@ public class MultiThreadExperiment {
 			writer = new BufferedWriter(new FileWriter(new File(filePath), true));
 			float improvementRatio = ((float) topMatchingStats.getTotalTime())
 					/ ((float) liftedTopMatchingStats.getTotalTime());
-			String statsRow = String.format("%d,%d,%d,%d,%f\n", rowNum, GeneralArgs.numOfThreads,
-					topMatchingStats.getTotalTime(), liftedTopMatchingStats.getTotalTime(), improvementRatio);
+			String statsRow = String.format("%d,%d,%s,%d,%s,%d,%f\n", rowNum, GeneralArgs.numOfThreads,
+					topMatchingStats.getPhiToProbability().toString(), topMatchingStats.getTotalTime(),
+					liftedTopMatchingStats.getPhiToProbability(), liftedTopMatchingStats.getTotalTime(),
+					improvementRatio);
 			writer.write(statsRow);
 			writer.close();
 		} catch (IOException e) {
@@ -159,7 +162,7 @@ public class MultiThreadExperiment {
 			try {
 				writer = new BufferedWriter(new FileWriter(new File(filePath)));
 				writer.write(
-						"Row Number, Number Of Threads, Top Matching (MS), Lifted Top Matching (MS), Improvement Ratio\n");
+						"Row Number, Number Of Threads, Top Matching (Probability), Top Matching (MS), Lifted Top Matching (Probability), Lifted Top Matching (MS), Improvement Ratio\n");
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -189,12 +192,12 @@ public class MultiThreadExperiment {
 			for (int rowNum = rowThread.numOfRow; rowNum < Math.min(numOfExperimentsPerPattern,
 					experimentsData.size()); rowNum++) {
 				ExperimentData experimentData = experimentsData.get(rowNum);
-				if(rowThread.wasUsed){
+				if (rowThread.wasUsed) {
 					rowThread.numOfThreads = 1;
 				}
 				for (int numOfThreads = rowThread.numOfThreads; numOfThreads <= maximalNumOfThreads; numOfThreads += 2) {
 					rowThread.wasUsed = true;
-					
+
 					logger.info(String.format(
 							"Running experiment for pettern number %d, row number %d, number of therads %d", patternNum,
 							rowNum, numOfThreads));
