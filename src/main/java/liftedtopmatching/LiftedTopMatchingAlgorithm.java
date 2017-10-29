@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -27,18 +26,16 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 	private TopMatchingArgs topMatchingArgs;
 
-	private ConcurrentHashMap<Integer, HashMap<Double, Double>> phiToProbability;
+	private HashMap<Double, Double> phiToProbability;
 
 	private static DeltasCache deltasCache = new DeltasCache();
 
 	private DeltasCacheInfo deltasCacheInfo;
 
 	private class DeltaProbCalculator implements Runnable {
-		private int threadId;
 		private DeltasContainer r;
 
-		public DeltaProbCalculator(int threadId, DeltasContainer r) {
-			this.threadId = threadId;
+		public DeltaProbCalculator(DeltasContainer r) {
 			this.r = r;
 		}
 
@@ -49,14 +46,14 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 				Delta delta = iter.next();
 				DeltasContainer newDc = new DeltasContainer();
 				newDc.addDelta(delta);
-				calculateProbabilityForSubsetOfDeltas(threadId, newDc);
+				calculateProbabilityForSubsetOfDeltas(newDc);
 			}
 		}
 	}
 
 	public LiftedTopMatchingAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
 		super(graph, distributions);
-		this.phiToProbability = new ConcurrentHashMap<>();
+		this.phiToProbability = new HashMap<>();
 		this.deltasCacheInfo = new DeltasCacheInfo();
 	}
 
@@ -114,38 +111,25 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		if (GeneralArgs.runMultiThread) {
 			ExecutorService executor = Executors.newFixedThreadPool(GeneralArgs.numOfThreads);
 			Iterator<Delta> iter = r.iterator();
-			int i = 0;
 			while (iter.hasNext()) {
 				Delta delta = iter.next();
 				DeltasContainer newDc = new DeltasContainer();
 				newDc.addDelta(delta);
-				executor.execute(new DeltaProbCalculator(i % GeneralArgs.numOfThreads, newDc));
+				executor.execute(new DeltaProbCalculator(newDc));
 			}
 			executor.shutdown();
 			while (!executor.isTerminated()) {
 			}
 
 		} else {
-			calculateProbabilityForSubsetOfDeltas(0, r);
+			calculateProbabilityForSubsetOfDeltas(r);
 		}
 
 		if (GeneralArgs.verbose) {
 			logger.info("Done calculating the probability");
 		}
 
-		HashMap<Double, Double> result = new HashMap<>();
-		for (HashMap<Double, Double> threadsMap : this.phiToProbability.values()) {
-			for (Double phi : threadsMap.keySet()) {
-				Double current = result.get(phi);
-				if (current == null) {
-					current = 0.0;
-				}
-				current += threadsMap.get(phi);
-				result.put(phi, current);
-			}
-		}
-
-		return result;
+		return this.phiToProbability;
 	}
 
 	@Override
@@ -153,20 +137,16 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		return calculateProbability();
 	}
 
-	private void updateProb(int threadId, double phi, double prob) {
+	private synchronized void updateProb(double phi, double prob) {
 		double newProb = 0.0;
-		HashMap<Double, Double> threadMap = this.phiToProbability.get(threadId);
-		if (threadMap == null) {
-			threadMap = new HashMap<>();
-		}
 		if (this.phiToProbability.containsKey(phi)) {
-			newProb = threadMap.get(phi);
+			newProb = this.phiToProbability.get(phi);
 		}
-		threadMap.put(phi, newProb + prob);
+		this.phiToProbability.put(phi, newProb + prob);
 	}
 
 	// For multi thread purposes
-	private void calculateProbabilityForSubsetOfDeltas(int threadId, DeltasContainer dc) {
+	private void calculateProbabilityForSubsetOfDeltas(DeltasContainer dc) {
 		DeltasContainer r = dc;
 
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
@@ -209,7 +189,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			}
 			for (double phi : delta.getPhiToProbability().keySet()) {
 				double prob = delta.getProbabilityOfPhi(phi);
-				updateProb(threadId, phi, prob);
+				updateProb(phi, prob);
 			}
 		}
 	}
