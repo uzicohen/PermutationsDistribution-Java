@@ -1,0 +1,1 @@
+scenario_id,num_of_threads,bucket,query_id,cartesian_product,probability,running_time,improvement_factor4,1,1,2,162,{0.5=0.0728923578029693},45638,1.000000

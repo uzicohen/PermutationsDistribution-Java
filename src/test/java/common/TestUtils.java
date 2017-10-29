@@ -55,7 +55,7 @@ public class TestUtils {
 		
 		HashMap<Double, Double> result = null;
 		switch (algorithmType) {
-		case TOP_MATCHNING:
+		case TOP_MATCHING:
 			result = new TopMatchingAlgorithm(graph, distributions).calculateProbability();
 			break;
 		case LIFTED_TOP_MATCHING:

@@ -112,7 +112,7 @@ public class Stats {
 			if (this.runMultiThread) {
 				result.append(String.format("Numbr of threads: %d\n", numOfThreads));
 			}
-			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING
+			if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHING
 					|| GeneralArgs.currentAlgorithm == AlgorithmType.LIFTED_TOP_MATCHING) {
 				result.append(String.format("Optimizations: %s\n", optimizations.isEmpty() ? "None" : optimizations));
 			}

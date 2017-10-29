@@ -66,7 +66,7 @@ public class Delta {
 
 	@Override
 	public String toString() {
-		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHNING) {
+		if (GeneralArgs.currentAlgorithm == AlgorithmType.TOP_MATCHING) {
 			return String.format("Mapping: %s, Prob: %f", this.labelToIndex, this.phiToProbability);
 		}
 		return String.format("Mapping: %s, States: %s, Prob: %s", this.labelToIndex, this.labelsState,

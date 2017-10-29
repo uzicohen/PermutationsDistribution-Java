@@ -45,7 +45,7 @@ public class TopMatchingAlgorithm extends Algorithm {
 
 	@Override
 	public HashMap<Double, Double> calculateProbability() {
-		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHNING;
+		GeneralArgs.currentAlgorithm = AlgorithmType.TOP_MATCHING;
 
 		if (GeneralArgs.verbose) {
 			logger.info("Generating all possible assignments");
