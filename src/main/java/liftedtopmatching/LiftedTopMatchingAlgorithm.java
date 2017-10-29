@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -26,8 +27,8 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 	private TopMatchingArgs topMatchingArgs;
 
-	private HashMap<Double, Double> phiToProbability;
-
+	private ConcurrentHashMap<Double, Double> phiToProbability;
+	
 	private static DeltasCache deltasCache = new DeltasCache();
 
 	private DeltasCacheInfo deltasCacheInfo;
@@ -53,7 +54,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 
 	public LiftedTopMatchingAlgorithm(Graph graph, ArrayList<Distribution> distributions) {
 		super(graph, distributions);
-		this.phiToProbability = new HashMap<>();
+		this.phiToProbability = new ConcurrentHashMap<>();
 		this.deltasCacheInfo = new DeltasCacheInfo();
 	}
 
@@ -129,7 +130,9 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 			logger.info("Done calculating the probability");
 		}
 
-		return this.phiToProbability;
+		HashMap<Double, Double> result = new HashMap<>(this.phiToProbability);
+		
+		return result;
 	}
 
 	@Override
@@ -137,7 +140,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		return calculateProbability();
 	}
 
-	private synchronized void updateProb(double phi, double prob) {
+	private void updateProb(double phi, double prob) {
 		double newProb = 0.0;
 		if (this.phiToProbability.containsKey(phi)) {
 			newProb = this.phiToProbability.get(phi);
