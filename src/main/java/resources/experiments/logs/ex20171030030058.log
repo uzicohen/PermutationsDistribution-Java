@@ -1,0 +1,12 @@
+Oct 30, 2017 3:00:58 AM experiments.MultiThreadExperiment main
+INFO: Starting invoking the experiment
+Oct 30, 2017 3:00:58 AM experiments.MultiThreadExperiment main
+INFO: Reading input file to grab experiments data
+Oct 30, 2017 3:00:59 AM experiments.MultiThreadExperiment main
+INFO: Reading exisiting output files to mark done experiments
+Oct 30, 2017 3:00:59 AM experiments.MultiThreadExperiment main
+INFO: Running experiment for Lifted Top Matching
+Oct 30, 2017 3:00:59 AM experiments.MultiThreadExperiment main
+INFO: Running experiment for Top Matching
+Oct 30, 2017 3:00:59 AM experiments.MultiThreadExperiment main
+INFO: Done invoking the experiment!!!

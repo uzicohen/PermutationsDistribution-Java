@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Running script"
 
-mvn clean compile assembly:single
+sudo mvn clean compile assembly:single
 
 t=$(date +%Y%m%d%H%M%S)
 logName="ex$t.log"
