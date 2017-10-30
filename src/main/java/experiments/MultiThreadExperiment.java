@@ -36,7 +36,8 @@ public class MultiThreadExperiment {
 
 	private static final int[] queryIds = new int[] { 0, 1, 2, 3 };
 
-	private static final int[] numOfThreads = new int[] { 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
+	private static final int[] numOfThreads = new int[] { 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 40,
+			44, 48 };
 
 	private static final int[] bucketsLTM = new int[] { 1, 2, 3 };
 
@@ -272,8 +273,8 @@ public class MultiThreadExperiment {
 		updateExperimentsData(AlgorithmType.LIFTED_TOP_MATCHING);
 		updateExperimentsData(AlgorithmType.TOP_MATCHING);
 
-		logger.info("Running experiment for Lifted Top Matching");
-		runExperiments(AlgorithmType.LIFTED_TOP_MATCHING);
+		// logger.info("Running experiment for Lifted Top Matching");
+		// runExperiments(AlgorithmType.LIFTED_TOP_MATCHING);
 
 		logger.info("Running experiment for Top Matching");
 		runExperiments(AlgorithmType.TOP_MATCHING);
