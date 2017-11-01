@@ -392,17 +392,20 @@ public class GraphGenerator {
 			break;
 
 		case 20:
+			Node cand6 = new Node(new HashSet<>(), "Cand6", new ArrayList<>());
+
 			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
 
 			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
 
-			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
 
-			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
 
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+			cand1 = new Node(new HashSet<>(), "Cand1",
+					new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3, cand4, cand5, cand6 })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 20);
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 20);
 
 			break;
 		case 21:
@@ -437,7 +440,7 @@ public class GraphGenerator {
 
 		case 23:
 			// Level 2
-			Node cand6 = new Node(new HashSet<>(), "Cand6", new ArrayList<>());
+			cand6 = new Node(new HashSet<>(), "Cand6", new ArrayList<>());
 
 			// Level 1
 			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>(Arrays.asList(new Node[] { cand6 })));
@@ -449,8 +452,7 @@ public class GraphGenerator {
 			// Level 0
 			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand5 })));
 
-			cand1 = new Node(new HashSet<>(), "Cand1",
-					new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 23);
 		}

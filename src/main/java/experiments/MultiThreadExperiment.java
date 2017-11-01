@@ -22,11 +22,11 @@ public class MultiThreadExperiment {
 
 	private static final Logger logger = Logger.getLogger(MultiThreadExperiment.class.getName());
 
-	private static final String LINUX_INPUT_PATH = "/home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/input/inputNew.csv";
+	private static final String LINUX_INPUT_PATH = "/home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/input/input.csv";
 
 	private static final String LINUX_OUTPUT_FOLDER_PATH = "/home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/output/";
 
-	private static final String WINDOWS_INPUT_PATH = "C:\\Users\\Uzi Cohen\\Documents\\eclipseWorkplace\\PermutationsDistribution\\src\\main\\java\\resources\\experiments\\input\\inputNew.csv";
+	private static final String WINDOWS_INPUT_PATH = "C:\\Users\\Uzi Cohen\\Documents\\eclipseWorkplace\\PermutationsDistribution\\src\\main\\java\\resources\\experiments\\input\\input.csv";
 
 	private static final String WINDOWS_OUTPUT_FOLDER_PATH = "C:\\Users\\Uzi Cohen\\Documents\\eclipseWorkplace\\PermutationsDistribution\\src\\main\\java\\resources\\experiments\\output\\";
 
@@ -36,7 +36,8 @@ public class MultiThreadExperiment {
 
 	private static final int[] queryIds = new int[] { 4 };
 
-	private static final int[] numOfThreads = new int[] { 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
+	private static final int[] numOfThreads = new int[] { 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 36, 40,
+			44, 48 };
 
 	private static final int[] bucketsLTM = new int[] { 3 };
 
@@ -266,11 +267,11 @@ public class MultiThreadExperiment {
 
 		logger.info("Reading input file to grab experiments data");
 		experimentsDataLTM = getExperimentData(AlgorithmType.LIFTED_TOP_MATCHING);
-		experimentsDataTM = getExperimentData(AlgorithmType.TOP_MATCHING);
+//		experimentsDataTM = getExperimentData(AlgorithmType.TOP_MATCHING);
 
 		logger.info("Reading exisiting output files to mark done experiments");
 		updateExperimentsData(AlgorithmType.LIFTED_TOP_MATCHING);
-		updateExperimentsData(AlgorithmType.TOP_MATCHING);
+//		updateExperimentsData(AlgorithmType.TOP_MATCHING);
 
 		logger.info("Running experiment for Lifted Top Matching");
 		runExperiments(AlgorithmType.LIFTED_TOP_MATCHING);
