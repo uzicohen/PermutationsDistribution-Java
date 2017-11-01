@@ -1,0 +1,86 @@
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment main
+INFO: Starting invoking the experiment
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment main
+INFO: Reading input file to grab experiments data
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment main
+INFO: Reading exisiting output files to mark done experiments
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment main
+INFO: Running experiment for Lifted Top Matching
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment runExperiments
+INFO: Running experiment 19 out of 130 (0.146154 %)
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment runExperiment
+INFO: Runnning experiment with Lifted Top Matching algorithm for scenrio-id 33, number of threads 12
+Nov 01, 2017 1:15:52 AM experiments.MultiThreadExperiment runExperiment
+INFO: Running inference
+Nov 01, 2017 1:15:52 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Generating initial deltas
+Nov 01, 2017 1:15:52 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Calculating probability over 24 deltas
+Nov 01, 2017 1:15:52 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Multithread is true. Running with 12 threads
+Nov 01, 2017 1:16:15 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Done calculating the probability
+Section description: Inference over scenrio-id 33, query-id 1
+Original ranking: [10, 11, 14, 17, 18, 1, 6, 3, 16, 5, 15, 2, 13, 7, 4, 9, 8, 12, 20, 19]
+Number of items (m): 20
+Number of labels (q): 6
+Graph: Level: 0, Label: Cand1, Items: [1, 2, 3, 4], Children: [Cand2, Cand3, Cand4, Cand5]
+Level: 1, Label: Cand2, Items: [5, 6, 7, 8], Children: []
+Level: 1, Label: Cand3, Items: [11, 12, 9, 10], Children: []
+Level: 1, Label: Cand4, Items: [13, 14, 15, 16], Children: []
+Level: 1, Label: Cand5, Items: [17, 18, 19, 20], Children: []
+
+Algorithm: Lifted Top Matching
+Run multithread: true
+Numbr of threads: 12
+Optimizations: [Early prunning, Shared modals]
+Probabilities: {0.5=0.9993199470019798}
+Start Time: Wed Nov 01 01:15:52 IST 2017
+End Time: Wed Nov 01 01:16:15 IST 2017
+Total Time: 23316 MS
+
+Nov 01, 2017 1:16:15 AM experiments.MultiThreadExperiment runExperiment
+INFO: Adding a new Stats row to the stats file of Lifted Top Matching algorithm, query-id 1
+Nov 01, 2017 1:16:15 AM experiments.MultiThreadExperiment runExperiments
+INFO: Running experiment 20 out of 130 (0.153846 %)
+Nov 01, 2017 1:16:15 AM experiments.MultiThreadExperiment runExperiment
+INFO: Runnning experiment with Lifted Top Matching algorithm for scenrio-id 33, number of threads 14
+Nov 01, 2017 1:16:15 AM experiments.MultiThreadExperiment runExperiment
+INFO: Running inference
+Nov 01, 2017 1:16:15 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Generating initial deltas
+Nov 01, 2017 1:16:15 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Calculating probability over 24 deltas
+Nov 01, 2017 1:16:15 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Multithread is true. Running with 14 threads
+Nov 01, 2017 1:16:30 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Done calculating the probability
+Section description: Inference over scenrio-id 33, query-id 1
+Original ranking: [10, 11, 14, 17, 18, 1, 6, 3, 16, 5, 15, 2, 13, 7, 4, 9, 8, 12, 20, 19]
+Number of items (m): 20
+Number of labels (q): 6
+Graph: Level: 0, Label: Cand1, Items: [1, 2, 3, 4], Children: [Cand2, Cand3, Cand4, Cand5]
+Level: 1, Label: Cand2, Items: [5, 6, 7, 8], Children: []
+Level: 1, Label: Cand3, Items: [11, 12, 9, 10], Children: []
+Level: 1, Label: Cand4, Items: [13, 14, 15, 16], Children: []
+Level: 1, Label: Cand5, Items: [17, 18, 19, 20], Children: []
+
+Algorithm: Lifted Top Matching
+Run multithread: true
+Numbr of threads: 14
+Optimizations: [Early prunning, Shared modals]
+Probabilities: {0.5=0.9993199470019913}
+Start Time: Wed Nov 01 01:16:15 IST 2017
+End Time: Wed Nov 01 01:16:30 IST 2017
+Total Time: 14954 MS
+
+Nov 01, 2017 1:16:30 AM experiments.MultiThreadExperiment runExperiment
+INFO: Adding a new Stats row to the stats file of Lifted Top Matching algorithm, query-id 1
+Nov 01, 2017 1:16:30 AM experiments.MultiThreadExperiment runExperiments
+INFO: Running experiment 21 out of 130 (0.161538 %)
+Nov 01, 2017 1:16:30 AM experiments.MultiThreadExperiment runExperiment
+INFO: Runnning experiment with Lifted Top Matching algorithm for scenrio-id 33, number of threads 16
+Nov 01, 2017 1:16:30 AM experiments.MultiThreadExperiment runExperiment
+INFO: Running inference
+Nov 01, 2017 1:16:30 AM liftedtopmatching.LiftedTopMatchingAlgorithm calculateProbability
+INFO: Generating initial deltas
