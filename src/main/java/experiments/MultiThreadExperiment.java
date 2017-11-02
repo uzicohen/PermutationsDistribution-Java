@@ -40,7 +40,7 @@ public class MultiThreadExperiment {
 
 	private static final int[] bucketsLTM = new int[] { 3 };
 
-	private static final int[] bucketsTM = new int[] {};
+	private static final int[] bucketsTM = new int[] { 3 };
 
 	private static ArrayList<ExperimentData> experimentsDataLTM;
 
@@ -265,12 +265,13 @@ public class MultiThreadExperiment {
 		logger.info("Starting invoking the experiment");
 
 		logger.info("Reading input file to grab experiments data");
-		experimentsDataLTM = getExperimentData(AlgorithmType.LIFTED_TOP_MATCHING);
-		// experimentsDataTM = getExperimentData(AlgorithmType.TOP_MATCHING);
+		// experimentsDataLTM =
+		// getExperimentData(AlgorithmType.LIFTED_TOP_MATCHING);
+		experimentsDataTM = getExperimentData(AlgorithmType.TOP_MATCHING);
 
 		logger.info("Reading exisiting output files to mark done experiments");
-		updateExperimentsData(AlgorithmType.LIFTED_TOP_MATCHING);
-		// updateExperimentsData(AlgorithmType.TOP_MATCHING);
+		// updateExperimentsData(AlgorithmType.LIFTED_TOP_MATCHING);
+		updateExperimentsData(AlgorithmType.TOP_MATCHING);
 
 		// Delete!!!
 		for (int i = 1; i < 25; i++) {
@@ -278,11 +279,11 @@ public class MultiThreadExperiment {
 		}
 		// Delete!!!
 
-		logger.info("Running experiment for Lifted Top Matching");
-		runExperiments(AlgorithmType.LIFTED_TOP_MATCHING);
+		// logger.info("Running experiment for Lifted Top Matching");
+		// runExperiments(AlgorithmType.LIFTED_TOP_MATCHING);
 
-		// logger.info("Running experiment for Top Matching");
-		// runExperiments(AlgorithmType.TOP_MATCHING);
+		logger.info("Running experiment for Top Matching");
+		runExperiments(AlgorithmType.TOP_MATCHING);
 
 		logger.info("Done invoking the experiment!!!");
 	}
