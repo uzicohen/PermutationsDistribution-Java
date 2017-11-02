@@ -34,7 +34,7 @@ public class MultiThreadExperiment {
 
 	private static final String OUTPUT_FOLDER_PATH;
 
-	private static final int[] queryIds = new int[] { 4 };
+	private static final int[] queryIds = new int[] { 1 };
 
 	private static final int[] numOfThreads = new int[] { 48 };
 
