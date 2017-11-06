@@ -12,9 +12,9 @@ import general.GeneralUtils;
 import general.Algorithm;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
-import pattern.Graph;
-import pattern.Node;
-import pattern.PatternUtils;
+import graph.Graph;
+import graph.GraphUtils;
+import graph.Node;
 
 public class TopMatchingAlgorithm extends Algorithm {
 
@@ -51,7 +51,7 @@ public class TopMatchingAlgorithm extends Algorithm {
 			logger.info("Generating all possible assignments");
 		}
 
-		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
+		ArrayList<HashMap<String, String>> allPossibleAssignments = GraphUtils.getAllPossibleAssigments(graph);
 
 		// For each label, we keep in a dictionary it's parents
 		HashMap<String, HashSet<String>> labelToParentsMap = new HashMap<>();
@@ -93,7 +93,9 @@ public class TopMatchingAlgorithm extends Algorithm {
 			calculateProbabilityForSubsetOfAssignments(allPossibleAssignments);
 		}
 
-		logger.info("Done calculating the probability");
+		if (GeneralArgs.verbose) {
+			logger.info("Done calculating the probability");
+		}
 
 		return this.phiToProbability;
 	}

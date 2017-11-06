@@ -7,8 +7,9 @@ import java.util.HashSet;
 
 import general.Distribution;
 import general.Mallows;
-import pattern.Graph;
-import pattern.Node;
+import graph.Graph;
+import graph.GraphGenerator;
+import graph.Node;
 import topmatching.SimpleDistribution;
 
 public class ExperimentData {

@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import general.main.GeneralArgs;
-import pattern.Graph;
-import pattern.Node;
+import graph.Graph;
+import graph.Node;
 import topmatching.TopMatchingArgs;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;

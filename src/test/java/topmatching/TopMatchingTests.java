@@ -22,7 +22,6 @@ public class TopMatchingTests extends TestCase {
 	public TopMatchingTests(String testName) {
 		super(testName);
 		GeneralArgs.verbose = false;
-		GeneralArgs.printFlow = false;
 	}
 
 	/**

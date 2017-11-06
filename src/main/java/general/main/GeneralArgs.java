@@ -30,10 +30,6 @@ public class GeneralArgs {
 
 	public static int numSamplesForPrint;
 
-	public static int numAssignmentsForPrint;
-
-	public static boolean printFlow;
-
 	public static ArrayList<GraphGeneratorParameters> graphGeneratorParameters;
 
 	public static boolean runAll;
@@ -60,10 +56,6 @@ public class GeneralArgs {
 
 	public static boolean earlyPrunningOptimization = true;
 
-	public static boolean commonPrefixOptimization;
-
-	public static boolean commonPrefixOptimizationUseDatabase;
-
 	static {
 
 		properties = new Properties();
@@ -89,14 +81,6 @@ public class GeneralArgs {
 		}
 
 		verbose = Boolean.parseBoolean(properties.getProperty("verbose"));
-
-		printDistribution = Boolean.parseBoolean(properties.getProperty("print_distribution"));
-
-		numSamplesForPrint = Integer.parseInt(properties.getProperty("num_samples_for_print"));
-
-		numAssignmentsForPrint = Integer.parseInt(properties.getProperty("num_assignments_for_print"));
-
-		printFlow = Boolean.parseBoolean(properties.getProperty("print_flow"));
 
 		graphGeneratorParameters = new ArrayList<>();
 
@@ -134,11 +118,6 @@ public class GeneralArgs {
 		sharedModalOptimization = Boolean.parseBoolean(properties.getProperty("shared_modal_optimization"));
 
 		earlyPrunningOptimization = Boolean.parseBoolean(properties.getProperty("early_prunning_optimization"));
-
-		commonPrefixOptimization = Boolean.parseBoolean(properties.getProperty("common_prefix_optimization"));
-
-		commonPrefixOptimizationUseDatabase = Boolean
-				.parseBoolean(properties.getProperty("common_prefix_optimization_use_database"));
 
 	}
 

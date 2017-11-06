@@ -21,8 +21,6 @@ public class LiftedTopMatchingMultiThreadTests extends TestCase {
 	public LiftedTopMatchingMultiThreadTests(String testName) {
 		super(testName);
 		GeneralArgs.verbose = false;
-		GeneralArgs.printFlow = false;
-		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**

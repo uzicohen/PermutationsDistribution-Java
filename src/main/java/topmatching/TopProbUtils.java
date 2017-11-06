@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import general.main.PrintFlow;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
 
@@ -81,19 +79,11 @@ public class TopProbUtils {
 	public DeltasContainer getNewR(ArrayList<String> modal, DeltasContainer r, int i) {
 		DeltasContainer newR = new DeltasContainer();
 		String sigma = modal.get(i);
-
-		PrintFlow.printItem(sigma, topProbArgs.getImgGamma().contains(sigma));
-
+		
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
-
-			PrintFlow.printDelta(true, "Interim delta", delta, topProbArgs.getGamma());
-
 			ArrayList<Integer> range = range(delta, sigma);
-
-			PrintFlow.printRange(range);
-
 			for (int j : range) {
 				Delta deltaTag = new Delta(delta);
 
@@ -117,11 +107,9 @@ public class TopProbUtils {
 						exisitingDelta.setProbabilityOfPhi(phi,
 								exisitingDelta.getProbabilityOfPhi(phi) + deltaTag.getProbabilityOfPhi(phi));
 					}
-					PrintFlow.printJAndNewDelta(j, exisitingDelta, topProbArgs.getGamma());
 				} else {
 					// insert the new delta into the new R
 					newR.addDelta(deltaTag);
-					PrintFlow.printJAndNewDelta(j, deltaTag, topProbArgs.getGamma());
 				}
 			}
 		}

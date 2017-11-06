@@ -9,9 +9,9 @@ import general.Algorithm;
 import general.Permutation;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
-import pattern.Graph;
-import pattern.Node;
-import pattern.PatternUtils;
+import graph.Graph;
+import graph.GraphUtils;
+import graph.Node;
 
 public class BruteforceAlgorithm extends Algorithm {
 
@@ -103,7 +103,7 @@ public class BruteforceAlgorithm extends Algorithm {
 
 	private boolean isPermutationSatisfyGraph(Graph graph, Permutation permutation) {
 		// TODO: This happens many times
-		ArrayList<HashMap<String, String>> allPossibleAssignments = PatternUtils.getAllPossibleAssigments(graph);
+		ArrayList<HashMap<String, String>> allPossibleAssignments = GraphUtils.getAllPossibleAssigments(graph);
 		for (HashMap<String, String> assignment : allPossibleAssignments) {
 			if (this.checkOneAssignment(graph, permutation, assignment)) {
 				return true;

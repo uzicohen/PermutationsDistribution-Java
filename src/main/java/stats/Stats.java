@@ -93,9 +93,6 @@ public class Stats {
 		if (GeneralArgs.sharedModalOptimization) {
 			this.optimizations.add("Shared modals");
 		}
-		if (GeneralArgs.commonPrefixOptimization) {
-			this.optimizations.add("Common prefix");
-		}
 	}
 
 	@Override
@@ -207,6 +204,6 @@ public class Stats {
 
 	public void setSectionDescription(String sectionDescription) {
 		this.sectionDescription = sectionDescription;
-	}	
-	
+	}
+
 }

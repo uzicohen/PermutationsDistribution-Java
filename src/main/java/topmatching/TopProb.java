@@ -3,7 +3,6 @@ package topmatching;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import general.main.PrintFlow;
 import topmatching.delta.Delta;
 import topmatching.delta.DeltasContainer;
 import topmatching.delta.DeltasContainerGenerator;
@@ -29,19 +28,13 @@ public class TopProb {
 
 	public HashMap<Double, Double> calculate() {
 
-		PrintFlow.printGamma(this.topProbArgs.getGamma());
-
 		// Initialize R0
 		DeltasContainer r = new DeltasContainerGenerator(this.topMatchingArgs).getInitialDeltas(topProbArgs);
-
-		PrintFlow.printDeltasContainer("Initial deltas", r, topProbArgs.getGamma());
 
 		ArrayList<String> modal = this.topMatchingArgs.getDistributions().get(0).getModel().getModal();
 		for (int i = 0; i < modal.size(); i++) {
 			r = this.topProbUtils.getNewR(modal, r, i);
 		}
-
-		PrintFlow.printDeltasContainer("Final deltas", r, topProbArgs.getGamma());
 
 		HashMap<Double, Double> result = new HashMap<>();
 
@@ -57,8 +50,7 @@ public class TopProb {
 				result.put(phi, currentProb + prob);
 			}
 		}
-		PrintFlow.printSeparator();
-
+		
 		return result;
 	}
 }

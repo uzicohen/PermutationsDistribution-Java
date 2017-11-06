@@ -1,10 +1,10 @@
-package pattern;
+package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class PatternUtils {
+public class GraphUtils {
 
 	private static void getPossibleValuesPerLabelAsDictionaryAux(HashMap<String, ArrayList<String>> result,
 			ArrayList<Node> nodes) {

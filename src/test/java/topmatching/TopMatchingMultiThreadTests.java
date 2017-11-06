@@ -22,7 +22,6 @@ public class TopMatchingMultiThreadTests extends TestCase {
 	public TopMatchingMultiThreadTests(String testName) {
 		super(testName);
 		GeneralArgs.verbose = false;
-		GeneralArgs.printFlow = false;
 	}
 
 	/**

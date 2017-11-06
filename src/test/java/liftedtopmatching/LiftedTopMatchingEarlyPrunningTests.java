@@ -21,11 +21,9 @@ public class LiftedTopMatchingEarlyPrunningTests extends TestCase {
 	public LiftedTopMatchingEarlyPrunningTests(String testName) {
 		super(testName);
 		GeneralArgs.verbose = false;
-		GeneralArgs.printFlow = false;
 		// in case early pruning optimization is turned off, it acts as the
-		// regular algorithm
+		// regular algorithm (the paper's pseudo code)
 		GeneralArgs.earlyPrunningOptimization = false;
-		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**
@@ -72,15 +70,18 @@ public class LiftedTopMatchingEarlyPrunningTests extends TestCase {
 	}
 
 	public void testScenrio10() {
-//		assertTrue(TestUtils.runTest(10, 10, false, 0, AlgorithmType.LIFTED_TOP_MATCHING));
+		// assertTrue(TestUtils.runTest(10, 10, false, 0,
+		// AlgorithmType.LIFTED_TOP_MATCHING));
 	}
 
 	public void testScenrio11() {
-//		assertTrue(TestUtils.runTest(11, 9, false, 0, AlgorithmType.LIFTED_TOP_MATCHING));
+		// assertTrue(TestUtils.runTest(11, 9, false, 0,
+		// AlgorithmType.LIFTED_TOP_MATCHING));
 	}
 
 	public void testScenrio12() {
-//		assertTrue(TestUtils.runTest(12, 11, false, 0, AlgorithmType.LIFTED_TOP_MATCHING));
+		// assertTrue(TestUtils.runTest(12, 11, false, 0,
+		// AlgorithmType.LIFTED_TOP_MATCHING));
 	}
 
 	public void testScenrio13() {

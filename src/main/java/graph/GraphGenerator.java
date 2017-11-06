@@ -1,4 +1,4 @@
-package experiments;
+package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +6,6 @@ import java.util.HashSet;
 
 import general.GeneralUtils;
 import general.Mallows;
-import pattern.Graph;
-import pattern.Node;
 
 public class GraphGenerator {
 
@@ -391,7 +389,58 @@ public class GraphGenerator {
 
 			break;
 
+		// Query 1
 		case 20:
+
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 20);
+
+			break;
+
+		// Query 2
+		case 21:
+
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 21);
+
+			break;
+
+		// Query 3
+		case 22:
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>(Arrays.asList(new Node[] { cand4, cand5 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand3 })));
+
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 22);
+
+			break;
+
+		// Query 4 (star)
+		case 23:
 			Node cand6 = new Node(new HashSet<>(), "Cand6", new ArrayList<>());
 
 			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
@@ -405,59 +454,10 @@ public class GraphGenerator {
 			cand1 = new Node(new HashSet<>(), "Cand1",
 					new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3, cand4, cand5, cand6 })));
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 20);
-
-			break;
-		// case 20:
-		// cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
-		//
-		// cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
-		//
-		// cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
-		//
-		// cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
-		//
-		// cand1 = new Node(new HashSet<>(), "Cand1",
-		// new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3, cand4, cand5
-		// })));
-		//
-		// graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1
-		// })), 20);
-		//
-		// break;
-
-		case 21:
-			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
-
-			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
-
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
-
-			cand1 = new Node(new HashSet<>(), "Cand1",
-					new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3, cand4 })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 21);
-
-			break;
-
-		case 22:
-			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
-
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
-
-			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3 })));
-
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 22);
-
-		case 23:
-
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
-
-			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand2 })));
-
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 23);
 
 			break;
+
 		}
 		return graph;
 

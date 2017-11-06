@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import general.Distribution;
-import pattern.Graph;
+import graph.Graph;
 
 public class TopMatchingArgs {
 

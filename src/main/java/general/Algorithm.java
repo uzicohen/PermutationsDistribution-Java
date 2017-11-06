@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import pattern.Graph;
-import pattern.Node;
+import graph.Graph;
+import graph.Node;
 
 public abstract class Algorithm {
 

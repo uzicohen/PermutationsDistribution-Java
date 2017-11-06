@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 
 import bruteforce.BruteforceAlgorithm;
 import bruteforce.ExplicitDistribution;
-import experiments.GraphGenerator;
 import general.Distribution;
 import general.Mallows;
 import general.main.GeneralArgs.GraphGeneratorParameters;
+import graph.Graph;
+import graph.GraphGenerator;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
-import pattern.Graph;
 import sampled.SampledAlgorithm;
 import sampled.SampledDistribution;
 import stats.Stats;
@@ -99,6 +99,11 @@ public class Manager {
 
 				ArrayList<Distribution> distributions = new ArrayList<>();
 				models.forEach(model -> distributions.add(new SampledDistribution(model, GeneralArgs.numSamples)));
+				
+				if (GeneralArgs.printDistribution) {
+					System.out.println(distributions);
+				}
+				
 				HashMap<Double, Double> approxProbs = new SampledAlgorithm(graph, distributions).calculateProbability();
 
 				stats.setEndTimeDate(new Date());

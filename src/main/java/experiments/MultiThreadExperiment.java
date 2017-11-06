@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import general.Distribution;
 import general.main.AlgorithmType;
 import general.main.GeneralArgs;
+import graph.Graph;
 import liftedtopmatching.LiftedTopMatchingAlgorithm;
-import pattern.Graph;
 import stats.Stats;
 import topmatching.TopMatchingAlgorithm;
 

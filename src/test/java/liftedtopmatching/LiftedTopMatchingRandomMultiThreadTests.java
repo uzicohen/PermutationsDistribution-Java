@@ -5,10 +5,10 @@ import java.util.Random;
 import common.RandomGraphGenerator;
 import common.TestUtils;
 import general.main.GeneralArgs;
+import graph.Graph;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import pattern.Graph;
 
 /**
  * Run a complete test to compare topmatching vs liftedtopmatching
@@ -33,7 +33,6 @@ public class LiftedTopMatchingRandomMultiThreadTests extends TestCase {
 		super(testName);
 		GeneralArgs.runMultiThread = true;
 		GeneralArgs.numOfThreads = 4;
-		GeneralArgs.commonPrefixOptimization = false;
 	}
 
 	/**

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-import pattern.Graph;
-import pattern.Node;
+import graph.Graph;
+import graph.Node;
 
 public class RandomGraphGenerator {
 

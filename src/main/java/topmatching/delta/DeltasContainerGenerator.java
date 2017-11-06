@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import pattern.Node;
+import graph.Node;
 import topmatching.TopMatchingArgs;
 import topmatching.TopProbArgs;
 
