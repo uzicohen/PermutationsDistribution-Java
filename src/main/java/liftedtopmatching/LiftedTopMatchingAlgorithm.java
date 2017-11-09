@@ -125,7 +125,6 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		for (int i = 0; i < modal.size(); i++) {
 			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
 				logger.info(String.format("Calculating probability over %d deltas", r.getNumOfDeltas()));
-				this.phiToProbability.put((double) i + 1, (double) r.getNumOfDeltas());
 			}
 
 			// labelWithFutureItems contains labels that can be assigned by

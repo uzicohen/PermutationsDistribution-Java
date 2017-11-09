@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Running script"
 
-mvn clean compile assembly:single
+sudo mvn clean compile assembly:single
 
 t=$(date +%Y%m%d%H%M%S)
 logName="ex$t.log"
@@ -12,8 +12,8 @@ nohup java -Xmx10g -jar /home/uzicohen/Desktop/workspace/RIMPPDInference/target/
 
 while true;
 do
- tail -10 /home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/output/earlyPruning.csv 
-tail -10 /home/uzicohen/Desktop/workspace/PermutationsDistribution/src/main/java/resources/experiments/logs/$logName
+ tail -10 /home/uzicohen/Desktop/workspace/RIMPPDInference/src/main/java/resources/experiments/output/earlyPruning.csv 
+tail -10 /home/uzicohen/Desktop/workspace/RIMPPDInference/src/main/java/resources/experiments/logs/$logName
  sleep  10 ;
 done
 
