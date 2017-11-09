@@ -100,11 +100,6 @@ public class TopMatchingAlgorithm extends Algorithm {
 		return this.phiToProbability;
 	}
 
-	@Override
-	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
-		return calculateProbability();
-	}
-
 	private void calculateProbabilityForSubsetOfAssignments(ArrayList<HashMap<String, String>> assignments) {
 		int i = 1;
 		for (HashMap<String, String> gamma : assignments) {

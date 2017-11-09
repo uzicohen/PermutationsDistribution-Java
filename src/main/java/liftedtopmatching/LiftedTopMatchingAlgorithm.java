@@ -109,11 +109,6 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		return this.phiToProbability;
 	}
 
-	@Override
-	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
-		return calculateProbability();
-	}
-
 	private synchronized void updateProb(double phi, double prob) {
 		double newProb = 0.0;
 		if (this.phiToProbability.containsKey(phi)) {
@@ -130,6 +125,7 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		for (int i = 0; i < modal.size(); i++) {
 			if (GeneralArgs.verbose && !GeneralArgs.runMultiThread) {
 				logger.info(String.format("Calculating probability over %d deltas", r.getNumOfDeltas()));
+				this.phiToProbability.put((double) i + 1, (double) r.getNumOfDeltas());
 			}
 
 			// labelWithFutureItems contains labels that can be assigned by
@@ -156,9 +152,6 @@ public class LiftedTopMatchingAlgorithm extends Algorithm {
 		Iterator<Delta> iter = r.iterator();
 		while (iter.hasNext()) {
 			Delta delta = iter.next();
-			if (!GeneralArgs.earlyPrunningOptimization && !delta.isFull()) {
-				continue;
-			}
 			for (double phi : delta.getPhiToProbability().keySet()) {
 				double prob = delta.getProbabilityOfPhi(phi);
 				updateProb(phi, prob);

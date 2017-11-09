@@ -44,20 +44,6 @@ public abstract class Algorithm {
 	 */
 	public abstract HashMap<Double, Double> calculateProbability();
 
-	/**
-	 * 
-	 * Calculate the probability of a given pattern with a list of distributions
-	 * with the same reference ranking (model) and different phi
-	 * 
-	 * @param itemNumToStoreInCache
-	 *            The item's number for which the algorithm will store the
-	 *            extracted deltas in the cache for future calculations
-	 * 
-	 * @return A mapping from phi to the output probability of the algorithm, as
-	 *         returned by the running with this phi
-	 */
-	public abstract HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache);
-
 	private void convertItemsToAscendingForm() {
 		fillOrigItemToNewItem();
 		convertDistributions();

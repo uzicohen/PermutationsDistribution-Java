@@ -1,4 +1,4 @@
-package liftedtopmatching;
+package random;
 
 import java.util.Random;
 

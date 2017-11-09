@@ -213,11 +213,10 @@ public class LiftedTopMatchingUtils {
 				}
 			}
 
+			// If earlyPrunningOptimization is turned on, we calculate the extra
+			// possible deltas only if there is a possibility that the delta
+			// will be full of 1's
 			if (GeneralArgs.earlyPrunningOptimization) {
-				// Check if this delta can get any future item. o.w., this delta
-				// can
-				// be pruned
-
 				// Check if there is any label that cannot get future item
 				HashSet<String> nonAssignedLabels = delta.getNonAssignedLabels();
 				if (!labelWithFutureItems.containsAll(nonAssignedLabels)) {
@@ -226,19 +225,9 @@ public class LiftedTopMatchingUtils {
 			}
 
 			// Finally, we insert the item to all possible indices in a case
-			// it is not
-			// assigned to any label
-
-			// If earlyPrunningOptimization is turned on, we calculate the extra
-			// possible deltas only if there is a possibility that the delta
-			// will be full of 1's. o.w., we calculate it anyway
-
-			boolean continueExtraction = true;
-			if (GeneralArgs.earlyPrunningOptimization) {
-				continueExtraction = i + delta.getNumOfDistinctNonAssignedLabels() < modal.size();
-			}
-
-			if (continueExtraction) {
+			// it is not assigned to any label. But first, we check if there is
+			// enough space to keep adding more items
+			if (i + delta.getNumOfDistinctNonAssignedLabels() < modal.size()) {
 				ArrayList<Integer> rangeNotWithinLabels = LiftedTopMatchingUtils.rangeNotWithinLabels(delta, sigma);
 				for (int j : rangeNotWithinLabels) {
 					Delta deltaTag = new Delta(delta);

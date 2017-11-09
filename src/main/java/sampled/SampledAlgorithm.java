@@ -68,11 +68,6 @@ public class SampledAlgorithm extends Algorithm {
 		return result;
 	}
 
-	@Override
-	public HashMap<Double, Double> calculateProbability(int itemNumToStoreInCache) {
-		return calculateProbability();
-	}
-
 	private void checkOneAssignmentAux(ArrayList<Node> nodes, HashMap<String, Integer> itemToPosition,
 			HashMap<String, String> assignment, Result result) {
 		if (nodes.isEmpty()) {
