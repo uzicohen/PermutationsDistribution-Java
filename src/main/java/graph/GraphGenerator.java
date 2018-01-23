@@ -460,17 +460,24 @@ public class GraphGenerator {
 
 		// Trying 2 nodes and 200 items
 		case 24:
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
+			int numOfItemsPerNode = 25;
+			cand3 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
 			ArrayList<Integer> randomNums = Utils.getRandomList(numOfItems);
-			for(int i = 0; i < 15; i++){
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand3.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
 				cand2.getItems().add(String.format("s%d", randomNums.get(i) + 1));
 			}
-			
-			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand2 })));
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3 })));
 			randomNums = Utils.getRandomList(numOfItems);
-			for(int i = 0; i < 15; i++){
+			for (int i = 0; i < numOfItemsPerNode; i++) {
 				cand1.getItems().add(String.format("s%d", randomNums.get(i) + 1));
-			}			
+			}
 
 			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 24);
 
