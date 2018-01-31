@@ -458,28 +458,41 @@ public class GraphGenerator {
 
 			break;
 
-		// Trying 2 nodes and 200 items
+		// Trying 5 nodes and 200 items
 		case 24:
-			int numOfItemsPerNode = 25;
-			cand3 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
+			int numOfItemsPerNode = 10;
+
+			cand5 = new Node(new HashSet<>(), "Cand5", new ArrayList<>());
 			ArrayList<Integer> randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand5.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>(Arrays.asList(new Node[] { cand5 })));
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand4.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+			randomNums = Utils.getRandomList(numOfItems);
 			for (int i = 0; i < numOfItemsPerNode; i++) {
 				cand3.getItems().add(String.format("s%d", randomNums.get(i) + 1));
 			}
 
-			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>());
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
 			randomNums = Utils.getRandomList(numOfItems);
 			for (int i = 0; i < numOfItemsPerNode; i++) {
 				cand2.getItems().add(String.format("s%d", randomNums.get(i) + 1));
 			}
 
-			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand2, cand3 })));
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
 			randomNums = Utils.getRandomList(numOfItems);
 			for (int i = 0; i < numOfItemsPerNode; i++) {
 				cand1.getItems().add(String.format("s%d", randomNums.get(i) + 1));
 			}
 
-			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1 })), 24);
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 24);
 
 			break;
 
