@@ -496,6 +496,38 @@ public class GraphGenerator {
 
 			break;
 
+		// Trying 4 nodes and 20 items
+		case 25:
+			numOfItemsPerNode = 10;
+
+			cand4 = new Node(new HashSet<>(), "Cand4", new ArrayList<>());
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand4.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand3 = new Node(new HashSet<>(), "Cand3", new ArrayList<>());
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand3.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand2 = new Node(new HashSet<>(), "Cand2", new ArrayList<>(Arrays.asList(new Node[] { cand4 })));
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand2.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+
+			cand1 = new Node(new HashSet<>(), "Cand1", new ArrayList<>(Arrays.asList(new Node[] { cand3, cand4 })));
+			randomNums = Utils.getRandomList(numOfItems);
+			for (int i = 0; i < numOfItemsPerNode; i++) {
+				cand1.getItems().add(String.format("s%d", randomNums.get(i) + 1));
+			}
+			
+			graph = new Graph(new ArrayList<>(Arrays.asList(new Node[] { cand1, cand2 })), 25);
+
+			break;
+
 		}
 		return graph;
 
